@@ -1,10 +1,6 @@
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 
 import { db } from "~/server/db";
 
@@ -15,12 +11,12 @@ import { db } from "~/server/db";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+  interface Session {
+    provider: "" | "github";
+    name: string | undefined | null;
+    email: string | undefined | null;
+    image: string | undefined | null;
+    accessToken: string | undefined | null;
   }
 
   // interface User {
@@ -36,13 +32,41 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ token }) => token,
+    async jwt({ token, user, account }) {
+      // user & account is not undefined only after sign in
+      if (!(user && account)) {
+        return token;
+      }
+
+      switch (account.provider) {
+        case "github": {
+          return {
+            provider: account.provider,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            accessToken: account.access_token,
+          };
+        }
+
+        default: {
+          return {
+            provider: "",
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            accessToken: "",
+          };
+        }
+      }
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+    // 60 seconds * 60 minutes * 24 hours * 30 days
+    maxAge: 60 * 60 * 24 * 30,
   },
   adapter: PrismaAdapter(db),
   providers: [
@@ -54,6 +78,11 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
+      authorization: {
+        params: {
+          scope: "read:user user:email read:org repo",
+        },
+      },
     }),
   ],
 };

@@ -33,6 +33,15 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "@/components/*": [
+        "./src/app/_components/*"
+      ],
+      "@/context/*": [
+        "./src/app/_context/*"
+      ],
+      "@/hooks/*": [
+        "./src/app/_hooks/*"
       ]
     }
   },
