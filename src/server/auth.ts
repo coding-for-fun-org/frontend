@@ -17,6 +17,7 @@ declare module "next-auth" {
     email: string | undefined | null;
     image: string | undefined | null;
     accessToken: string | undefined | null;
+    refreshToken: string | undefined | null;
   }
 
   // interface User {
@@ -47,6 +48,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             image: user.image,
             accessToken: account.access_token,
+            refreshToken: account.refresh_token,
           };
         }
 
@@ -57,6 +59,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             image: user.image,
             accessToken: "",
+            refreshToken: "",
           };
         }
       }
