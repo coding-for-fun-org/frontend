@@ -1,8 +1,9 @@
-import GitHubProvider from "next-auth/providers/github";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { getServerSession, type NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { getServerSession } from 'next-auth'
+import type { NextAuthOptions } from 'next-auth'
+import GitHubProvider from 'next-auth/providers/github'
 
-import { db } from "~/server/db";
+import { db } from '@/server/db'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -10,14 +11,14 @@ import { db } from "~/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
-    provider: "" | "github";
-    name: string | undefined | null;
-    email: string | undefined | null;
-    image: string | undefined | null;
-    accessToken: string | undefined | null;
-    refreshToken: string | undefined | null;
+    provider: '' | 'github'
+    name: string | undefined | null
+    email: string | undefined | null
+    image: string | undefined | null
+    accessToken: string | undefined | null
+    refreshToken: string | undefined | null
   }
 
   // interface User {
@@ -37,39 +38,39 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       // user & account is not undefined only after sign in
       if (!(user && account)) {
-        return token;
+        return token
       }
 
       switch (account.provider) {
-        case "github": {
+        case 'github': {
           return {
             provider: account.provider,
             name: user.name,
             email: user.email,
             image: user.image,
             accessToken: account.access_token,
-            refreshToken: account.refresh_token,
-          };
+            refreshToken: account.refresh_token
+          }
         }
 
         default: {
           return {
-            provider: "",
+            provider: '',
             name: user.name,
             email: user.email,
             image: user.image,
-            accessToken: "",
-            refreshToken: "",
-          };
+            accessToken: '',
+            refreshToken: ''
+          }
         }
       }
-    },
+    }
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     // 60 seconds * 60 minutes * 24 hours * 30 days
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60 * 60 * 24 * 30
   },
   adapter: PrismaAdapter(db),
   providers: [
@@ -83,16 +84,16 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET!,
       authorization: {
         params: {
-          scope: "read:user user:email read:org repo",
-        },
-      },
-    }),
-  ],
-};
+          scope: 'read:user user:email read:org repo'
+        }
+      }
+    })
+  ]
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = () => getServerSession(authOptions)

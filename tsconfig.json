@@ -31,17 +31,20 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
+      "@/styles/*": [
+        "./src/styles/*"
+      ],
+      "@/server/*": [
+        "./src/server/*"
       ],
       "@/components/*": [
-        "./src/app/_components/*"
+        "./src/components/*"
       ],
-      "@/context/*": [
-        "./src/app/_context/*"
+      "@/contexts/*": [
+        "./src/contexts/*"
       ],
       "@/hooks/*": [
-        "./src/app/_hooks/*"
+        "./src/hooks/*"
       ]
     }
   },

@@ -1,4 +1,4 @@
-import { BulkMergePrs } from "@/components/github/BulkMergePrs";
+import { BulkMergePrs } from '@/components/github/BulkMergePrs'
 
 export default function HomePage() {
   return (
@@ -7,5 +7,5 @@ export default function HomePage() {
         <BulkMergePrs />
       </div>
     </main>
-  );
+  )
 }
