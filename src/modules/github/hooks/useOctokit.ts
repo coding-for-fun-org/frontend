@@ -1,5 +1,6 @@
 import { Octokit } from '@octokit/core'
 import { useSession } from 'next-auth/react'
+import { useMemo } from 'react'
 
 export const useOctokit = () => {
   const { data: session } = useSession()
@@ -8,5 +9,8 @@ export const useOctokit = () => {
     return null
   }
 
-  return new Octokit({ auth: session.accessToken })
+  return useMemo(
+    () => new Octokit({ auth: session.accessToken }),
+    [session.accessToken]
+  )
 }

@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 
-import { db } from '@/server/db'
+import { db } from '@/server/root/db'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

@@ -1,10 +1,10 @@
 import { Inter } from 'next/font/google'
 
-import '@/styles/globals.css'
+import '@/styles/root/index.css'
 
-import { getServerAuthSession } from '@/server/auth'
+import { getServerAuthSession } from '@/server/root/auth'
 
-import { ClientProvider } from '@/contexts/ClientProvider'
+import { ClientProvider } from '@/contexts/root/ClientProvider'
 
 const inter = Inter({
   subsets: ['latin'],
