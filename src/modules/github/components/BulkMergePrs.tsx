@@ -1,27 +1,101 @@
 'use client'
 
-import type { FC } from 'react'
+import { type FC, useEffect, useState } from 'react'
+
+import { DataList } from '@/components/github/root/DataList'
+import { PullRequestReviewForm } from '@/components/github/root/PullRequestReviewForm'
 
 import { usePrsGroup } from '@/hooks/github/root/usePrsGroup'
 
+import { type TRepoHasCheck } from '@/types/github/root/index'
+
 export const BulkMergePrs: FC = () => {
   const { prsGroup } = usePrsGroup()
+  const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
+    []
+  )
+
+  const handlePullChange = (repo: string, pullNumber: number) => {
+    setRepoHasCheckArray((prev) =>
+      prev.map((data) => {
+        if (data.repo === repo) {
+          return {
+            ...data,
+            pulls: data.pulls.map((pull) => {
+              if (pull.number === pullNumber) {
+                return { ...pull, isChecked: !pull.isChecked }
+              }
+              return pull
+            })
+          }
+        }
+        return data
+      })
+    )
+  }
+
+  const handleRepoChange = (repo: string) => {
+    setRepoHasCheckArray((prev) =>
+      prev.map((data) => {
+        if (data.repo === repo) {
+          if (data.pulls.every((pull) => pull.isChecked === true)) {
+            return {
+              ...data,
+              pulls: data.pulls.map((pull) => ({
+                ...pull,
+                isChecked: false
+              }))
+            }
+          }
+          return {
+            ...data,
+            pulls: data.pulls.map((pull) => ({
+              ...pull,
+              isChecked: true
+            }))
+          }
+        }
+        return data
+      })
+    )
+  }
+
+  useEffect(() => {
+    if (!prsGroup) {
+      return
+    }
+    setRepoHasCheckArray(
+      prsGroup.map((data) => ({
+        org: data.org,
+        repo: data.repo,
+        pulls: data.pulls.map((pull) => ({
+          number: pull.number,
+          title: pull.title,
+          isChecked: false,
+          user: {
+            login: pull.user.login ?? ''
+          }
+        }))
+      }))
+    )
+  }, [prsGroup])
 
   return (
-    <div>
-      {(prsGroup ?? []).map((group) => (
-        <div key={`${group.org}-${group.repo}`}>
-          <h1 className="text-xl font-semibold">
-            {group.org} / {group.repo}
-          </h1>
-
-          <ol className="list-decimal ml-4 pl-10">
-            {group.pulls.map((pull) => (
-              <li key={pull.number}>{pull.title}</li>
-            ))}
-          </ol>
-        </div>
-      ))}
+    <div className="flex flex-wrap">
+      <div>
+        {repoHasCheckArray?.map((data) => (
+          <DataList
+            key={data.repo}
+            repo={data.repo}
+            pulls={data.pulls}
+            handlePullChange={handlePullChange}
+            handleRepoChange={handleRepoChange}
+          />
+        ))}
+      </div>
+      <div className="ml-60">
+        <PullRequestReviewForm repoHasCheckArray={repoHasCheckArray} />
+      </div>
     </div>
   )
 }

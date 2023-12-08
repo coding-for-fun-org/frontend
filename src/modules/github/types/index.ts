@@ -24,3 +24,18 @@ export enum EPullRequestType {
   'APPROVE' = 'APPROVE',
   'COMMENT' = 'COMMENT'
 }
+
+export type TRepoHasCheck = {
+  org: string
+  repo: string
+  pulls: TPull[]
+}
+
+export type TPull = {
+  number: number
+  title: string
+  isChecked: boolean
+  user: {
+    login: string | undefined
+  }
+}
