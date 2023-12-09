@@ -1,0 +1,34 @@
+{
+  "useTabs": false,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "semi": false,
+  "arrowParens": "always",
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@/styles/root/(.*)$",
+    "^@/server/root/(.*)$",
+    "^@/components/root/(.*)$",
+    "^@/contexts/root/(.*)$",
+    "^@/hooks/root/(.*)$",
+    "^@/types/root/(.*)$",
+    "^@/styles/github/root/(.*)$",
+    "^@/components/github/root/(.*)$",
+    "^@/contexts/github/root/(.*)$",
+    "^@/hooks/github/root/(.*)$",
+    "^@/types/github/root/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ]
+}

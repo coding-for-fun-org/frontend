@@ -31,8 +31,44 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
+      "@/styles/root/*": [
+        "./src/styles/*"
+      ],
+      "@/server/root/*": [
+        "./src/server/*"
+      ],
+      "@/components/root/*": [
+        "./src/components/*"
+      ],
+      "@/contexts/root/*": [
+        "./src/contexts/*"
+      ],
+      "@/hooks/root/*": [
+        "./src/hooks/*"
+      ],
+      "@/utils/root/*": [
+        "./src/utils/*"
+      ],
+      "@/types/root/*": [
+        "./src/types/*"
+      ],
+      "@/styles/github/root/*": [
+        "./src/modules/github/styles/*"
+      ],
+      "@/components/github/root/*": [
+        "./src/modules/github/components/*"
+      ],
+      "@/contexts/github/root/*": [
+        "./src/modules/github/contexts/*"
+      ],
+      "@/hooks/github/root/*": [
+        "./src/modules/github/hooks/*"
+      ],
+      "@/types/github/root/*": [
+        "./src/modules/github/types/*"
+      ],
+      "@/utils/github/root/*": [
+        "./src/modules/github/utils/*"
       ]
     }
   },

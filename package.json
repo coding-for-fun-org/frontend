@@ -9,11 +9,13 @@
     "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "lint:check": "next lint",
+    "format:check": "prettier -c src/",
     "start": "next start"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
+    "@octokit/core": "^5.0.2",
     "@prisma/client": "^5.6.0",
     "next": "^14.0.3",
     "next-auth": "^4.24.5",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/eslint": "^8.44.7",
     "@types/node": "^18.17.0",
     "@types/react": "^18.2.37",
