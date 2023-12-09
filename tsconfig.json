@@ -75,6 +75,7 @@
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
+    "./src/types/**.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
