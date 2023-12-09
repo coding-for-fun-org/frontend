@@ -10,7 +10,7 @@ export const useOctokit = () => {
   }
 
   return useMemo(
-    () => new Octokit({ auth: session.accessToken }),
-    [session.accessToken]
+    () => new Octokit({ auth: session.token.accessToken }),
+    [session.token.accessToken]
   )
 }

@@ -6,35 +6,25 @@ import GitHubProvider from 'next-auth/providers/github'
 import { db } from '@/server/root/db'
 
 /**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module 'next-auth' {
-  interface Session {
-    provider: '' | 'github'
-    name: string | undefined | null
-    email: string | undefined | null
-    image: string | undefined | null
-    accessToken: string | undefined | null
-    refreshToken: string | undefined | null
-  }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
-
-/**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ token }) => token,
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        name: token.name,
+        email: token.email,
+        image: token.image
+      },
+      token: {
+        provider: token.provider,
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken
+      }
+    }),
     async jwt({ token, user, account }) {
       // user & account is not undefined only after sign in
       if (!(user && account)) {
