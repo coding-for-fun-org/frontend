@@ -70,8 +70,8 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers
      */
     GitHubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
       authorization: {
         params: {
           scope: 'read:user user:email read:org repo'
