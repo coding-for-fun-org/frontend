@@ -7,28 +7,6 @@ import { usePrsGroup } from '@/hooks/github/root/usePrsGroup'
 export const BulkMergePrs: FC = () => {
   const { prsGroup } = usePrsGroup()
 
-  /* const reviewPullRequest = (
-    owner: string,
-    repo: string,
-    pullRequestNumber: number,
-    event: EPullRequestType,
-    body: string
-  ) => {
-    if (!octokit) {
-      return
-    }
-
-    octokit
-      .request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
-        owner: owner,
-        repo: repo,
-        pull_number: pullRequestNumber,
-        body: body,
-        event: event
-      })
-      .catch(console.error)
-  } */
-
   return (
     <div>
       {(prsGroup ?? []).map((group) => (

@@ -1,52 +1,64 @@
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
-
-import { useOctokit } from './useOctokit'
+import type {
+  InstallationRepositoriesResponse,
+  RepoPullsResponse,
+  UserInstallationsResponse
+} from '@/types/github/root/server'
 
 export const usePrsGroup = () => {
-  const octokit = useOctokit()
   const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
-    if (!octokit) {
-      return
-    }
-
-    octokit
-      .request('GET /user/repos', {
-        per_page: 100
-      })
+    axios
+      .get<UserInstallationsResponse>('/api/github/user/installations')
       .then((response) => response.data)
-      .then((repos) =>
+      .then(({ installations }) =>
         Promise.all(
-          repos.map((repo) =>
-            octokit
-              .request('GET /repos/{owner}/{repo}/pulls', {
-                owner: repo.owner.login,
-                repo: repo.name
-              })
-              .then((response) => ({
-                org: repo.owner.login,
-                repo: repo.name,
-                pulls: response.data.map((pull) => ({
-                  state: pull.state,
-                  number: pull.number,
-                  title: pull.title,
-                  user: {
-                    login: pull.user?.login,
-                    avatarUrl: pull.user?.avatar_url
-                  }
-                }))
-              }))
+          installations.map((installation) =>
+            axios
+              .get<InstallationRepositoriesResponse>(
+                `/api/github/user/installations/${installation.id}/repositories`
+              )
+              .then((response) => response.data)
+              .then(({ repositories }) => repositories)
           )
         )
+          .then((reposByInstallation) =>
+            reposByInstallation.flatMap((repos) => repos)
+          )
+          .then((repos) =>
+            Promise.all(
+              repos.map((repo) =>
+                axios
+                  .get<RepoPullsResponse>(
+                    `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`
+                  )
+                  .then((response) => response.data)
+                  .then((response) => ({
+                    org: repo.owner.login,
+                    repo: repo.name,
+                    pulls: response.map((pull) => ({
+                      state: pull.state,
+                      number: pull.number,
+                      title: pull.title,
+                      user: {
+                        login: pull.user?.login,
+                        avatarUrl: pull.user?.avatar_url
+                      }
+                    }))
+                  }))
+              )
+            )
+          )
       )
       .then((result) => {
         setPrsGroup(result)
       })
       .catch(console.error)
-  }, [octokit])
+  }, [])
 
   return { prsGroup }
 }
