@@ -30,6 +30,10 @@ const config = {
       {
         checksVoidReturn: { attributes: false }
       }
+    ],
+    'no-relative-import-paths/no-relative-import-paths': [
+      'error',
+      { allowSameFolder: true }
     ]
   }
 }
