@@ -1,7 +1,6 @@
 'use client'
 
-import type { FC } from 'react'
-import { useEffect } from 'react'
+import { type FC, useEffect } from 'react'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
