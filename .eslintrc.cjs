@@ -4,7 +4,7 @@ const config = {
   parserOptions: {
     project: true
   },
-  plugins: ['@typescript-eslint', 'no-relative-import-paths'],
+  plugins: ['@typescript-eslint', 'no-relative-import-paths', 'import'],
   extends: [
     'plugin:@next/next/recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
@@ -34,7 +34,8 @@ const config = {
     'no-relative-import-paths/no-relative-import-paths': [
       'error',
       { allowSameFolder: true }
-    ]
+    ],
+    'import/no-duplicates': ['error', { 'prefer-inline': true }]
   }
 }
 
