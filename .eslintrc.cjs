@@ -10,6 +10,12 @@ const config = {
     'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:@typescript-eslint/stylistic-type-checked'
   ],
+  env: {
+    es6: true,
+    browser: true,
+    jest: true,
+    node: true
+  },
   rules: {
     // These opinionated rules are enabled in stylistic-type-checked above.
     // Feel free to reconfigure them to your own preference.
