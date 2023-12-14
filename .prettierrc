@@ -17,11 +17,13 @@
     "^@/components/root/(.*)$",
     "^@/contexts/root/(.*)$",
     "^@/hooks/root/(.*)$",
+    "^@/utils/root/(.*)$",
     "^@/types/root/(.*)$",
     "^@/styles/github/root/(.*)$",
     "^@/components/github/root/(.*)$",
     "^@/contexts/github/root/(.*)$",
     "^@/hooks/github/root/(.*)$",
+    "^@/utils/github/root/(.*)$",
     "^@/types/github/root/(.*)$",
     "^[./]"
   ],
