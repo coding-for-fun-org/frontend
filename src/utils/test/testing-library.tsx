@@ -1,3 +1,4 @@
+import * as dictionary from '@/dictionaries/root/en.json'
 import {
   type RenderHookOptions,
   type RenderOptions,
@@ -6,11 +7,15 @@ import {
 } from '@testing-library/react'
 import type { FC, ReactElement, ReactNode } from 'react'
 
+import { DictionaryProvider } from '@/contexts/root/DictionaryProvider'
+
 interface ProvidersProps {
   children: ReactNode
 }
 
-const Providers: FC<ProvidersProps> = ({ children }) => <>{children}</>
+const Providers: FC<ProvidersProps> = ({ children }) => (
+  <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>
+)
 
 const customRender = (
   ui: ReactElement,

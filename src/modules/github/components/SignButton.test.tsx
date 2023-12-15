@@ -1,3 +1,4 @@
+import * as dictionary from '@/dictionaries/root/en.json'
 import * as nextAuthReact from 'next-auth/react'
 
 import { render, screen } from '@/utils/root/test/testing-library'
@@ -15,7 +16,7 @@ describe('SignButton', () => {
 
     const { unmount } = render(<SignButton />)
 
-    expect(screen.getByText(/loading\.\.\./i)).toBeInTheDocument()
+    expect(screen.getByText(dictionary.AUTH.LOADING)).toBeInTheDocument()
 
     unmount()
   })
@@ -28,7 +29,7 @@ describe('SignButton', () => {
 
     const { unmount } = render(<SignButton />)
 
-    expect(screen.getByText(/log out/i)).toBeInTheDocument()
+    expect(screen.getByText(dictionary.AUTH.SIGN_OUT)).toBeInTheDocument()
 
     unmount()
   })
@@ -41,7 +42,7 @@ describe('SignButton', () => {
 
     const { unmount } = render(<SignButton />)
 
-    expect(screen.getByText(/log in/i)).toBeInTheDocument()
+    expect(screen.getByText(dictionary.AUTH.SIGN_IN)).toBeInTheDocument()
 
     unmount()
   })
