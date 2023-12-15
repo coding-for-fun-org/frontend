@@ -1,4 +1,3 @@
-import * as dictionary from '@/dictionaries/root/en.json'
 import {
   type RenderHookOptions,
   type RenderOptions,
@@ -6,6 +5,8 @@ import {
   renderHook
 } from '@testing-library/react'
 import type { FC, ReactElement, ReactNode } from 'react'
+
+import * as dictionary from '@/dictionaries/root/en.json'
 
 import { DictionaryProvider } from '@/contexts/root/DictionaryProvider'
 
