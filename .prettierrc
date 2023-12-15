@@ -12,6 +12,7 @@
   "arrowParens": "always",
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
+    "^@/dictionaries/root/(.*)$",
     "^@/styles/root/(.*)$",
     "^@/server/root/(.*)$",
     "^@/components/root/(.*)$",
