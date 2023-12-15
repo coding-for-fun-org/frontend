@@ -2,10 +2,10 @@
 
 import type { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 
 interface ClientProviderProps {
-  children: React.ReactNode
+  children: ReactNode
   session: Session | null
 }
 

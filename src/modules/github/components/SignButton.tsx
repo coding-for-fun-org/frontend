@@ -3,13 +3,16 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import type { FC } from 'react'
 
+import { useDictionary } from '@/contexts/root/DictionaryProvider'
+
 import { ESessionStatus } from '@/types/root/index'
 
 export const SignButton: FC = () => {
   const { status } = useSession()
+  const { dictionary } = useDictionary()
 
   if (status === ESessionStatus.LOADING) {
-    return <div>loading...</div>
+    return <div>{dictionary.AUTH.LOADING}</div>
   }
 
   const buttonClassNames =
@@ -24,7 +27,7 @@ export const SignButton: FC = () => {
           signOut({ callbackUrl: '/github' }).catch(console.error)
         }}
       >
-        log out
+        {dictionary.AUTH.SIGN_OUT}
       </button>
     )
   }
@@ -38,7 +41,7 @@ export const SignButton: FC = () => {
         signIn('github', { callbackUrl: '/github' }).catch(console.error)
       }}
     >
-      log in
+      {dictionary.AUTH.SIGN_IN}
     </button>
   )
 }

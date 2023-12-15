@@ -24,6 +24,7 @@ module.exports = {
       '<rootDir>/src/__mocks__/file.js',
 
     /* Handle typescript custom absolute imports */
+    '@/dictionaries/root/(.*)': '<rootDir>/src/dictionaries/$1',
     '@/styles/root/(.*)': '<rootDir>/src/styles/$1',
     '@/server/root/(.*)': '<rootDir>/src/server/$1',
     '@/components/root/(.*)': '<rootDir>/src/components/$1',
