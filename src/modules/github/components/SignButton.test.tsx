@@ -1,5 +1,6 @@
-import * as dictionary from '@/dictionaries/root/en.json'
 import * as nextAuthReact from 'next-auth/react'
+
+import * as dictionary from '@/dictionaries/root/en.json'
 
 import { render, screen } from '@/utils/root/test/testing-library'
 

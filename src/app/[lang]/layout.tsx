@@ -1,5 +1,6 @@
-import { getDictionary } from '@/dictionaries/root/index'
 import { Inter } from 'next/font/google'
+
+import { getDictionary } from '@/dictionaries/root/index'
 
 import '@/styles/root/index.css'
 

@@ -1,5 +1,6 @@
-import type { getDictionary } from '@/dictionaries/root/index'
 import type { NextResponse } from 'next/server'
+
+import type { getDictionary } from '@/dictionaries/root/index'
 
 export type PromiseReturnType<T> = T extends Promise<infer U> ? U : T
 
