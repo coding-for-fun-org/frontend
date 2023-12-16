@@ -31,11 +31,11 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/dictionaries/root/*": [
-        "./src/dictionaries/*"
-      ],
       "@/styles/root/*": [
         "./src/styles/*"
+      ],
+      "@/dictionaries/root/*": [
+        "./src/dictionaries/*"
       ],
       "@/server/root/*": [
         "./src/server/*"

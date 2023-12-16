@@ -17,6 +17,7 @@ declare module 'next-auth' {
     token: {
       provider: 'github' | undefined | null
       accessToken: string | undefined | null
+      accessTokenExpires: number | undefined | null
       refreshToken: string | undefined | null
     }
   }
@@ -30,6 +31,7 @@ declare module 'next-auth/jwt' {
     image?: string | null
     provider?: '' | 'github'
     accessToken?: string | undefined
+    accessTokenExpires?: number | undefined
     refreshToken?: string | undefined
   }
 }

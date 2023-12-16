@@ -6,7 +6,7 @@ import { render, screen } from '@/utils/root/test/testing-library'
 
 import { ESessionStatus } from '@/types/root/index'
 
-import { SignButton } from './SignButton'
+import { SignButton } from './sign-button'
 
 describe('SignButton', () => {
   it('should render "loading..." when the status is ESessionStatus.LOADING', () => {

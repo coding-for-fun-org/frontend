@@ -1,10 +1,8 @@
-'use client'
-
-import { type FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
-export const GrantPermissionButton: FC = () => {
+export const useAppInstallationWindow = () => {
   let newWindow: Window | null = null
 
   const openWindow = () => {
@@ -46,15 +44,7 @@ export const GrantPermissionButton: FC = () => {
     }
   }, [])
 
-  return (
-    <button
-      className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-      type="button"
-      onClick={() => {
-        openWindow()
-      }}
-    >
-      grant permission
-    </button>
-  )
+  return {
+    openWindow
+  }
 }

@@ -1,0 +1,29 @@
+import type { FC } from 'react'
+
+import { HeaderTitleButton } from '@/components/root/header-title-button/header-title-button'
+import { LinkGithubIconButton } from '@/components/root/link-github-icon-button/link-github-icon-button'
+import { ToggleThemeIconButton } from '@/components/root/toggle-theme-icon-button/toggle-theme-icon-button'
+
+interface HeaderProps {
+  right?: JSX.Element
+}
+
+export const Header: FC<HeaderProps> = async ({ right }) => {
+  return (
+    <header className="sticky top-0 left-0 z-20 w-full border-b select-none shadow transition-colors ">
+      <div className="container h-14 flex items-center">
+        <div className="flex flex-1 items-center space-x-2">
+          <HeaderTitleButton />
+        </div>
+        <div className="flex flex-1 justify-end items-center space-x-2">
+          {right}
+          {!!right && <span className="mr-2" />}
+
+          <LinkGithubIconButton />
+
+          <ToggleThemeIconButton />
+        </div>
+      </div>
+    </header>
+  )
+}
