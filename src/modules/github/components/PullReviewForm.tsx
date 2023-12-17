@@ -4,7 +4,7 @@ import { type ChangeEvent, type FC, useState } from 'react'
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
 
-interface CheckedPull {
+interface ICheckedPull {
   org: string
   repo: string
   pullNumber: number
@@ -12,8 +12,8 @@ interface CheckedPull {
 
 const getCheckedPullsInfo = (
   repoHasCheckArray: TRepoHasCheck[]
-): CheckedPull[] => {
-  return repoHasCheckArray.reduce<CheckedPull[]>(
+): ICheckedPull[] => {
+  return repoHasCheckArray.reduce<ICheckedPull[]>(
     (reviewPullRequests, repoHasCheck) => {
       const checkedPulls = repoHasCheck.pulls.filter((pull) => pull.isChecked)
 
