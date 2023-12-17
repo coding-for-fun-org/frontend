@@ -2,12 +2,12 @@
 
 import { type FC, useEffect, useState } from 'react'
 
-import { DataList } from '@/components/github/root/DataList'
-import { PullRequestReviewForm } from '@/components/github/root/PullRequestReviewForm'
+import { PullListByRepo } from '@/components/github/root/PullListByRepo'
+import { PullReviewForm } from '@/components/github/root/PullReviewForm'
 
 import { usePrsGroup } from '@/hooks/github/root/usePrsGroup'
 
-import { type TRepoHasCheck } from '@/types/github/root/index'
+import type { TRepoHasCheck } from '@/types/github/root/index'
 
 export const BulkMergePrs: FC = () => {
   const { prsGroup } = usePrsGroup()
@@ -17,45 +17,51 @@ export const BulkMergePrs: FC = () => {
 
   const handlePullChange = (repo: string, pullNumber: number) => {
     setRepoHasCheckArray((prev) =>
-      prev.map((data) => {
-        if (data.repo === repo) {
+      prev.map((repoHasCheck) => {
+        if (repoHasCheck.repo === repo) {
           return {
-            ...data,
-            pulls: data.pulls.map((pull) => {
+            ...repoHasCheck,
+            pulls: repoHasCheck.pulls.map((pull) => {
               if (pull.number === pullNumber) {
                 return { ...pull, isChecked: !pull.isChecked }
               }
+
               return pull
             })
           }
         }
-        return data
+        return repoHasCheck
       })
     )
   }
 
   const handleRepoChange = (repo: string) => {
     setRepoHasCheckArray((prev) =>
-      prev.map((data) => {
-        if (data.repo === repo) {
-          if (data.pulls.every((pull) => pull.isChecked === true)) {
+      prev.map((repoHasCheck) => {
+        if (repoHasCheck.repo === repo) {
+          if (
+            repoHasCheck.pulls.length > 0 &&
+            repoHasCheck.pulls.every((pull) => pull.isChecked === true)
+          ) {
             return {
-              ...data,
-              pulls: data.pulls.map((pull) => ({
+              ...repoHasCheck,
+              pulls: repoHasCheck.pulls.map((pull) => ({
                 ...pull,
                 isChecked: false
               }))
             }
           }
+
           return {
-            ...data,
-            pulls: data.pulls.map((pull) => ({
+            ...repoHasCheck,
+            pulls: repoHasCheck.pulls.map((pull) => ({
               ...pull,
               isChecked: true
             }))
           }
         }
-        return data
+
+        return repoHasCheck
       })
     )
   }
@@ -64,11 +70,12 @@ export const BulkMergePrs: FC = () => {
     if (!prsGroup) {
       return
     }
+
     setRepoHasCheckArray(
-      prsGroup.map((data) => ({
-        org: data.org,
-        repo: data.repo,
-        pulls: data.pulls.map((pull) => ({
+      prsGroup.map((pulls) => ({
+        org: pulls.org,
+        repo: pulls.repo,
+        pulls: pulls.pulls.map((pull) => ({
           number: pull.number,
           title: pull.title,
           isChecked: false,
@@ -83,18 +90,18 @@ export const BulkMergePrs: FC = () => {
   return (
     <div className="flex flex-wrap">
       <div>
-        {repoHasCheckArray?.map((data) => (
-          <DataList
-            key={data.repo}
-            repo={data.repo}
-            pulls={data.pulls}
+        {repoHasCheckArray.map((repoHasCheck) => (
+          <PullListByRepo
+            key={repoHasCheck.repo}
+            repo={repoHasCheck.repo}
+            pulls={repoHasCheck.pulls}
             handlePullChange={handlePullChange}
             handleRepoChange={handleRepoChange}
           />
         ))}
       </div>
       <div className="ml-60">
-        <PullRequestReviewForm repoHasCheckArray={repoHasCheckArray} />
+        <PullReviewForm repoHasCheckArray={repoHasCheckArray} />
       </div>
     </div>
   )
