@@ -85,6 +85,38 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     })
   }
 
+  const handleApproveClick = () => {
+    console.log('approve click')
+
+    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+
+    checkedPullsInfo.forEach((checkedPull) => {
+      reviewPullRequest(
+        checkedPull.org,
+        checkedPull.repo,
+        checkedPull.pullNumber,
+        EPullRequestType.APPROVE,
+        commentInput
+      )
+    })
+  }
+
+  const handleRequestChangeClick = () => {
+    console.log('request_changes click')
+
+    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+
+    checkedPullsInfo.forEach((checkedPull) => {
+      reviewPullRequest(
+        checkedPull.org,
+        checkedPull.repo,
+        checkedPull.pullNumber,
+        EPullRequestType.REQUEST_CHANGES,
+        commentInput
+      )
+    })
+  }
+
   return (
     <div>
       <input
@@ -93,7 +125,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         className="w-96 h-40"
         value={commentInput}
         onChange={handleCommentChange}
-        disabled={!hasChecked}
+        disabled={!hasChecked || commentInput.length <= 0}
       />
       <div>
         <button
@@ -109,13 +141,15 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           className="mx-2 bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
           disabled={!hasChecked}
+          onClick={handleApproveClick}
         >
           {EPullRequestType.APPROVE}
         </button>
         <button
           className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
-          disabled={!hasChecked}
+          disabled={!hasChecked || commentInput.length <= 0}
+          onClick={handleRequestChangeClick}
         >
           {EPullRequestType.REQUEST_CHANGES}
         </button>
