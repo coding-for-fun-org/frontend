@@ -1,7 +1,14 @@
 {
+  "COMMOM": {
+    "APP_NAME": "Coding For Fun"
+  },
   "AUTH": {
     "LOADING": "Loading...",
     "SIGN_IN": "Sign In",
     "SIGN_OUT": "Sign Out"
+  },
+  "HEADER": {
+    "LINK_GITHUB_TOOLTIP": "View source code on GitHub",
+    "TOGGLE_THEME_TOOLTIP": "Toggle theme"
   }
 }

@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             image: user.image,
             accessToken: account.access_token,
+            accessTokenExpires: account.expires_at,
             refreshToken: account.refresh_token
           }
         }
@@ -49,6 +50,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             image: user.image,
             accessToken: '',
+            accessTokenExpires: -1,
             refreshToken: ''
           }
         }
@@ -73,7 +75,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET,
       authorization: {
         params: {
-          scope: 'read:user user:email read:org repo'
+          scope: ''
         }
       }
     })

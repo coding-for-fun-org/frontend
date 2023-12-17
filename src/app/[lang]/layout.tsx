@@ -1,8 +1,9 @@
 import { Inter } from 'next/font/google'
-
-import { getDictionary } from '@/dictionaries/root/index'
+import type { ReactNode } from 'react'
 
 import '@/styles/root/index.css'
+
+import { getDictionary } from '@/dictionaries/root/index'
 
 import { getServerAuthSession } from '@/server/root/auth'
 
@@ -24,19 +25,21 @@ export const metadata = {
   icons: [{ rel: 'icon', url: '/favicon.ico' }]
 }
 
-export default async function RootLayout({
+export default async function Layout({
   children,
   params
 }: {
-  children: React.ReactNode
+  children: ReactNode
   params: { lang: 'en' }
 }) {
   const session = await getServerAuthSession()
   const dictionary = await getDictionary(params.lang)
 
   return (
+    // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
+    // this is not an ideal solution, but it works for now
     <html lang={params.lang}>
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`min-h-screen font-sans ${inter.variable}`}>
         <ClientProvider session={session}>
           <DictionaryProvider dictionary={dictionary}>
             {children}

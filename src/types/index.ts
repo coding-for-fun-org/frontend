@@ -10,6 +10,12 @@ export enum ESessionStatus {
   UNAUTHENTICATED = 'unauthenticated'
 }
 
+const COOKIE_PREFIX = '__cff-'
+
+export enum ECookie {
+  THEME = `${COOKIE_PREFIX}-theme`
+}
+
 export type TServerErrorResponse = NextResponse<{
   error: { message: string }
 }>
