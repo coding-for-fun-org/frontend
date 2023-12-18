@@ -41,6 +41,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
+  const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
   )
@@ -86,8 +87,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   const handleApproveClick = () => {
-    console.log('approve click')
-
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
 
     checkedPullsInfo.forEach((checkedPull) => {
@@ -102,8 +101,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   const handleRequestChangeClick = () => {
-    console.log('request_changes click')
-
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
 
     checkedPullsInfo.forEach((checkedPull) => {
@@ -125,13 +122,13 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         className="w-96 h-40"
         value={commentInput}
         onChange={handleCommentChange}
-        disabled={!hasChecked || commentInput.length <= 0}
+        disabled={!hasChecked}
       />
       <div>
         <button
           className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
-          disabled={!hasChecked}
+          disabled={!hasChecked || !hasComment}
           onClick={handleCommentClick}
         >
           {EPullRequestType.COMMENT}
@@ -148,7 +145,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         <button
           className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
-          disabled={!hasChecked || commentInput.length <= 0}
+          disabled={!hasChecked || !hasComment}
           onClick={handleRequestChangeClick}
         >
           {EPullRequestType.REQUEST_CHANGES}
