@@ -15,6 +15,7 @@
     "^@/styles/root/(.*)$",
     "^@/dictionaries/root/(.*)$",
     "^@/server/root/(.*)$",
+    "^@/elements/root/(.*)$",
     "^@/components/root/(.*)$",
     "^@/contexts/root/(.*)$",
     "^@/hooks/root/(.*)$",

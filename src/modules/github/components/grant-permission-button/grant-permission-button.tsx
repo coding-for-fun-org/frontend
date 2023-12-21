@@ -2,7 +2,7 @@
 
 import { type FC, useEffect } from 'react'
 
-import { Button } from '@/components/root/ui/button/button'
+import { Button } from '@/elements/root/button/button'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 

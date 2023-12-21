@@ -27,6 +27,7 @@ module.exports = {
     '@/styles/root/(.*)': '<rootDir>/src/styles/$1',
     '@/dictionaries/root/(.*)': '<rootDir>/src/dictionaries/$1',
     '@/server/root/(.*)': '<rootDir>/src/server/$1',
+    '@/elements/root/(.*)': '<rootDir>/src/elements/$1',
     '@/components/root/(.*)': '<rootDir>/src/components/$1',
     '@/contexts/root/(.*)': '<rootDir>/src/contexts/$1',
     '@/hooks/root/(.*)': '<rootDir>/src/hooks/$1',
