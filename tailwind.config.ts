@@ -28,15 +28,15 @@ export default {
         },
         success: {
           DEFAULT: 'hsl(var(--success))',
-          foreground: 'hsl(var(--success--foreground))'
+          foreground: 'hsl(var(--success-foreground))'
         },
         info: {
           DEFAULT: 'hsl(var(--info))',
-          foreground: 'hsl(var(--info--foreground))'
+          foreground: 'hsl(var(--info-foreground))'
         },
         error: {
           DEFAULT: 'hsl(var(--error))',
-          foreground: 'hsl(var(--error--foreground))'
+          foreground: 'hsl(var(--error-foreground))'
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

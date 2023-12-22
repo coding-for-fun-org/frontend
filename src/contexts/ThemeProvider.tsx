@@ -11,7 +11,7 @@ import {
 
 const ThemeContext = createContext<boolean>(true)
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const ThemeToggleContext = createContext<() => void>(() => {})
+const ToggleThemeContext = createContext<() => void>(() => {})
 
 interface ThemeProviderProps {
   children: ReactNode
@@ -30,14 +30,14 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({
 
   return (
     <ThemeContext.Provider value={_isDarkMode}>
-      <ThemeToggleContext.Provider value={toggleTheme}>
+      <ToggleThemeContext.Provider value={toggleTheme}>
         <div
           id="root"
           className={clsx('relative min-h-screen', { dark: _isDarkMode })}
         >
           {children}
         </div>
-      </ThemeToggleContext.Provider>
+      </ToggleThemeContext.Provider>
     </ThemeContext.Provider>
   )
 }
@@ -47,5 +47,5 @@ export const useTheme = () => ({
 })
 
 export const useToggleTheme = () => ({
-  toggleTheme: useContext(ThemeToggleContext)
+  toggleTheme: useContext(ToggleThemeContext)
 })
