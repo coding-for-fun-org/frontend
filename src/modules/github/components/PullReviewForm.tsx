@@ -69,16 +69,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         }
       )
       .then((response) => response.data)
-      .then((result) => {
-        console.log('result', result)
+      .then(() => {
         pushToast({
           title: `[SUCCESS] repository: ${repo} (${pullNumber})`,
           description: `${event}: ${body}`,
           variant: 'success'
         })
       })
-      .catch((error) => {
-        console.error(error)
+      .catch(() => {
         pushToast({
           title: `[ERROR] repository: ${repo} (${pullNumber})`,
           description: `${event}: ${body}`,
