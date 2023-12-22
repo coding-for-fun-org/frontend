@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
-export default function HomePage() {
+export default function Page() {
   const searchParams = useSearchParams()
 
   useEffect(() => {

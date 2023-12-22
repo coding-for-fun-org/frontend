@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import type { FC } from 'react'
 
-import { Button } from '@/components/root/ui/button/button'
+import { Button } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/DictionaryProvider'
 

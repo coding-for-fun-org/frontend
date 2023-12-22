@@ -3,7 +3,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { type FC } from 'react'
 
-import { Button } from '@/components/root/ui/button/button'
+import { Button } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/DictionaryProvider'
 

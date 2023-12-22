@@ -3,12 +3,16 @@
 import { Provider as TooltipProvider } from '@radix-ui/react-tooltip'
 import type { ReactNode } from 'react'
 
+import { ToastProvider } from '@/elements/root/toast/toast-provider'
+
 import { ThemeProvider } from '@/contexts/root/ThemeProvider'
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider isDarkMode={true}>
-      <TooltipProvider>{children}</TooltipProvider>
+      <ToastProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </ToastProvider>
     </ThemeProvider>
   )
 }

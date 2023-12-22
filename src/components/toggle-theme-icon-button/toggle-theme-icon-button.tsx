@@ -2,12 +2,12 @@
 
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
-import { Button } from '@/components/root/ui/button/button'
+import { Button } from '@/elements/root/button/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
-} from '@/components/root/ui/tooltip/tooltip'
+} from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/DictionaryProvider'
 import { useTheme, useToggleTheme } from '@/contexts/root/ThemeProvider'
