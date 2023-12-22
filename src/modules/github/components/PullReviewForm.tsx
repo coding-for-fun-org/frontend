@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { type ChangeEvent, type FC, useState } from 'react'
 
+import { useToast } from '@/elements/root/toast/toast-provider'
+
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
 
@@ -46,6 +48,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     data.pulls.some((pull) => pull.isChecked === true)
   )
 
+  const { pushToast } = useToast()
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCommentInput(event.target.value)
   }
@@ -68,8 +71,20 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       .then((response) => response.data)
       .then((result) => {
         console.log('result', result)
+        pushToast({
+          title: `[SUCCESS] repository: ${repo} (${pullNumber})`,
+          description: `${event}: ${body}`,
+          variant: 'success'
+        })
       })
-      .catch(console.error)
+      .catch((error) => {
+        console.error(error)
+        pushToast({
+          title: `[ERROR] repository: ${repo} (${pullNumber})`,
+          description: `${event}: ${body}`,
+          variant: 'error'
+        })
+      })
   }
 
   const handleCommentClick = () => {
