@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 
 import { ToastProvider } from '@/elements/root/toast/toast-provider'
 
-import { ThemeProvider } from '@/contexts/root/ThemeProvider'
+import { ThemeProvider } from '@/contexts/root/theme-provider/theme-provider'
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

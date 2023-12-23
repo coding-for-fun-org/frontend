@@ -6,7 +6,7 @@ import type {
   InstallationRepositoriesResponse,
   RepoPullsResponse,
   UserInstallationsResponse
-} from '@/types/github/root/server'
+} from '@/types/github/root/server/server'
 
 export const usePrsGroup = () => {
   const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()

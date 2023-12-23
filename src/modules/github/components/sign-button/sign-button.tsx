@@ -5,7 +5,7 @@ import { type FC } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
-import { useDictionary } from '@/contexts/root/DictionaryProvider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { ESessionStatus } from '@/types/root/index'
 
