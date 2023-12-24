@@ -2,6 +2,10 @@
   "COMMOM": {
     "APP_NAME": "Coding For Fun"
   },
+  "DIALOG_BUTTON": {
+    "CANCEL": "Cancel",
+    "CONTINUE": "Continue"
+  },
   "AUTH": {
     "LOADING": "Loading...",
     "SIGN_IN": "Sign In",
@@ -10,8 +14,5 @@
   "HEADER": {
     "LINK_GITHUB_TOOLTIP": "View source code on GitHub",
     "TOGGLE_THEME_TOOLTIP": "Toggle theme"
-  },
-  "DIALOG_BUTTON": {
-    "CANCEL": "Cancel",
-    "CONTINUE": "Continue"
   }
+}

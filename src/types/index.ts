@@ -12,8 +12,13 @@ export enum ESessionStatus {
 
 const COOKIE_PREFIX = '__cff-'
 
-export enum ECookie {
+export enum ELocalStorageKey {
   THEME = `${COOKIE_PREFIX}-theme`
+}
+
+export enum ETheme {
+  LIGHT = 'light',
+  DARK = 'dark'
 }
 
 export type TServerErrorResponse = NextResponse<{

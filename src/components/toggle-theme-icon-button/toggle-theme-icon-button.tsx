@@ -10,11 +10,10 @@ import {
 } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider'
-import { useTheme, useToggleTheme } from '@/contexts/root/theme-provider'
+import { useToggleTheme } from '@/contexts/root/theme-provider'
 
 export const ToggleThemeIconButton = () => {
   const { dictionary } = useDictionary()
-  const { isDarkMode } = useTheme()
   const { toggleTheme } = useToggleTheme()
 
   return (
@@ -27,8 +26,20 @@ export const ToggleThemeIconButton = () => {
             toggleTheme()
           }}
         >
-          {isDarkMode && <MoonIcon width="16" height="16" />}
-          {!isDarkMode && <SunIcon width="16" height="16" />}
+          {
+            <MoonIcon
+              width="16"
+              height="16"
+              className="absolute hidden dark:block"
+            />
+          }
+          {
+            <SunIcon
+              width="16"
+              height="16"
+              className="absolute block dark:hidden"
+            />
+          }
         </Button>
       </TooltipTrigger>
       <TooltipContent>
