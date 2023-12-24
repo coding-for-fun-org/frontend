@@ -57,6 +57,8 @@
   }
 }
 
+@import 'parts/button';
+
 @layer base {
   * {
     @apply border-border;

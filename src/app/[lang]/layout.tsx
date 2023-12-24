@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import type { ReactNode } from 'react'
 
-import '@/styles/root/index.css'
+import '@/styles/root/index.scss'
 
 import { getDictionary } from '@/dictionaries/root/index'
 

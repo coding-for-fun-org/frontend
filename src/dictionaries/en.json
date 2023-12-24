@@ -10,5 +10,8 @@
   "HEADER": {
     "LINK_GITHUB_TOOLTIP": "View source code on GitHub",
     "TOGGLE_THEME_TOOLTIP": "Toggle theme"
+  },
+  "DIALOG_BUTTON": {
+    "CANCEL": "Cancel",
+    "CONTINUE": "Continue"
   }
-}

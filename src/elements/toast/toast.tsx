@@ -16,7 +16,7 @@ import {
 } from 'react'
 
 interface IVariantProps {
-  variant?: 'default' | 'secondary' | 'success' | 'info' | 'error'
+  variant?: 'primary' | 'secondary' | 'success' | 'info' | 'error'
 }
 
 interface IToastProps
@@ -42,14 +42,13 @@ ToastViewport.displayName = Viewport.displayName
 
 const Toast = forwardRef<ElementRef<typeof Root>, IToastProps>(
   ({ className, variant, ...props }, ref) => {
-    const basicClasses =
-      'group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full'
+    const basicClasses = 'toast'
     const variantClasses: Record<Required<IVariantProps>['variant'], string> = {
-      default: 'border bg-background text-foreground',
-      secondary: 'border bg-secondary text-secondary-foreground',
-      success: 'border-success bg-success text-success-foreground',
-      info: 'border-info bg-info text-info-foreground',
-      error: 'border-error bg-error text-error-foreground'
+      primary: 'variant--primary',
+      secondary: 'variant--secondary',
+      success: 'variant--success',
+      info: 'variant--info',
+      error: 'variant--error'
     }
 
     return (
@@ -57,7 +56,7 @@ const Toast = forwardRef<ElementRef<typeof Root>, IToastProps>(
         ref={ref}
         className={clsx(
           basicClasses,
-          variantClasses[variant ?? 'default'],
+          variantClasses[variant ?? 'primary'],
           className
         )}
         {...props}
