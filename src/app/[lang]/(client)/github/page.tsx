@@ -1,4 +1,4 @@
-import { BulkMergePrs } from '@/components/github/root/BulkMergePrs'
+import { BulkMergePrs } from '@/components/github/root/bulk-merge-prs/bulk-merge-prs'
 import { GrantPermissionButton } from '@/components/github/root/grant-permission-button/grant-permission-button'
 import { SignButton } from '@/components/github/root/sign-button/sign-button'
 

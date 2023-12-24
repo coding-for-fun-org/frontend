@@ -10,7 +10,7 @@ import {
   TooltipTrigger
 } from '@/elements/root/tooltip/tooltip'
 
-import { useDictionary } from '@/contexts/root/DictionaryProvider'
+import { useDictionary } from '@/contexts/root/dictionary-provider'
 
 export const LinkGithubIconButton = () => {
   const { dictionary } = useDictionary()

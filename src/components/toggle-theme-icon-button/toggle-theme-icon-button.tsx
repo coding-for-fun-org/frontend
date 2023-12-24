@@ -9,8 +9,8 @@ import {
   TooltipTrigger
 } from '@/elements/root/tooltip/tooltip'
 
-import { useDictionary } from '@/contexts/root/DictionaryProvider'
-import { useTheme, useToggleTheme } from '@/contexts/root/ThemeProvider'
+import { useDictionary } from '@/contexts/root/dictionary-provider'
+import { useTheme, useToggleTheme } from '@/contexts/root/theme-provider'
 
 export const ToggleThemeIconButton = () => {
   const { dictionary } = useDictionary()
