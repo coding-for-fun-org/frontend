@@ -1,3 +1,3 @@
 [submodule "src/app/api"]
 	path = src/app/api
-	url = https://github.com/kafelix496/coding-for-fun-api.git
+	url = https://github.com/coding-for-fun-org/frontend-api.git
