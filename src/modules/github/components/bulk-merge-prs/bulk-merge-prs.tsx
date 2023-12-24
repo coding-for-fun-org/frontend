@@ -5,7 +5,7 @@ import { type FC, useEffect, useState } from 'react'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 
-import { usePrsGroup } from '@/hooks/github/root/use-prs-group/use-prs-group'
+import { usePrsGroup } from '@/hooks/github/root/use-prs-group'
 
 import type { TRepoHasCheck } from '@/types/github/root/index'
 

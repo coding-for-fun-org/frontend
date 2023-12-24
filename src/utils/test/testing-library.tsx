@@ -8,7 +8,7 @@ import type { FC, ReactElement, ReactNode } from 'react'
 
 import * as dictionary from '@/dictionaries/root/en.json'
 
-import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { DictionaryProvider } from '@/contexts/root/dictionary-provider'
 
 interface ProvidersProps {
   children: ReactNode

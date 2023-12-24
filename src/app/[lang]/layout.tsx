@@ -7,8 +7,8 @@ import { getDictionary } from '@/dictionaries/root/index'
 
 import { getServerAuthSession } from '@/server/root/auth'
 
-import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
-import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { ClientProvider } from '@/contexts/root/client-provider'
+import { DictionaryProvider } from '@/contexts/root/dictionary-provider'
 
 const inter = Inter({
   subsets: ['latin'],

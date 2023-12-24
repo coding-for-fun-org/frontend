@@ -4,7 +4,7 @@ import { type ChangeEvent, type FC, useState } from 'react'
 import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
-import type { PullReviewResponse } from '@/types/github/root/server/server'
+import type { PullReviewResponse } from '@/types/github/root/server'
 
 interface ICheckedPull {
   org: string
