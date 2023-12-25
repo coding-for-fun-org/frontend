@@ -21,9 +21,7 @@ const Checkbox = forwardRef<
     )}
     {...props}
   >
-    <Indicator
-      className={clsx('flex items-center justify-center text-current')}
-    >
+    <Indicator className="flex items-center justify-center text-current">
       <CheckIcon className="h-4 w-4" />
     </Indicator>
   </Root>

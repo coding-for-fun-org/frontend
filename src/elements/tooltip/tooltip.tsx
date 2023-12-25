@@ -8,7 +8,7 @@ import {
   forwardRef
 } from 'react'
 
-const Tooltip = Root
+const TooltipRoot = Root
 
 const TooltipTrigger = Trigger
 
@@ -28,4 +28,8 @@ const TooltipContent = forwardRef<
 ))
 TooltipContent.displayName = Content.displayName
 
-export { Tooltip, TooltipTrigger, TooltipContent }
+export const Tooltip = {
+  Root: TooltipRoot,
+  Trigger: TooltipTrigger,
+  Content: TooltipContent
+}

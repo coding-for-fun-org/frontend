@@ -3,11 +3,7 @@
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
 import { Button } from '@/elements/root/button/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '@/elements/root/tooltip/tooltip'
+import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider'
 import { useToggleTheme } from '@/contexts/root/theme-provider'
@@ -17,8 +13,8 @@ export const ToggleThemeIconButton = () => {
   const { toggleTheme } = useToggleTheme()
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild>
         <Button
           variant="ghost"
           size="icon"
@@ -41,10 +37,10 @@ export const ToggleThemeIconButton = () => {
             />
           }
         </Button>
-      </TooltipTrigger>
-      <TooltipContent>
+      </Tooltip.Trigger>
+      <Tooltip.Content>
         <span>{dictionary.HEADER.TOGGLE_THEME_TOOLTIP}</span>
-      </TooltipContent>
-    </Tooltip>
+      </Tooltip.Content>
+    </Tooltip.Root>
   )
 }
