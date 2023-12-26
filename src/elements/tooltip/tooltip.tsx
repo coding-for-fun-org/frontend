@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
+  type FC,
+  type ReactNode,
   forwardRef
 } from 'react'
 
@@ -28,8 +30,16 @@ const TooltipContent = forwardRef<
 ))
 TooltipContent.displayName = Content.displayName
 
-export const Tooltip = {
-  Root: TooltipRoot,
-  Trigger: TooltipTrigger,
-  Content: TooltipContent
+interface ITooltipProps {
+  trigger: ReactNode
+  content: ReactNode
+}
+
+export const Tooltip: FC<ITooltipProps> = ({ trigger, content }) => {
+  return (
+    <TooltipRoot>
+      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+      <TooltipContent>{content}</TooltipContent>
+    </TooltipRoot>
+  )
 }

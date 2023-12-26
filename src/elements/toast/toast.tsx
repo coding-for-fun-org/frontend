@@ -12,6 +12,8 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
+  type FC,
+  type ReactNode,
   forwardRef
 } from 'react'
 
@@ -19,7 +21,7 @@ interface IVariantProps {
   variant?: 'primary' | 'secondary' | 'success' | 'info' | 'error'
 }
 
-interface IToastProps
+interface IToastRootProps
   extends ComponentPropsWithoutRef<typeof Root>,
     IVariantProps {}
 
@@ -37,7 +39,7 @@ const ToastViewport = forwardRef<
 ))
 ToastViewport.displayName = Viewport.displayName
 
-const Toast = forwardRef<ElementRef<typeof Root>, IToastProps>(
+const ToastRoot = forwardRef<ElementRef<typeof Root>, IToastRootProps>(
   ({ className, variant, ...props }, ref) => {
     const basicClasses = 'toast'
     const variantClasses: Record<Required<IVariantProps>['variant'], string> = {
@@ -61,7 +63,7 @@ const Toast = forwardRef<ElementRef<typeof Root>, IToastProps>(
     )
   }
 )
-Toast.displayName = Root.displayName
+ToastRoot.displayName = Root.displayName
 
 const ToastAction = forwardRef<
   ElementRef<typeof Action>,
@@ -106,12 +108,36 @@ const ToastDescription = forwardRef<
 ))
 ToastDescription.displayName = Description.displayName
 
-export {
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction
+interface IToastProps {
+  title?: ReactNode
+  description?: ReactNode
+  action?: ReactNode
 }
+
+export const Toast: FC<IToastProps> = ({
+  title,
+  description,
+  action,
+  ...props
+}) => {
+  return (
+    <ToastRoot {...props}>
+      <div className="grid gap-1">
+        {title !== undefined && <ToastTitle>{title}</ToastTitle>}
+        {description !== undefined && (
+          <ToastDescription>{description}</ToastDescription>
+        )}
+      </div>
+      {action !== undefined && (
+        <ToastAction asChild altText="action">
+          {action}
+        </ToastAction>
+      )}
+      <ToastClose />
+    </ToastRoot>
+  )
+}
+
+type TToastRoot = typeof ToastRoot
+
+export { ToastProvider, ToastViewport, type TToastRoot }

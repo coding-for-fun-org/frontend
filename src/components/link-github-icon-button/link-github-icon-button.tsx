@@ -12,8 +12,8 @@ export const LinkGithubIconButton = () => {
   const { dictionary } = useDictionary()
 
   return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
+    <Tooltip
+      trigger={
         <Button asChild variant="ghost" size="icon">
           <Link
             href="https://github.com/kafelix496/coding-for-fun"
@@ -22,10 +22,8 @@ export const LinkGithubIconButton = () => {
             <GitHubLogoIcon width="16" height="16" />
           </Link>
         </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>
-        <span>{dictionary.HEADER.LINK_GITHUB_TOOLTIP}</span>
-      </Tooltip.Content>
-    </Tooltip.Root>
+      }
+      content={<span>{dictionary.HEADER.LINK_GITHUB_TOOLTIP}</span>}
+    />
   )
 }

@@ -15,11 +15,8 @@ import { createIdGenerator } from '@/utils/root/index'
 
 import {
   ToastProvider as RadixToastProvider,
+  type TToastRoot,
   Toast,
-  ToastAction,
-  ToastClose,
-  ToastDescription,
-  ToastTitle,
   ToastViewport
 } from './toast'
 
@@ -29,7 +26,7 @@ enum EToastActionType {
   REMOVE_TOAST = 'REMOVE-TOAST'
 }
 
-type TToastProps = ComponentPropsWithoutRef<typeof Toast>
+type TToastProps = ComponentPropsWithoutRef<TToastRoot>
 
 type TToastId = NonNullable<TToastProps['id']>
 
@@ -37,10 +34,7 @@ type TToasterToast = TToastProps & {
   id: TToastId
   title?: ReactNode
   description?: ReactNode
-  action?: {
-    altText: string
-    node: ReactNode
-  }
+  action?: ReactNode
 }
 
 type TToastState = {
@@ -191,22 +185,15 @@ const Toaster = forwardRef<TUpdateToastContext, object>((_, ref) => {
 
   return (
     <RadixToastProvider swipeThreshold={TOAST_SWIPE_THRESHOLD}>
-      {toasts.map(function ({ id, title, description, children, ...props }) {
+      {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title !== undefined && <ToastTitle>{title}</ToastTitle>}
-              {description !== undefined && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
-            </div>
-            {children !== undefined && (
-              <ToastAction asChild altText="action">
-                {children}
-              </ToastAction>
-            )}
-            <ToastClose />
-          </Toast>
+          <Toast
+            key={id}
+            title={title}
+            description={description}
+            action={action}
+            {...props}
+          />
         )
       })}
       <ToastViewport />

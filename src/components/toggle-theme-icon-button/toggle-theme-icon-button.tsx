@@ -13,8 +13,8 @@ export const ToggleThemeIconButton = () => {
   const { toggleTheme } = useToggleTheme()
 
   return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
+    <Tooltip
+      trigger={
         <Button
           variant="ghost"
           size="icon"
@@ -37,10 +37,8 @@ export const ToggleThemeIconButton = () => {
             />
           }
         </Button>
-      </Tooltip.Trigger>
-      <Tooltip.Content>
-        <span>{dictionary.HEADER.TOGGLE_THEME_TOOLTIP}</span>
-      </Tooltip.Content>
-    </Tooltip.Root>
+      }
+      content={<span>{dictionary.HEADER.TOGGLE_THEME_TOOLTIP}</span>}
+    />
   )
 }
