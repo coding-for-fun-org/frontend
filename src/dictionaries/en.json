@@ -2,6 +2,10 @@
   "COMMOM": {
     "APP_NAME": "Coding For Fun"
   },
+  "DIALOG_BUTTON": {
+    "CANCEL": "Cancel",
+    "CONTINUE": "Continue"
+  },
   "AUTH": {
     "LOADING": "Loading...",
     "SIGN_IN": "Sign In",

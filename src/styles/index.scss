@@ -62,7 +62,10 @@
     @apply border-border;
   }
 
-  #root {
+  body {
     @apply bg-background text-foreground;
   }
 }
+
+@import 'parts/button';
+@import 'parts/toast';

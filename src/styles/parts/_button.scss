@@ -1,0 +1,57 @@
+@layer components {
+  .button {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+
+    &.variant {
+      &--primary {
+        @apply bg-primary text-primary-foreground hover:bg-primary/90;
+      }
+
+      &--secondary {
+        @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+      }
+
+      &--success {
+        @apply bg-success text-success-foreground hover:bg-success/90;
+      }
+
+      &--info {
+        @apply bg-info text-info-foreground hover:bg-info/90;
+      }
+
+      &--error {
+        @apply bg-error text-error-foreground hover:bg-error/90;
+      }
+
+      &--outline {
+        @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+      }
+
+      &--ghost {
+        @apply hover:bg-accent hover:text-accent-foreground;
+      }
+
+      &--link {
+        @apply underline-offset-4 hover:underline;
+      }
+    }
+
+    &.size {
+      &--sm {
+        @apply h-9 rounded-md px-3;
+      }
+
+      &--md {
+        @apply h-10 px-4 py-2;
+      }
+
+      &--lg {
+        @apply h-11 rounded-md px-8;
+      }
+
+      &--icon {
+        @apply h-10 w-10;
+      }
+    }
+  }
+}

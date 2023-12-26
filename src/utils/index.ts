@@ -9,3 +9,5 @@ export const createIdGenerator = (initialNumber?: number) => {
     return nextId
   }
 }
+
+export const isServer = () => typeof window === 'undefined'

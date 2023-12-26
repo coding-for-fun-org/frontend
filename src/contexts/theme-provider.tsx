@@ -1,50 +1,75 @@
 'use client'
 
-import clsx from 'clsx'
 import {
   type FC,
   type ReactNode,
   createContext,
+  memo,
   useContext,
+  useEffect,
   useState
 } from 'react'
 
-const ThemeContext = createContext<boolean>(true)
+import { isServer } from '@/utils/root/index'
+
+import { ELocalStorageKey, ETheme } from '@/types/root/index'
+
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const ToggleThemeContext = createContext<() => void>(() => {})
 
+const ThemeScript = memo(
+  () => (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `!function(){try{var b=document.body,c=b.classList;c.remove('dark');var e=localStorage.getItem('__cff--theme')||'dark';if(e==='dark'){c.add(e);b.style.colorScheme=e}else{b.style.colorScheme='light'}}catch(e){}}()`
+      }}
+    />
+  ),
+  () => true
+)
+
 interface ThemeProviderProps {
   children: ReactNode
-  isDarkMode: boolean
 }
 
-export const ThemeProvider: FC<ThemeProviderProps> = ({
-  children,
-  isDarkMode
-}) => {
-  const [_isDarkMode, setIsDarkMode] = useState<boolean>(isDarkMode)
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
+  const [_isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return !isServer()
+      ? ((localStorage.getItem(ELocalStorageKey.THEME) as ETheme | null) ??
+          ETheme.DARK) === ETheme.DARK
+      : false
+  })
 
   const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev)
+    setIsDarkMode((prev) => {
+      localStorage.setItem(
+        ELocalStorageKey.THEME,
+        !prev ? ETheme.DARK : ETheme.LIGHT
+      )
+
+      return !prev
+    })
   }
 
+  useEffect(() => {
+    const documentBody = document.body
+
+    if (_isDarkMode) {
+      documentBody.classList.add('dark')
+      documentBody.style.colorScheme = 'dark'
+    } else {
+      documentBody.classList.remove('dark')
+      documentBody.style.colorScheme = 'light'
+    }
+  }, [_isDarkMode])
+
   return (
-    <ThemeContext.Provider value={_isDarkMode}>
-      <ToggleThemeContext.Provider value={toggleTheme}>
-        <div
-          id="root"
-          className={clsx('relative min-h-screen', { dark: _isDarkMode })}
-        >
-          {children}
-        </div>
-      </ToggleThemeContext.Provider>
-    </ThemeContext.Provider>
+    <ToggleThemeContext.Provider value={toggleTheme}>
+      <ThemeScript />
+      <div className="relative min-h-screen">{children}</div>
+    </ToggleThemeContext.Provider>
   )
 }
-
-export const useTheme = () => ({
-  isDarkMode: useContext(ThemeContext)
-})
 
 export const useToggleTheme = () => ({
   toggleTheme: useContext(ToggleThemeContext)
