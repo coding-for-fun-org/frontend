@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import { type TextareaHTMLAttributes, forwardRef } from 'react'
 
-type TTextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement>
+type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement>
 
-const Textarea = forwardRef<HTMLTextAreaElement, TTextareaProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {
     return (
       <textarea
