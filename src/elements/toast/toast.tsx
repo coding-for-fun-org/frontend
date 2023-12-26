@@ -39,7 +39,7 @@ ToastViewport.displayName = Viewport.displayName
 
 const Toast = forwardRef<ElementRef<typeof Root>, IToastProps>(
   ({ className, variant, ...props }, ref) => {
-    const basicClasses = 'toast group'
+    const basicClasses = 'toast'
     const variantClasses: Record<Required<IVariantProps>['variant'], string> = {
       primary: 'variant--primary',
       secondary: 'variant--secondary',
