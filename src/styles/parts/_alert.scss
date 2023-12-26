@@ -1,0 +1,31 @@
+@layer components {
+  .alert {
+    @apply relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7;
+
+    &.variant {
+      &--primary {
+        @apply bg-background text-foreground;
+      }
+
+      &--success {
+        @apply border-success/50 text-success dark:border-success [&>svg]:text-success;
+      }
+
+      &--info {
+        @apply border-info/50 text-info dark:border-info [&>svg]:text-info;
+      }
+
+      &--error {
+        @apply border-error/50 text-error dark:border-error [&>svg]:text-error;
+      }
+    }
+
+    .alert__title {
+      @apply mb-1 font-medium leading-none tracking-tight;
+    }
+
+    .alert__description {
+      @apply text-sm [&_p]:leading-relaxed;
+    }
+  }
+}
