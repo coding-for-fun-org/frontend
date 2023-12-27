@@ -64,6 +64,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60 * 24 * 30
   },
   adapter: PrismaAdapter(db),
+  pages: {},
   providers: [
     /**
      * Refer to the NextAuth.js docs for the provider you want to use. Example:

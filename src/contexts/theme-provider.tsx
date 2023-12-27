@@ -66,7 +66,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   return (
     <ToggleThemeContext.Provider value={toggleTheme}>
       <ThemeScript />
-      <div className="relative min-h-screen">{children}</div>
+      {children}
     </ToggleThemeContext.Provider>
   )
 }
