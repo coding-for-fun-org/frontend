@@ -8,6 +8,8 @@ import { getDictionary } from '@/dictionaries/root/index'
 
 import { getServerAuthSession } from '@/server/root/auth'
 
+import { Header } from '@/components/root/header/header'
+
 import { ClientProvider } from '@/contexts/root/client-provider'
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider'
 import { ThemeProvider } from '@/contexts/root/theme-provider'
@@ -47,7 +49,7 @@ export default async function Layout({
   return (
     <html lang={params.lang}>
       <body
-        className={`min-h-screen font-sans ${inter.variable}`}
+        className={`flex flex-col min-h-screen font-sans ${inter.variable}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
         // this is not an ideal solution, but it works for now
         suppressHydrationWarning
@@ -55,7 +57,9 @@ export default async function Layout({
         <ThemeProvider>
           <ClientProvider session={session}>
             <DictionaryProvider dictionary={dictionary}>
-              {children}
+              <Header />
+
+              <main className="container flex-grow">{children}</main>
             </DictionaryProvider>
           </ClientProvider>
         </ThemeProvider>
