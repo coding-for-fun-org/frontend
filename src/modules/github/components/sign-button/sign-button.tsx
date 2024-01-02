@@ -1,41 +1,42 @@
 'use client'
 
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { type FC } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import type { FC } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider'
 
-import { ESessionStatus } from '@/types/root/index'
+import type {
+  TCsrfTokenResponse,
+  TSignInResponse
+} from '@/types/github/root/server'
 
 export const SignButton: FC = () => {
-  const { status } = useSession()
+  const router = useRouter()
   const { dictionary } = useDictionary()
-
-  if (status === ESessionStatus.LOADING) {
-    return <div>{dictionary.AUTH.LOADING}</div>
+  const signIn = async () => {
+    axios
+      .get<TCsrfTokenResponse>('/api/auth/csrf')
+      .then((response) => response.data)
+      .then(({ csrfToken }) =>
+        axios.get<TSignInResponse>(
+          '/api/auth/signin/github?csrf_token=' + csrfToken
+        )
+      )
+      .then((response) => response.data)
+      .then(({ url }) => {
+        router.push(url)
+      })
+      .catch(console.error)
   }
 
-  if (status === ESessionStatus.AUTHENTICATED) {
-    return (
-      <Button
-        type="button"
-        onClick={() => {
-          signOut({ callbackUrl: '/github' }).catch(console.error)
-        }}
-      >
-        {dictionary.AUTH.SIGN_OUT}
-      </Button>
-    )
-  }
-
-  // status === ESessionStatus.UNAUTHENTICATED
   return (
     <Button
       type="button"
       onClick={() => {
-        signIn('github', { callbackUrl: '/github' }).catch(console.error)
+        signIn().catch(console.error)
       }}
     >
       {dictionary.AUTH.SIGN_IN}

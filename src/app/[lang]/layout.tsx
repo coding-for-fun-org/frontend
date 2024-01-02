@@ -6,8 +6,6 @@ import '@/styles/root/index.scss'
 
 import { getDictionary } from '@/dictionaries/root/index'
 
-import { getServerAuthSession } from '@/server/root/auth'
-
 import { Header } from '@/components/root/header/header'
 
 import { ClientProvider } from '@/contexts/root/client-provider'
@@ -43,7 +41,7 @@ export default async function Layout({
   children: ReactNode
   params: { lang: 'en' }
 }) {
-  const session = await getServerAuthSession()
+  // const session = await getServerAuthSession()
   const dictionary = await getDictionary(params.lang)
 
   return (
@@ -55,7 +53,7 @@ export default async function Layout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <ClientProvider session={session}>
+          <ClientProvider>
             <DictionaryProvider dictionary={dictionary}>
               <Header />
 

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
+import { ELocalStorageKey } from '@/types/root/index'
+
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 import type {
   InstallationRepositoriesResponse,
@@ -13,14 +15,27 @@ export const usePrsGroup = () => {
 
   useEffect(() => {
     axios
-      .get<UserInstallationsResponse>('/api/github/user/installations')
+      .get<UserInstallationsResponse>('/api/github/user/installations', {
+        headers: {
+          Authorization: localStorage.getItem(
+            ELocalStorageKey.AUTH_ACCESS_TOKEN
+          )
+        }
+      })
       .then((response) => response.data)
       .then(({ installations }) =>
         Promise.all(
           installations.map((installation) =>
             axios
               .get<InstallationRepositoriesResponse>(
-                `/api/github/user/installations/${installation.id}/repositories`
+                `/api/github/user/installations/${installation.id}/repositories`,
+                {
+                  headers: {
+                    Authorization: localStorage.getItem(
+                      ELocalStorageKey.AUTH_ACCESS_TOKEN
+                    )
+                  }
+                }
               )
               .then((response) => response.data)
               .then(({ repositories }) => repositories)
@@ -34,7 +49,14 @@ export const usePrsGroup = () => {
               repos.map((repo) =>
                 axios
                   .get<RepoPullsResponse>(
-                    `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`
+                    `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`,
+                    {
+                      headers: {
+                        Authorization: localStorage.getItem(
+                          ELocalStorageKey.AUTH_ACCESS_TOKEN
+                        )
+                      }
+                    }
                   )
                   .then((response) => response.data)
                   .then((response) => ({

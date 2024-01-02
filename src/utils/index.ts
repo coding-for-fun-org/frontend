@@ -11,3 +11,25 @@ export const createIdGenerator = (initialNumber?: number) => {
 }
 
 export const isServer = () => typeof window === 'undefined'
+
+// Web compatible method to create a hash, using SHA256
+export const createHash = async (message: string): Promise<string> => {
+  const data = new TextEncoder().encode(message)
+  const hash = await crypto.subtle.digest('SHA-256', data)
+
+  return Array.from(new Uint8Array(hash))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('')
+    .toString()
+}
+
+// Web compatible method to create a random string of a given length
+export const createRandomString = (size: number): string => {
+  const byte2hex = (byte: number) => ('0' + byte.toString(16)).slice(-2)
+  const bytes = crypto.getRandomValues(new Uint8Array(size))
+
+  return Array.from(bytes).reduce<string>(
+    (accumulator, byte) => accumulator + byte2hex(byte),
+    ''
+  )
+}

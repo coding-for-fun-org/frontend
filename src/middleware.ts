@@ -15,7 +15,8 @@ export function middleware(request: NextRequest) {
   if (
     pathnameHasLocale ||
     PUBLIC_FILE.test(request.nextUrl.pathname) ||
-    request.nextUrl.pathname.includes('/api/')
+    request.nextUrl.pathname.startsWith('/api') ||
+    request.nextUrl.pathname.startsWith('/callback/auth')
   ) {
     return
   }

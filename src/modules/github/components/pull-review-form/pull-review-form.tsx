@@ -3,6 +3,8 @@ import { type ChangeEvent, type FC, useState } from 'react'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
 
+import { ELocalStorageKey } from '@/types/root/index'
+
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
 
@@ -66,6 +68,13 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         {
           event,
           body
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem(
+              ELocalStorageKey.AUTH_ACCESS_TOKEN
+            )
+          }
         }
       )
       .then((response) => response.data)
