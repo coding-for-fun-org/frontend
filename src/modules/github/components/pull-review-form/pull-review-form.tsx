@@ -72,7 +72,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         {
           headers: {
             Authorization: localStorage.getItem(
-              ELocalStorageKey.AUTH_ACCESS_TOKEN
+              ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
             )
           }
         }

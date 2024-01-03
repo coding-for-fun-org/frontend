@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { provider: EProviders } }) {
           .then((response) => response.data)
           .then(({ accessToken }) => {
             localStorage.setItem(
-              ELocalStorageKey.AUTH_ACCESS_TOKEN,
+              ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN,
               accessToken
             )
 

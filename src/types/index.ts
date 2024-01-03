@@ -10,15 +10,22 @@ export enum ESessionStatus {
 
 const USER_STORE_PREFIX = '__cff-'
 
+export enum EIsoLanguageCode {
+  ENGLISH = 'en'
+  // KOREAN = 'ko',
+  // SPANISH = 'es'
+}
+
 export enum ECookieKey {
   AUTH_CSRF_TOKEN = `${USER_STORE_PREFIX}-csrf-token`,
-  AUTH_REFRESH_TOKEN = `${USER_STORE_PREFIX}-refresh-token`,
-  AUTH_PROVIDER = `${USER_STORE_PREFIX}-provider`
+  AUTH_GITHUB_REFRESH_TOKEN = `${USER_STORE_PREFIX}-refresh-token`,
+  AUTH_PROVIDER = `${USER_STORE_PREFIX}-provider`,
+  ISO_LANGUAGE_CODE = `${USER_STORE_PREFIX}-iso-language-code`
 }
 
 export enum ELocalStorageKey {
   THEME = `${USER_STORE_PREFIX}-theme`,
-  AUTH_ACCESS_TOKEN = `${USER_STORE_PREFIX}-access-token`
+  AUTH_GITHUB_ACCESS_TOKEN = `${USER_STORE_PREFIX}-access-token`
 }
 
 export enum ETheme {

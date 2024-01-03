@@ -18,7 +18,7 @@ export const usePrsGroup = () => {
       .get<UserInstallationsResponse>('/api/github/user/installations', {
         headers: {
           Authorization: localStorage.getItem(
-            ELocalStorageKey.AUTH_ACCESS_TOKEN
+            ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
           )
         }
       })
@@ -32,7 +32,7 @@ export const usePrsGroup = () => {
                 {
                   headers: {
                     Authorization: localStorage.getItem(
-                      ELocalStorageKey.AUTH_ACCESS_TOKEN
+                      ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
                     )
                   }
                 }
@@ -53,7 +53,7 @@ export const usePrsGroup = () => {
                     {
                       headers: {
                         Authorization: localStorage.getItem(
-                          ELocalStorageKey.AUTH_ACCESS_TOKEN
+                          ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
                         )
                       }
                     }

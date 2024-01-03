@@ -8,8 +8,11 @@ import { Button } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider'
 
+import { ELocalStorageKey } from '@/types/root/index'
+
 import type {
   TCsrfTokenResponse,
+  TRefreshTokenResponse,
   TSignInResponse
 } from '@/types/github/root/server'
 
@@ -30,6 +33,38 @@ export const SignButton: FC = () => {
         router.push(url)
       })
       .catch(console.error)
+  }
+
+  // Temporary solution to show different text for sign in and sign out
+  const accessToken = localStorage.getItem(
+    ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
+  )
+  const refresh = () => {
+    axios
+      .get<TRefreshTokenResponse>('/api/auth/refresh_token/github')
+      .then((response) => response.data)
+      .then(({ accessToken }) => {
+        localStorage.setItem(
+          ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN,
+          accessToken
+        )
+
+        location.reload()
+      })
+      .catch(console.error)
+  }
+
+  if (accessToken) {
+    return (
+      <Button
+        type="button"
+        onClick={() => {
+          refresh()
+        }}
+      >
+        {'Refresh'}
+      </Button>
+    )
   }
 
   return (

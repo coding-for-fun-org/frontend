@@ -12,14 +12,12 @@ import { ClientProvider } from '@/contexts/root/client-provider'
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider'
 import { ThemeProvider } from '@/contexts/root/theme-provider'
 
+import { getLanguage } from '@/utils/root/language'
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans'
 })
-
-export async function generateStaticParams() {
-  return [{ lang: 'en' }]
-}
 
 export const metadata = {
   title: 'Coding For Fun',
@@ -34,18 +32,12 @@ export const viewport: Viewport = {
   ]
 }
 
-export default async function Layout({
-  children,
-  params
-}: {
-  children: ReactNode
-  params: { lang: 'en' }
-}) {
-  // const session = await getServerAuthSession()
-  const dictionary = await getDictionary(params.lang)
+export default async function Layout({ children }: { children: ReactNode }) {
+  const lang = getLanguage()
+  const dictionary = await getDictionary(lang)
 
   return (
-    <html lang={params.lang}>
+    <html lang={lang}>
       <body
         className={`flex flex-col min-h-screen font-sans ${inter.variable}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
