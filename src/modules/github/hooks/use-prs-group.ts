@@ -1,7 +1,8 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import { ELocalStorageKey } from '@/types/root/index'
+
+import { axiosGithub } from '@/utils/github/root/axios'
 
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 import type {
@@ -14,28 +15,15 @@ export const usePrsGroup = () => {
   const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
-    axios
-      .get<UserInstallationsResponse>('/api/github/user/installations', {
-        headers: {
-          Authorization: localStorage.getItem(
-            ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-          )
-        }
-      })
+    axiosGithub
+      .get<UserInstallationsResponse>('/api/github/user/installations')
       .then((response) => response.data)
       .then(({ installations }) =>
         Promise.all(
           installations.map((installation) =>
-            axios
+            axiosGithub
               .get<InstallationRepositoriesResponse>(
-                `/api/github/user/installations/${installation.id}/repositories`,
-                {
-                  headers: {
-                    Authorization: localStorage.getItem(
-                      ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-                    )
-                  }
-                }
+                `/api/github/user/installations/${installation.id}/repositories`
               )
               .then((response) => response.data)
               .then(({ repositories }) => repositories)
@@ -47,16 +35,9 @@ export const usePrsGroup = () => {
           .then((repos) =>
             Promise.all(
               repos.map((repo) =>
-                axios
+                axiosGithub
                   .get<RepoPullsResponse>(
-                    `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`,
-                    {
-                      headers: {
-                        Authorization: localStorage.getItem(
-                          ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-                        )
-                      }
-                    }
+                    `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`
                   )
                   .then((response) => response.data)
                   .then((response) => ({

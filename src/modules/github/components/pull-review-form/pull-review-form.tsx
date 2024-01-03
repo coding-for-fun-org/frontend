@@ -1,9 +1,10 @@
-import axios from 'axios'
 import { type ChangeEvent, type FC, useState } from 'react'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { ELocalStorageKey } from '@/types/root/index'
+
+import { axiosGithub } from '@/utils/github/root/axios'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
@@ -62,19 +63,12 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     event: EPullRequestType,
     body: string
   ) => {
-    axios
+    axiosGithub
       .post<PullReviewResponse>(
         `/api/github/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
         {
           event,
           body
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem(
-              ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-            )
-          }
         }
       )
       .then((response) => response.data)
