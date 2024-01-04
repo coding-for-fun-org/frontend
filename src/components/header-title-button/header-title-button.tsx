@@ -12,7 +12,7 @@ export const HeaderTitleButton: FC = () => {
 
   return (
     <Button asChild variant="link" className="font-bold hover:no-underline">
-      <Link href="/">{dictionary.COMMOM.APP_NAME}</Link>
+      <Link href="/">{dictionary.COMMON.APP_NAME}</Link>
     </Button>
   )
 }

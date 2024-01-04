@@ -2,6 +2,8 @@ import { type ChangeEvent, type FC, useState } from 'react'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
 
+import { useDictionary } from '@/contexts/root/dictionary-provider'
+
 import { ELocalStorageKey } from '@/types/root/index'
 
 import { axiosGithub } from '@/utils/github/root/axios'
@@ -12,6 +14,7 @@ import type { PullReviewResponse } from '@/types/github/root/server'
 interface ICheckedPull {
   org: string
   repo: string
+  pullTitle: string
   pullNumber: number
 }
 
@@ -30,6 +33,7 @@ const getCheckedPullsInfo = (
         checkedPulls.map((pull) => ({
           org: repoHasCheck.org,
           repo: repoHasCheck.repo,
+          pullTitle: pull.title,
           pullNumber: pull.number
         }))
       )
@@ -46,12 +50,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
+  const { pushToast } = useToast()
+  const { dictionary } = useDictionary()
+  const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
   )
 
-  const { pushToast } = useToast()
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCommentInput(event.target.value)
   }
@@ -59,6 +65,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   const reviewPullRequest = (
     owner: string,
     repo: string,
+    pullTitle: string,
     pullNumber: number,
     event: EPullRequestType,
     body: string
@@ -73,16 +80,42 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       )
       .then((response) => response.data)
       .then(() => {
+        const translatedRepo = translate(
+          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO',
+          { repoName: repo }
+        )
+        const translatedPullTitle = translate(
+          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
+          { pullTitle: pullTitle }
+        )
         pushToast({
-          title: `[SUCCESS] repository: ${repo} (${pullNumber})`,
-          description: `${event}: ${body}`,
+          title: `[${dictionary.TOAST.SUCCESS.PULL_REVIEW_SUBMIT_TITLE}]`,
+          description: (
+            <div>
+              <div>{translatedRepo}</div>
+              <div>{translatedPullTitle}</div>
+            </div>
+          ),
           variant: 'success'
         })
       })
       .catch(() => {
+        const translatedRepo = translate(
+          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO',
+          { repoName: repo }
+        )
+        const translatedPullTitle = translate(
+          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
+          { pullTitle: pullTitle }
+        )
         pushToast({
-          title: `[ERROR] repository: ${repo} (${pullNumber})`,
-          description: `${event}: ${body}`,
+          title: `[${dictionary.TOAST.ERROR.PULL_REVIEW_SUBMIT_TITLE}]`,
+          description: (
+            <div>
+              <div>{translatedRepo}</div>
+              <div>{translatedPullTitle}</div>
+            </div>
+          ),
           variant: 'error'
         })
       })
@@ -95,6 +128,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       reviewPullRequest(
         checkedPull.org,
         checkedPull.repo,
+        checkedPull.pullTitle,
         checkedPull.pullNumber,
         EPullRequestType.COMMENT,
         commentInput
@@ -109,6 +143,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       reviewPullRequest(
         checkedPull.org,
         checkedPull.repo,
+        checkedPull.pullTitle,
         checkedPull.pullNumber,
         EPullRequestType.APPROVE,
         commentInput
@@ -123,6 +158,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       reviewPullRequest(
         checkedPull.org,
         checkedPull.repo,
+        checkedPull.pullTitle,
         checkedPull.pullNumber,
         EPullRequestType.REQUEST_CHANGES,
         commentInput
