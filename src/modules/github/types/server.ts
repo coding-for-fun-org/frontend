@@ -1,5 +1,20 @@
 import type { Endpoints } from '@octokit/types'
 
+export enum EProviders {
+  CREDENTIALS = 'credentials',
+  GITHUB = 'github'
+}
+
+export type TSignInResponse = { url: string }
+
+export type TCsrfTokenResponse = { csrfToken: string }
+
+export type TAccessTokenResponse = { accessToken: string }
+
+export type TRefreshTokenResponse = { accessToken: string }
+
+export type UserResponse = Endpoints['GET /user']['response']['data']
+
 export type UserInstallationsResponse =
   Endpoints['GET /user/installations']['response']['data']
 

@@ -1,5 +1,8 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+
+import { ELocalStorageKey } from '@/types/root/index'
+
+import { axiosGithub } from '@/utils/github/root/axios'
 
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 import type {
@@ -12,13 +15,13 @@ export const usePrsGroup = () => {
   const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
-    axios
+    axiosGithub
       .get<UserInstallationsResponse>('/api/github/user/installations')
       .then((response) => response.data)
       .then(({ installations }) =>
         Promise.all(
           installations.map((installation) =>
-            axios
+            axiosGithub
               .get<InstallationRepositoriesResponse>(
                 `/api/github/user/installations/${installation.id}/repositories`
               )
@@ -32,7 +35,7 @@ export const usePrsGroup = () => {
           .then((repos) =>
             Promise.all(
               repos.map((repo) =>
-                axios
+                axiosGithub
                   .get<RepoPullsResponse>(
                     `/api/github/repos/${repo.owner.login}/${repo.name}/pulls`
                   )

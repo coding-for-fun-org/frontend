@@ -1,30 +1,22 @@
-import { type NextRequest, NextResponse } from 'next/server'
+import { type NextRequest } from 'next/server'
 
 const PUBLIC_FILE = /\.(.*)$/
 
-const locales = ['en']
-const defaultLocale = 'en'
-
 export function middleware(request: NextRequest) {
-  // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
 
   if (
-    pathnameHasLocale ||
-    PUBLIC_FILE.test(request.nextUrl.pathname) ||
-    request.nextUrl.pathname.includes('/api/')
+    // ignore some of the cases
+    // 1. if the pathname is a public file
+    // 2. if the pathname starts with /api
+    PUBLIC_FILE.test(pathname) ||
+    pathname.startsWith('/api')
   ) {
     return
   }
 
-  // Redirect if there is no locale
-  request.nextUrl.pathname = `/${defaultLocale}${pathname}`
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
-  return NextResponse.redirect(request.nextUrl)
+  // do something here
+  return
 }
 
 export const config = {

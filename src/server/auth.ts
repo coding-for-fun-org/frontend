@@ -1,91 +1,34 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { type NextAuthOptions, getServerSession } from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
+import { cookies } from 'next/headers'
 
-import { db } from '@/server/root/db'
+import { createHash } from '@/utils/root/index'
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
-export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        name: token.name,
-        email: token.email,
-        image: token.image
-      },
-      token: {
-        provider: token.provider,
-        accessToken: token.accessToken,
-        refreshToken: token.refreshToken
-      }
-    }),
-    async jwt({ token, user, account }) {
-      // user & account is not undefined only after sign in
-      if (!(user && account)) {
-        return token
-      }
+import { ECookieKey } from '@/types/root/index'
 
-      switch (account.provider) {
-        case 'github': {
-          return {
-            provider: account.provider,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            accessToken: account.access_token,
-            accessTokenExpires: account.expires_at,
-            refreshToken: account.refresh_token
-          }
-        }
+export const validateCsrfToken = async (
+  csrfToken: string
+): Promise<{ isValid: boolean; hash: string | undefined }> => {
+  try {
+    const csrfCookie = cookies().get(ECookieKey.AUTH_CSRF_TOKEN)
 
-        default: {
-          return {
-            provider: '',
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            accessToken: '',
-            accessTokenExpires: -1,
-            refreshToken: ''
-          }
-        }
-      }
+    if (!csrfCookie) {
+      return { isValid: false, hash: undefined }
     }
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: 'jwt',
-    // 60 seconds * 60 minutes * 24 hours * 30 days
-    maxAge: 60 * 60 * 24 * 30
-  },
-  adapter: PrismaAdapter(db),
-  pages: {},
-  providers: [
-    /**
-     * Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers
-     */
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      authorization: {
-        params: {
-          scope: ''
-        }
-      }
-    })
-  ]
-}
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
-export const getServerAuthSession = () => getServerSession(authOptions)
+    const [cookieCsrfToken, cookieCsrfTokenHash] = csrfCookie.value.split('|')
+    const expectedCookieCsrfTokenHash = await createHash(
+      `${cookieCsrfToken}${process.env.AUTH_SECRET}`
+    )
+
+    if (cookieCsrfTokenHash !== expectedCookieCsrfTokenHash) {
+      return { isValid: false, hash: undefined }
+    }
+
+    if (cookieCsrfToken !== csrfToken) {
+      return { isValid: false, hash: undefined }
+    }
+
+    return { isValid: true, hash: cookieCsrfTokenHash }
+  } catch (_) {
+    return { isValid: false, hash: undefined }
+  }
+}
