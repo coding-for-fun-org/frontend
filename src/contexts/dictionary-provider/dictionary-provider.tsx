@@ -4,16 +4,15 @@ import { type FC, type ReactNode, createContext, useContext } from 'react'
 
 import type { TDictionary } from '@/types/root/index'
 
+import type { TTranslateParams } from './types'
+import { findTargetDictionaryValue, replaceDynamicText } from './utils'
+
 // @ts-expect-error - no need to initialize real dictionary
 const DictionaryContext = createContext<TDictionary>({})
 
 interface DictionaryProviderProps {
   children: ReactNode
   dictionary: TDictionary
-}
-
-interface ITranslateParams {
-  repoName: string
 }
 
 export const DictionaryProvider: FC<DictionaryProviderProps> = ({
@@ -29,23 +28,16 @@ export const DictionaryProvider: FC<DictionaryProviderProps> = ({
 
 export const useDictionary = () => {
   const dictionary = useContext(DictionaryContext)
-  const translate = (key: string, params: ITranslateParams) => {
-    const keys = key.split('.')
-    let result =
-      keys.reduce((acc, k) => {
-        if (!acc) {
-          return ''
-        }
-        return acc[k]
-      }, dictionary) || ''
+  const translate = (key: string, params?: TTranslateParams) => {
+    const targetDictionaryValue = findTargetDictionaryValue(key, dictionary)
 
-    if (params) {
-      result = Object.keys(params).reduce((acc, paramKey) => {
-        const placeholder = `{${paramKey}}`
-        return acc.replace(new RegExp(placeholder, 'g'), params[paramKey])
-      }, result)
+    if (targetDictionaryValue === undefined) {
+      return undefined
     }
-    return result
+
+    return params
+      ? replaceDynamicText(params, targetDictionaryValue)
+      : targetDictionaryValue
   }
 
   return {
