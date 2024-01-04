@@ -4,41 +4,12 @@ import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { getCheckedPullsInfo } from '@/components/github/root/pull-review-form/utils'
+
 import { axiosGithub } from '@/utils/github/root/axios'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
-
-interface ICheckedPull {
-  org: string
-  repo: string
-  pullTitle: string
-  pullNumber: number
-}
-
-const getCheckedPullsInfo = (
-  repoHasCheckArray: TRepoHasCheck[]
-): ICheckedPull[] => {
-  return repoHasCheckArray.reduce<ICheckedPull[]>(
-    (reviewPullRequests, repoHasCheck) => {
-      const checkedPulls = repoHasCheck.pulls.filter((pull) => pull.isChecked)
-
-      if (checkedPulls.length === 0) {
-        return reviewPullRequests
-      }
-
-      return reviewPullRequests.concat(
-        checkedPulls.map((pull) => ({
-          org: repoHasCheck.org,
-          repo: repoHasCheck.repo,
-          pullTitle: pull.title,
-          pullNumber: pull.number
-        }))
-      )
-    },
-    []
-  )
-}
 
 interface PullReviewFormProps {
   repoHasCheckArray: TRepoHasCheck[]
