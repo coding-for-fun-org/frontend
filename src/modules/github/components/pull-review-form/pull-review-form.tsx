@@ -2,7 +2,7 @@ import { type ChangeEvent, type FC, useState } from 'react'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
 
-import { useDictionary } from '@/contexts/root/dictionary-provider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { ELocalStorageKey } from '@/types/root/index'
 

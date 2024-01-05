@@ -8,9 +8,9 @@ import { getDictionary } from '@/dictionaries/root/index'
 
 import { Header } from '@/components/root/header/header'
 
-import { ClientProvider } from '@/contexts/root/client-provider'
-import { DictionaryProvider } from '@/contexts/root/dictionary-provider'
-import { ThemeProvider } from '@/contexts/root/theme-provider'
+import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
+import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { ThemeProvider } from '@/contexts/root/theme-provider/theme-provider'
 
 import { getLanguage } from '@/utils/root/language'
 

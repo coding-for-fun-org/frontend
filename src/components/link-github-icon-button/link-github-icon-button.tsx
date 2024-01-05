@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/elements/root/button/button'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
-import { useDictionary } from '@/contexts/root/dictionary-provider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 export const LinkGithubIconButton = () => {
   const { dictionary } = useDictionary()
