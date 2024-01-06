@@ -51,8 +51,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
   const { pushToast } = useToast()
-  const { dictionary } = useDictionary()
-  const { translate } = useDictionary()
+  const { dictionary, translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
