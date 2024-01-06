@@ -4,8 +4,6 @@ import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { ELocalStorageKey } from '@/types/root/index'
-
 import { axiosGithub } from '@/utils/github/root/axios'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
