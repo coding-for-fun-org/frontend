@@ -1,5 +1,5 @@
 {
-  "COMMOM": {
+  "COMMON": {
     "APP_NAME": "Coding For Fun"
   },
   "DIALOG_BUTTON": {
@@ -14,5 +14,17 @@
   "HEADER": {
     "LINK_GITHUB_TOOLTIP": "View source code on GitHub",
     "TOGGLE_THEME_TOOLTIP": "Toggle theme"
+  },
+  "TOAST": {
+    "SUCCESS": {
+      "PULL_REVIEW_SUBMIT_TITLE": "Success"
+    },
+    "ERROR": {
+      "PULL_REVIEW_SUBMIT_TITLE": "Error"
+    },
+    "COMMON": {
+      "PULL_REVIEW_SUBMIT_DESCRIPTION_REPO": "- Repository Name: {repoName}",
+      "PULL_REVIEW_SUBMIT_DESCRIPTION_PULL": "- Pull Request Title: {pullTitle}"
+    }
   }
 }

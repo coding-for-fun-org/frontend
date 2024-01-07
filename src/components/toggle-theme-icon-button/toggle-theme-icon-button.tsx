@@ -5,8 +5,8 @@ import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { Button } from '@/elements/root/button/button'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
-import { useDictionary } from '@/contexts/root/dictionary-provider'
-import { useToggleTheme } from '@/contexts/root/theme-provider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { useToggleTheme } from '@/contexts/root/theme-provider/theme-provider'
 
 export const ToggleThemeIconButton = () => {
   const { dictionary } = useDictionary()

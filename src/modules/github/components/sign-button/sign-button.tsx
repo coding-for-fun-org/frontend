@@ -6,7 +6,7 @@ import type { FC } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
-import { useDictionary } from '@/contexts/root/dictionary-provider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { ELocalStorageKey } from '@/types/root/index'
 

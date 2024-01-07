@@ -21,7 +21,7 @@ import {
   forwardRef
 } from 'react'
 
-import { useDictionary } from '@/contexts/root/dictionary-provider'
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 const AlertDialogRoot = Root
 
