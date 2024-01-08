@@ -6,7 +6,7 @@ import { ToggleThemeIconButton } from '@/components/root/toggle-theme-icon-butto
 
 export const Header: FC = () => {
   return (
-    <header className="sticky top-0 left-0 z-20 w-full border-b select-none shadow transition-colors ">
+    <header className="sticky top-0 left-0 z-20 w-full border-b select-none shadow transition-colors bg-background">
       <div className="container h-14 flex items-center">
         <div className="flex flex-1 items-center space-x-2">
           <HeaderTitleButton />

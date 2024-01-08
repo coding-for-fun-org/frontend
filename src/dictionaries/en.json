@@ -1,4 +1,9 @@
 {
+  "ROOT_PAGE": {
+    "APP_DESCRIPTION": "This is my personal playground for coding and learning.",
+    "PLAYGROUND_LIST_TITLE": "Playground",
+    "PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW": "GitHub Bulk Pull Request Reviewer"
+  },
   "COMMON": {
     "APP_NAME": "Coding For Fun"
   },
