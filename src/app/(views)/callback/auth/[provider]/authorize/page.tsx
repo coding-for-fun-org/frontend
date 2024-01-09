@@ -1,15 +1,16 @@
 'use client'
 
-import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
+import { CallbackLoading } from '@/components/root/callback-loading/callback-loading'
+
+import { authService } from '@/services/root/auth'
+import { urlService } from '@/services/root/url'
+
 import { ELocalStorageKey } from '@/types/root/index'
 
-import {
-  EProviders,
-  type TAccessTokenResponse
-} from '@/types/github/root/server'
+import { EProviders } from '@/types/github/root/server'
 
 export default function Page({ params }: { params: { provider: EProviders } }) {
   const { provider } = params
@@ -20,20 +21,20 @@ export default function Page({ params }: { params: { provider: EProviders } }) {
     switch (provider) {
       case EProviders.GITHUB: {
         const code = searchParams.get('code')
-        const previousUrl = searchParams.get('previous_url')
 
-        axios
-          .get<TAccessTokenResponse>(
-            `/api/auth/access_token/${provider}?code=${code}`
-          )
-          .then((response) => response.data)
+        if (!code) {
+          break
+        }
+
+        authService
+          .issueAccessToken(EProviders.GITHUB, { code })
           .then(({ accessToken }) => {
             localStorage.setItem(
               ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN,
               accessToken
             )
 
-            router.push(previousUrl ?? '/github')
+            router.push(urlService.github.bulkReviews())
           })
           .catch(console.error)
 
@@ -42,5 +43,9 @@ export default function Page({ params }: { params: { provider: EProviders } }) {
     }
   }, [])
 
-  return <div>loading...</div>
+  return (
+    <div className="w-full h-full flex justify-center items-center">
+      <CallbackLoading />
+    </div>
+  )
 }

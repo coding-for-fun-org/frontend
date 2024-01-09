@@ -4,12 +4,11 @@ import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { githubService } from '@/services/root/github'
+
 import { getCheckedPullsInfo } from '@/components/github/root/pull-review-form/utils'
 
-import { axiosGithub } from '@/utils/github/root/axios'
-
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
-import type { PullReviewResponse } from '@/types/github/root/server'
 
 interface PullReviewFormProps {
   repoHasCheckArray: TRepoHasCheck[]
@@ -35,18 +34,11 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     repo: string,
     pullTitle: string,
     pullNumber: number,
-    event: EPullRequestType,
-    body: string
+    reviewType: EPullRequestType,
+    comment: string
   ) => {
-    axiosGithub
-      .post<PullReviewResponse>(
-        `/api/github/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
-        {
-          event,
-          body
-        }
-      )
-      .then((response) => response.data)
+    githubService
+      .reviewPullRequest(owner, repo, pullNumber, { reviewType, comment })
       .then(() => {
         const translatedRepo = translate(
           'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO',
@@ -56,6 +48,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
           { pullTitle: pullTitle }
         )
+
         pushToast({
           title: `[${dictionary.TOAST.SUCCESS.PULL_REVIEW_SUBMIT_TITLE}]`,
           description: (
@@ -76,6 +69,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
           { pullTitle: pullTitle }
         )
+
         pushToast({
           title: `[${dictionary.TOAST.ERROR.PULL_REVIEW_SUBMIT_TITLE}]`,
           description: (

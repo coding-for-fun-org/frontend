@@ -12,9 +12,9 @@
     "CONTINUE": "Continue"
   },
   "AUTH": {
-    "LOADING": "Loading...",
-    "SIGN_IN": "Sign In",
-    "SIGN_OUT": "Sign Out"
+    "SIGN_IN_WITH_GITHUB": "Sign In with Github",
+    "SESSION_EXPIRED_ALERT_TITLE": "Session Expired",
+    "SESSION_EXPIRED_ALERT_DESCRIPTION": "Your session has expired, please sign in again."
   },
   "HEADER": {
     "LINK_GITHUB_TOOLTIP": "View source code on GitHub",

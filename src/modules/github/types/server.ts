@@ -7,6 +7,8 @@ export enum EProviders {
 
 export type TSignInResponse = { url: string }
 
+export type TSignOutResponse = { status: boolean }
+
 export type TCsrfTokenResponse = { csrfToken: string }
 
 export type TAccessTokenResponse = { accessToken: string }

@@ -30,6 +30,7 @@ module.exports = {
     '@/elements/root/(.*)': '<rootDir>/src/elements/$1',
     '@/components/root/(.*)': '<rootDir>/src/components/$1',
     '@/contexts/root/(.*)': '<rootDir>/src/contexts/$1',
+    '@/services/root/(.*)': '<rootDir>/src/services/$1',
     '@/hooks/root/(.*)': '<rootDir>/src/hooks/$1',
     '@/utils/root/(.*)': '<rootDir>/src/utils/$1',
     '@/types/root/(.*)': '<rootDir>/src/types/$1',

@@ -54,22 +54,30 @@ const AlertDescription = forwardRef<
 ))
 AlertDescription.displayName = 'AlertDescription'
 
-interface IAlertProps extends IVariantProps {
-  title: ReactNode
-  description: ReactNode
-}
+type AlertProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'> &
+  IVariantProps & {
+    title: ReactNode
+    description?: ReactNode
+  }
 
-export const Alert: FC<IAlertProps> = ({ variant, title, description }) => {
+export const Alert: FC<AlertProps> = ({
+  className,
+  variant,
+  title,
+  description
+}) => {
   return (
-    <AlertRoot variant={variant}>
-      {(variant === undefined || variant === 'primary') && (
-        <DrawingPinIcon className="h-4 w-4" />
+    <AlertRoot variant={variant} className={className}>
+      <div className="flex items-center gap-2">
+        {(variant === undefined || variant === 'primary') && <DrawingPinIcon />}
+        {variant === 'success' && <CheckCircledIcon />}
+        {variant === 'info' && <InfoCircledIcon />}
+        {variant === 'error' && <CrossCircledIcon />}
+        <AlertTitle>{title}</AlertTitle>
+      </div>
+      {!!description && (
+        <AlertDescription className="ml-6">{description}</AlertDescription>
       )}
-      {variant === 'success' && <CheckCircledIcon className="h-4 w-4" />}
-      {variant === 'info' && <InfoCircledIcon className="h-4 w-4" />}
-      {variant === 'error' && <CrossCircledIcon className="h-4 w-4" />}
-      <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
     </AlertRoot>
   )
 }

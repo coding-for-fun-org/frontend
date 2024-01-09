@@ -10,6 +10,10 @@ export enum ESessionStatus {
 
 const USER_STORE_PREFIX = '__cff-'
 
+export enum EAuthErrorReason {
+  REFRESH_TOKEN_EXPIRED = 'refresh_token_expired'
+}
+
 export enum EIsoLanguageCode {
   ENGLISH = 'en'
   // KOREAN = 'ko',

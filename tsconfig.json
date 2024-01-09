@@ -49,6 +49,9 @@
       "@/contexts/root/*": [
         "./src/contexts/*"
       ],
+      "@/services/root/*": [
+        "./src/services/*"
+      ],
       "@/hooks/root/*": [
         "./src/hooks/*"
       ],
