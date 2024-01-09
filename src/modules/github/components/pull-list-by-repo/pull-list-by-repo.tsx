@@ -1,3 +1,4 @@
+import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { type FC, useState } from 'react'
 
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
@@ -37,18 +38,12 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
           disabled={!hasChild}
         />
         <Label className="ml-2">{repo}</Label>
-        {hasChild && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            viewBox="0 0 100 100"
-            className={'ml-2' + (isRepoOpen ? ' rotate-180' : ' rotate-90')}
-            onClick={handleRepoClick}
-          >
-            <polygon points="50,0 100,100 0,100" fill="black" />
-          </svg>
-        )}
+        {hasChild &&
+          (isRepoOpen ? (
+            <ChevronDownIcon className={'ml-2'} onClick={handleRepoClick} />
+          ) : (
+            <ChevronRightIcon className={'ml-2'} onClick={handleRepoClick} />
+          ))}
       </div>
 
       <div className={'ml-4' + (isRepoOpen ? '' : ' hidden')}>
