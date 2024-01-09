@@ -1,5 +1,8 @@
 import { type FC, useState } from 'react'
 
+import { Checkbox } from '@/elements/root/checkbox/checkbox'
+import { Label } from '@/elements/root/label/label'
+
 import type { TPull } from '@/types/github/root/index'
 
 interface PullListByRepoProps {
@@ -28,13 +31,12 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
   return (
     <div>
       <div className="flex">
-        <input
-          type="checkbox"
+        <Checkbox
           checked={isRepoChecked}
-          onChange={() => handleRepoChange(repo)}
+          onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <span className="ml-2">{repo}</span>
+        <Label className="ml-2">{repo}</Label>
         {hasChild && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,14 +54,13 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
       <div className={'ml-4' + (isRepoOpen ? '' : ' hidden')}>
         {pulls.map((pull) => (
           <div key={pull.number}>
-            <input
-              type="checkbox"
+            <Checkbox
               checked={pull.isChecked}
-              onChange={() => {
+              onCheckedChange={() => {
                 handlePullChange(repo, pull.number)
               }}
             />
-            <span className="ml-2">{pull.title}</span>
+            <Label className="ml-2">{pull.title}</Label>
           </div>
         ))}
       </div>
