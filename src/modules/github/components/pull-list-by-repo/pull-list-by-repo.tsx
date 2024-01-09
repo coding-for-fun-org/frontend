@@ -40,9 +40,9 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
         <Label className="ml-2">{repo}</Label>
         {hasChild &&
           (isRepoOpen ? (
-            <ChevronDownIcon className={'ml-2'} onClick={handleRepoClick} />
+            <ChevronDownIcon className="ml-2" onClick={handleRepoClick} />
           ) : (
-            <ChevronRightIcon className={'ml-2'} onClick={handleRepoClick} />
+            <ChevronRightIcon className="ml-2" onClick={handleRepoClick} />
           ))}
       </div>
 

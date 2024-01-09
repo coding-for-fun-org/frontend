@@ -138,6 +138,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         onChange={handleCommentChange}
         disabled={!hasChecked}
       />
+
       <div>
         <Button
           type="button"
@@ -154,6 +155,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         >
           {EPullRequestType.APPROVE}
         </Button>
+
         <Button
           type="button"
           disabled={!hasChecked || !hasComment}
