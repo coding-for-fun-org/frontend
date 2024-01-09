@@ -1,5 +1,7 @@
 import { type ChangeEvent, type FC, useState } from 'react'
 
+import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
+import { Progress } from '@/elements/root/progress/progress'
 import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
@@ -19,6 +21,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
+  const [progressValue, setProgressValue] = useState<number>(0)
   const { pushToast } = useToast()
   const { dictionary, translate } = useDictionary()
   const hasComment = commentInput.length > 0
@@ -134,6 +137,11 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     })
   }
 
+  // 1. handleCommentClick이 실행되면  즉  COMMENT button이 눌러지면
+  // 2.  AlertDialog 실행
+  // 3. Submit이 눌러지면
+  // 4.  reviewPullRequest 실행
+
   return (
     <div>
       <input
@@ -145,14 +153,22 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         disabled={!hasChecked}
       />
       <div>
-        <button
-          className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-          type="button"
-          disabled={!hasChecked || !hasComment}
-          onClick={handleCommentClick}
-        >
-          {EPullRequestType.COMMENT}
-        </button>
+        <AlertDialog
+          title={EPullRequestType.COMMENT}
+          description="description"
+          trigger={
+            <button
+              className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              type="button"
+              disabled={!hasChecked || !hasComment}
+              onClick={handleCommentClick}
+            >
+              {EPullRequestType.COMMENT}
+            </button>
+          }
+          cancelLabel="Cancle"
+          actionLabel="Submit"
+        ></AlertDialog>
 
         <button
           className="mx-2 bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"

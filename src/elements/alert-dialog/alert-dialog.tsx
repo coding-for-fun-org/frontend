@@ -18,8 +18,11 @@ import {
   type FC,
   type HTMLAttributes,
   type ReactNode,
-  forwardRef
+  forwardRef,
+  useState
 } from 'react'
+
+import { Progress } from '@/elements/root/progress/progress'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -156,7 +159,11 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
   children
 }) => {
   const { dictionary } = useDictionary()
+  const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
+  const handleActionClick = async () => {
+    setIsSubmiting(true)
+  }
   return (
     <AlertDialogRoot>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
@@ -167,11 +174,12 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
           {children}
         </AlertDialogHeader>
+        {isSubmiting && <Progress value={50} />}
         <AlertDialogFooter>
           <AlertDialogCancel>
             {cancelLabel ?? dictionary.DIALOG_BUTTON.CANCEL}
           </AlertDialogCancel>
-          <AlertDialogAction>
+          <AlertDialogAction onClick={handleActionClick}>
             {actionLabel ?? dictionary.DIALOG_BUTTON.CONTINUE}
           </AlertDialogAction>
         </AlertDialogFooter>
