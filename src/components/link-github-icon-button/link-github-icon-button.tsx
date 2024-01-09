@@ -8,6 +8,8 @@ import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { urlService } from '@/services/root/url'
+
 export const LinkGithubIconButton = () => {
   const { dictionary } = useDictionary()
 
@@ -15,10 +17,7 @@ export const LinkGithubIconButton = () => {
     <Tooltip
       trigger={
         <Button asChild variant="ghost" size="icon">
-          <Link
-            href="https://github.com/kafelix496/coding-for-fun"
-            target="_blank"
-          >
+          <Link href={urlService.root.githubRepo()} target="_blank">
             <GitHubLogoIcon width="16" height="16" />
           </Link>
         </Button>

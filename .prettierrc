@@ -18,6 +18,7 @@
     "^@/elements/root/(.*)$",
     "^@/components/root/(.*)$",
     "^@/contexts/root/(.*)$",
+    "^@/services/root/(.*)$",
     "^@/hooks/root/(.*)$",
     "^@/utils/root/(.*)$",
     "^@/types/root/(.*)$",

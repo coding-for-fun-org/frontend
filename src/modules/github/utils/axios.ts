@@ -1,8 +1,11 @@
 import axios, { type AxiosError, type AxiosRequestConfig } from 'axios'
 
-import { ELocalStorageKey } from '@/types/root/index'
+import { authService } from '@/services/root/auth'
+import { urlService } from '@/services/root/url'
 
-import type { TRefreshTokenResponse } from '@/types/github/root/server'
+import { EAuthErrorReason, ELocalStorageKey } from '@/types/root/index'
+
+import { EProviders } from '@/types/github/root/server'
 
 // Define the structure of a retry queue item
 interface IRetryQueueItem {
@@ -48,7 +51,7 @@ axiosGithub.interceptors.response.use(
         !originalRequest.url?.startsWith('/api/auth/csrf') &&
         !originalRequest.url?.startsWith('/api/auth/access_token') &&
         !originalRequest.url?.startsWith('/api/auth/refresh_token') &&
-        !originalRequest.url?.startsWith('/api/auth/signin')
+        !originalRequest.url?.startsWith('/api/auth/sign_in')
       ) {
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
@@ -62,9 +65,8 @@ axiosGithub.interceptors.response.use(
 
         isRefreshing = true
 
-        return axios
-          .get<TRefreshTokenResponse>('/api/auth/refresh_token/github')
-          .then((response) => response.data)
+        return authService
+          .refreshAccessToken(EProviders.GITHUB)
           .then(({ accessToken }) => {
             localStorage.setItem(
               ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN,
@@ -90,7 +92,21 @@ axiosGithub.interceptors.response.use(
           })
           .catch(() => {
             isRefreshing = false
-            localStorage.removeItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN)
+
+            authService
+              .signOut(EProviders.GITHUB)
+              .then(() => {
+                localStorage.removeItem(
+                  ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
+                )
+
+                location.href = `${
+                  location.origin
+                }${urlService.github.signIn()}?reason=${
+                  EAuthErrorReason.REFRESH_TOKEN_EXPIRED
+                }`
+              })
+              .catch(console.error)
           })
       }
     }

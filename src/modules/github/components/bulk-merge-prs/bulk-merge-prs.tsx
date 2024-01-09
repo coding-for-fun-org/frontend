@@ -1,6 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { type FC, useEffect, useState } from 'react'
+
+import { urlService } from '@/services/root/url'
+
+import { ELocalStorageKey } from '@/types/root/index'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
@@ -10,6 +15,7 @@ import { usePrsGroup } from '@/hooks/github/root/use-prs-group'
 import type { TRepoHasCheck } from '@/types/github/root/index'
 
 export const BulkMergePrs: FC = () => {
+  const router = useRouter()
   const { prsGroup } = usePrsGroup()
   const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
     []
@@ -65,6 +71,12 @@ export const BulkMergePrs: FC = () => {
       })
     )
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN)) {
+      router.replace(urlService.github.signIn())
+    }
+  }, [])
 
   useEffect(() => {
     if (!prsGroup) {
