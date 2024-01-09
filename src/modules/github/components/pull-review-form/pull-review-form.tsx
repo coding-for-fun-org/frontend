@@ -134,14 +134,12 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     <div>
       <Textarea
         placeholder="Leave a comment"
-        className="w-96 h-40"
         value={commentInput}
         onChange={handleCommentChange}
         disabled={!hasChecked}
       />
       <div>
         <Button
-          className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
           disabled={!hasChecked || !hasComment}
           onClick={handleCommentClick}
@@ -150,7 +148,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         </Button>
 
         <Button
-          className="mx-2 bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
           disabled={!hasChecked}
           onClick={handleApproveClick}
@@ -158,7 +155,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           {EPullRequestType.APPROVE}
         </Button>
         <Button
-          className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           type="button"
           disabled={!hasChecked || !hasComment}
           onClick={handleRequestChangeClick}
