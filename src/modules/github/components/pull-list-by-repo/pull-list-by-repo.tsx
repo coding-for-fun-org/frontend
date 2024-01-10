@@ -31,14 +31,14 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   return (
     <div>
-      <div className={'flex'}>
+      <div className="flex">
         <Checkbox
-          id={`${repo}`}
+          id={repo}
           checked={isRepoChecked}
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label htmlFor={`repoList.${repo}`} className="ml-2">
+        <Label htmlFor={repo} className="ml-2">
           {repo}
         </Label>
         {hasChild &&
