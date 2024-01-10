@@ -31,13 +31,16 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   return (
     <div>
-      <div className="flex">
+      <div className={'flex'}>
         <Checkbox
+          id={`${repo}`}
           checked={isRepoChecked}
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label className="ml-2">{repo}</Label>
+        <Label htmlFor={`repoList.${repo}`} className="ml-2">
+          {repo}
+        </Label>
         {hasChild &&
           (isRepoOpen ? (
             <ChevronDownIcon className="ml-2" onClick={handleRepoClick} />
@@ -50,12 +53,15 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
         {pulls.map((pull) => (
           <div key={pull.number}>
             <Checkbox
+              id={`${repo}.${pull.number}`}
               checked={pull.isChecked}
               onCheckedChange={() => {
                 handlePullChange(repo, pull.number)
               }}
             />
-            <Label className="ml-2">{pull.title}</Label>
+            <Label htmlFor={`${repo}.${pull.number}`} className="ml-2">
+              {pull.title}
+            </Label>
           </div>
         ))}
       </div>
