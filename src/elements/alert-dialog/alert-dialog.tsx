@@ -17,12 +17,10 @@ import {
   type ElementRef,
   type FC,
   type HTMLAttributes,
+  type MouseEventHandler,
   type ReactNode,
-  forwardRef,
-  useState
+  forwardRef
 } from 'react'
-
-import { Progress } from '@/elements/root/progress/progress'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -141,31 +139,35 @@ const AlertDialogCancel = forwardRef<
 ))
 AlertDialogCancel.displayName = Cancel.displayName
 
-interface IAlertDialogProps {
+interface AlertDialogProps {
   title: string
   description: string
   trigger: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  onCancelClick?: MouseEventHandler<HTMLButtonElement>
+  onActionClick?: MouseEventHandler<HTMLButtonElement>
   cancelLabel?: string
   actionLabel?: string
   children?: ReactNode
 }
 
-export const AlertDialog: FC<IAlertDialogProps> = ({
+export const AlertDialog: FC<AlertDialogProps> = ({
   title,
   description,
   trigger,
+  open,
+  onOpenChange,
+  onCancelClick,
+  onActionClick,
   cancelLabel,
   actionLabel,
   children
 }) => {
   const { dictionary } = useDictionary()
-  const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
-  const handleActionClick = async () => {
-    setIsSubmiting(true)
-  }
   return (
-    <AlertDialogRoot>
+    <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
       <AlertDialogContent>
@@ -174,12 +176,11 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
           {children}
         </AlertDialogHeader>
-        {isSubmiting && <Progress value={50} />}
         <AlertDialogFooter>
-          <AlertDialogCancel>
+          <AlertDialogCancel onClick={onCancelClick}>
             {cancelLabel ?? dictionary.DIALOG_BUTTON.CANCEL}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={handleActionClick}>
+          <AlertDialogAction onClick={onActionClick}>
             {actionLabel ?? dictionary.DIALOG_BUTTON.CONTINUE}
           </AlertDialogAction>
         </AlertDialogFooter>
