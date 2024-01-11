@@ -1,5 +1,5 @@
 import { type Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import '@/styles/root/index.scss'
@@ -14,9 +14,9 @@ import { ThemeProvider } from '@/contexts/root/theme-provider/theme-provider'
 
 import { getLanguage } from '@/utils/root/language'
 
-const inter = Inter({
+const notoSans = Noto_Sans({
   subsets: ['latin'],
-  variable: '--font-sans'
+  weight: '400'
 })
 
 export const metadata = {
@@ -39,7 +39,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang={lang}>
       <body
-        className={`flex flex-col min-h-screen font-sans ${inter.variable}`}
+        className={`flex flex-col min-h-screen ${notoSans.className}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
         // this is not an ideal solution, but it works for now
         suppressHydrationWarning
