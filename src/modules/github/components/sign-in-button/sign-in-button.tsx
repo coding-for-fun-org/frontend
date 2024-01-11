@@ -6,7 +6,6 @@ import { type FC, useState } from 'react'
 
 import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
-import { ButtonLoader } from '@/elements/root/button/button-loader'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -44,17 +43,13 @@ export const SignInButton: FC = () => {
       <Button
         type="button"
         variant="outline"
-        size="lg"
+        label={translate('AUTH.SIGN_IN_WITH_GITHUB')}
+        icon={<GitHubLogoIcon className="w-full h-full" />}
+        loading={isSigningIn}
         onClick={() => {
           signIn().catch(console.error)
         }}
-      >
-        <span className="gap-4 flex items-center">
-          {isSigningIn && <ButtonLoader />}
-          <GitHubLogoIcon />
-          <span>{translate('AUTH.SIGN_IN_WITH_GITHUB')}</span>
-        </span>
-      </Button>
+      />
 
       {isRefreshTokenExpired && (
         <div className="absolute w-full top-0 z-10 p-5">

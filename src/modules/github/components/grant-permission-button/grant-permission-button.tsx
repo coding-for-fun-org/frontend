@@ -4,9 +4,13 @@ import { type FC, useEffect } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
 export const GrantPermissionButton: FC = () => {
+  const { translate } = useDictionary()
+
   let newWindow: Window | null = null
 
   const openWindow = () => {
@@ -51,11 +55,10 @@ export const GrantPermissionButton: FC = () => {
   return (
     <Button
       type="button"
+      label={translate('GITHUB.GRANT_PERMISSION_BUTTON')}
       onClick={() => {
         openWindow()
       }}
-    >
-      grant permission
-    </Button>
+    />
   )
 }

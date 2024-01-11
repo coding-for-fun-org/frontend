@@ -1,6 +1,6 @@
 @layer components {
   .button {
-    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 
     &.variant {
       &--primary {
@@ -38,19 +38,73 @@
 
     &.size {
       &--sm {
-        @apply h-9 rounded-md px-3;
+        @apply rounded-md px-3 py-2;
+
+        .icon {
+          @apply h-4 w-4;
+        }
+
+        .label {
+          @apply text-sm;
+        }
       }
 
       &--md {
-        @apply h-10 px-4 py-2;
+        @apply px-4 py-2;
+
+        .icon {
+          @apply h-5 w-5;
+        }
+
+        .label {
+          @apply text-base;
+        }
       }
 
       &--lg {
-        @apply h-11 rounded-md px-8;
+        @apply rounded-md px-5 py-2;
+
+        .icon {
+          @apply h-6 w-6;
+        }
+
+        .label {
+          @apply text-lg;
+        }
       }
 
       &--icon {
         @apply h-10 w-10;
+
+        .icon {
+          @apply h-5 w-5;
+        }
+
+        .label {
+          @apply hidden;
+        }
+      }
+    }
+
+    .loader {
+      @apply animate-spin text-foreground;
+
+      &.size {
+        &--sm {
+          @apply h-4 w-4;
+        }
+
+        &--md {
+          @apply h-5 w-5;
+        }
+
+        &--lg {
+          @apply h-6 w-6;
+        }
+
+        &--icon {
+          @apply h-5 w-5;
+        }
       }
     }
   }

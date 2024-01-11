@@ -21,7 +21,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
   const { pushToast } = useToast()
-  const { dictionary, translate } = useDictionary()
+  const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
@@ -43,16 +43,18 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       .reviewPullRequest(owner, repo, pullNumber, { reviewType, comment })
       .then(() => {
         const translatedRepo = translate(
-          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO',
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
           { repoName: repo }
         )
         const translatedPullTitle = translate(
-          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
           { pullTitle: pullTitle }
         )
 
         pushToast({
-          title: `[${dictionary.TOAST.SUCCESS.PULL_REVIEW_SUBMIT_TITLE}]`,
+          title: `[${translate(
+            'GITHUB.PULL_REVIEW_FORM_SUBMIT_TOAST_SUCCESS_TITLE'
+          )}]`,
           description: (
             <div>
               <div>{translatedRepo}</div>
@@ -64,16 +66,18 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       })
       .catch(() => {
         const translatedRepo = translate(
-          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO',
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
           { repoName: repo }
         )
         const translatedPullTitle = translate(
-          'TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL',
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
           { pullTitle: pullTitle }
         )
 
         pushToast({
-          title: `[${dictionary.TOAST.ERROR.PULL_REVIEW_SUBMIT_TITLE}]`,
+          title: `[${translate(
+            'GITHUB.PULL_REVIEW_FORM_SUBMIT_TOAST_ERROR_TITLE'
+          )}]`,
           description: (
             <div>
               <div>{translatedRepo}</div>
@@ -134,7 +138,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     <div>
       <Textarea
         className="resize-none"
-        placeholder="Leave a comment"
+        placeholder={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER')}
         value={commentInput}
         onChange={handleCommentChange}
         disabled={!hasChecked}
@@ -144,26 +148,23 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         <Button
           type="button"
           disabled={!hasChecked || !hasComment}
+          label={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_BUTTON')}
           onClick={handleCommentClick}
-        >
-          {EPullRequestType.COMMENT}
-        </Button>
+        ></Button>
 
         <Button
           type="button"
           disabled={!hasChecked}
+          label={translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')}
           onClick={handleApproveClick}
-        >
-          {EPullRequestType.APPROVE}
-        </Button>
+        ></Button>
 
         <Button
           type="button"
           disabled={!hasChecked || !hasComment}
+          label={translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')}
           onClick={handleRequestChangeClick}
-        >
-          {EPullRequestType.REQUEST_CHANGES}
-        </Button>
+        ></Button>
       </div>
     </div>
   )

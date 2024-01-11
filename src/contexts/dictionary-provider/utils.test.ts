@@ -4,6 +4,7 @@ describe('DictionaryProvider utils', () => {
   describe('findTargetDictionaryValue', () => {
     it('should return undefined if key is not found', () => {
       expect(
+        // @ts-expect-error - for testing purpose
         findTargetDictionaryValue('TEST1.TEST2.TEST3', {
           TEST1: {
             TEST2: 'TEST2'
@@ -14,6 +15,7 @@ describe('DictionaryProvider utils', () => {
 
     it('should return undefined if key is not valid', () => {
       expect(
+        // @ts-expect-error - for testing purpose
         findTargetDictionaryValue('TEST1_TEST2', {
           TEST1: {
             TEST2: 'TEST2'
@@ -25,6 +27,7 @@ describe('DictionaryProvider utils', () => {
     it('should return target string if key is found', () => {
       // depth 1
       expect(
+        // @ts-expect-error - for testing purpose
         findTargetDictionaryValue('TEST2', {
           TEST1: 'HELLO1',
           TEST2: 'HELLO2'
@@ -33,6 +36,7 @@ describe('DictionaryProvider utils', () => {
 
       // depth > 1
       expect(
+        // @ts-expect-error - for testing purpose
         findTargetDictionaryValue('TEST3.TEST4', {
           TEST1: {
             TEST2: 'HELLO1'
@@ -50,8 +54,9 @@ describe('DictionaryProvider utils', () => {
     it('should replace dynamic text', () => {
       expect(
         replaceDynamicText(
+          // @ts-expect-error - for testing purpose
           { NAME: 'John Doe', AGE: '30' },
-          "I am {NAME}. My name is {NAME}. I'm {AGE} years old"
+          "I am {{NAME}}. My name is {{NAME}}. I'm {{AGE}} years old"
         )
       ).toBe("I am John Doe. My name is John Doe. I'm 30 years old")
     })
