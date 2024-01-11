@@ -1,5 +1,7 @@
 import { type ChangeEvent, type FC, useState } from 'react'
 
+import { Button } from '@/elements/root/button/button'
+import { Textarea } from '@/elements/root/textarea/textarea'
 import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
@@ -25,7 +27,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     data.pulls.some((pull) => pull.isChecked === true)
   )
 
-  const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentInput(event.target.value)
   }
 
@@ -130,40 +132,38 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 
   return (
     <div>
-      <input
-        type="text"
+      <Textarea
+        className="resize-none"
         placeholder="Leave a comment"
-        className="w-96 h-40"
         value={commentInput}
         onChange={handleCommentChange}
         disabled={!hasChecked}
       />
+
       <div>
-        <button
-          className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        <Button
           type="button"
           disabled={!hasChecked || !hasComment}
           onClick={handleCommentClick}
         >
           {EPullRequestType.COMMENT}
-        </button>
+        </Button>
 
-        <button
-          className="mx-2 bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        <Button
           type="button"
           disabled={!hasChecked}
           onClick={handleApproveClick}
         >
           {EPullRequestType.APPROVE}
-        </button>
-        <button
-          className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        </Button>
+
+        <Button
           type="button"
           disabled={!hasChecked || !hasComment}
           onClick={handleRequestChangeClick}
         >
           {EPullRequestType.REQUEST_CHANGES}
-        </button>
+        </Button>
       </div>
     </div>
   )

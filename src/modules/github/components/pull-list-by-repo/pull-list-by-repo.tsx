@@ -1,4 +1,8 @@
+import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { type FC, useState } from 'react'
+
+import { Checkbox } from '@/elements/root/checkbox/checkbox'
+import { Label } from '@/elements/root/label/label'
 
 import type { TPull } from '@/types/github/root/index'
 
@@ -28,38 +32,36 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
   return (
     <div>
       <div className="flex">
-        <input
-          type="checkbox"
+        <Checkbox
+          id={repo}
           checked={isRepoChecked}
-          onChange={() => handleRepoChange(repo)}
+          onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <span className="ml-2">{repo}</span>
-        {hasChild && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            viewBox="0 0 100 100"
-            className={'ml-2' + (isRepoOpen ? ' rotate-180' : ' rotate-90')}
-            onClick={handleRepoClick}
-          >
-            <polygon points="50,0 100,100 0,100" fill="black" />
-          </svg>
-        )}
+        <Label htmlFor={repo} className="ml-2">
+          {repo}
+        </Label>
+        {hasChild &&
+          (isRepoOpen ? (
+            <ChevronDownIcon className="ml-2" onClick={handleRepoClick} />
+          ) : (
+            <ChevronRightIcon className="ml-2" onClick={handleRepoClick} />
+          ))}
       </div>
 
       <div className={'ml-4' + (isRepoOpen ? '' : ' hidden')}>
         {pulls.map((pull) => (
           <div key={pull.number}>
-            <input
-              type="checkbox"
+            <Checkbox
+              id={`${repo}.${pull.number}`}
               checked={pull.isChecked}
-              onChange={() => {
+              onCheckedChange={() => {
                 handlePullChange(repo, pull.number)
               }}
             />
-            <span className="ml-2">{pull.title}</span>
+            <Label htmlFor={`${repo}.${pull.number}`} className="ml-2">
+              {pull.title}
+            </Label>
           </div>
         ))}
       </div>
