@@ -133,6 +133,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   return (
     <div>
       <Textarea
+        className="resize-none"
         placeholder="Leave a comment"
         value={commentInput}
         onChange={handleCommentChange}
