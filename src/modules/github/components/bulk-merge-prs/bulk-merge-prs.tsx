@@ -100,8 +100,8 @@ export const BulkMergePrs: FC = () => {
   }, [prsGroup])
 
   return (
-    <div className="flex flex-wrap">
-      <div>
+    <div className="flex">
+      <ul className="flex flex-1 flex-col gap-2">
         {repoHasCheckArray.map((repoHasCheck) => (
           <PullListByRepo
             key={repoHasCheck.repo}
@@ -111,8 +111,9 @@ export const BulkMergePrs: FC = () => {
             handleRepoChange={handleRepoChange}
           />
         ))}
-      </div>
-      <div className="ml-60">
+      </ul>
+
+      <div className="flex-1">
         <PullReviewForm repoHasCheckArray={repoHasCheckArray} />
       </div>
     </div>

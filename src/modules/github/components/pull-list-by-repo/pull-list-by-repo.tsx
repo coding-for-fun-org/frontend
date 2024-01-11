@@ -1,4 +1,5 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import clsx from 'clsx'
 import { type FC, useState } from 'react'
 
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
@@ -30,41 +31,43 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
   }
 
   return (
-    <div>
-      <div className="flex">
+    <li className="list-none">
+      <div className="flex gap-2">
         <Checkbox
           id={repo}
           checked={isRepoChecked}
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label htmlFor={repo} className="ml-2">
-          {repo}
-        </Label>
+        <Label htmlFor={repo}>{repo}</Label>
         {hasChild &&
           (isRepoOpen ? (
-            <ChevronDownIcon className="ml-2" onClick={handleRepoClick} />
+            <ChevronDownIcon onClick={handleRepoClick} />
           ) : (
-            <ChevronRightIcon className="ml-2" onClick={handleRepoClick} />
+            <ChevronRightIcon onClick={handleRepoClick} />
           ))}
       </div>
 
-      <div className={'ml-4' + (isRepoOpen ? '' : ' hidden')}>
+      <ul
+        className={clsx('flex flex-col gap-2 mt-2 ml-4', {
+          hidden: !isRepoOpen
+        })}
+      >
         {pulls.map((pull) => (
-          <div key={pull.number}>
-            <Checkbox
-              id={`${repo}.${pull.number}`}
-              checked={pull.isChecked}
-              onCheckedChange={() => {
-                handlePullChange(repo, pull.number)
-              }}
-            />
-            <Label htmlFor={`${repo}.${pull.number}`} className="ml-2">
-              {pull.title}
-            </Label>
-          </div>
+          <li key={pull.number}>
+            <div className="flex gap-2">
+              <Checkbox
+                id={`${repo}.${pull.number}`}
+                checked={pull.isChecked}
+                onCheckedChange={() => {
+                  handlePullChange(repo, pull.number)
+                }}
+              />
+              <Label htmlFor={`${repo}.${pull.number}`}>{pull.title}</Label>
+            </div>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </li>
   )
 }
