@@ -11,7 +11,7 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 import { urlService } from '@/services/root/url'
 
 export const LinkGithubIconButton = () => {
-  const { dictionary } = useDictionary()
+  const { translate } = useDictionary()
 
   return (
     <Tooltip
@@ -25,7 +25,7 @@ export const LinkGithubIconButton = () => {
           ></Button>
         </Link>
       }
-      content={<span>{dictionary.HEADER.LINK_GITHUB_TOOLTIP}</span>}
+      content={<span>{translate('HEADER.LINK_GITHUB_TOOLTIP')}</span>}
     />
   )
 }

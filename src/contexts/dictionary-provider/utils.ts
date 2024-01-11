@@ -1,10 +1,12 @@
-import type { TTranslateParams } from './types'
+import type { TDictionary, TTranslateKeys } from './types'
 
-type TGeneralizedDictionary = { [key: string]: string | TGeneralizedDictionary }
+export type TGeneralizedDictionary = {
+  [key: string]: string | TGeneralizedDictionary
+}
 
 export const findTargetDictionaryValue = (
-  key: string,
-  dictionary: TGeneralizedDictionary
+  key: TTranslateKeys,
+  dictionary: TDictionary
 ): string | undefined => {
   const target = key
     .split('.')
@@ -33,12 +35,12 @@ export const findTargetDictionaryValue = (
 }
 
 export const replaceDynamicText = (
-  params: TTranslateParams,
+  params: Record<string, unknown>,
   text: string
 ): string => {
   return Object.entries(params).reduce((accu, [paramKey, paramValue]) => {
-    const placeholder = `{${paramKey}}`
+    const placeholder = `{{${paramKey}}}`
 
-    return accu.replace(new RegExp(placeholder, 'g'), paramValue)
+    return accu.replace(new RegExp(placeholder, 'g'), String(paramValue))
   }, text)
 }

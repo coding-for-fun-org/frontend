@@ -11,12 +11,12 @@ describe('useDictionary', () => {
         <div>
           <div>{translate('COMMON.APP_NAME')}</div>
           <div>
-            {translate('TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_REPO', {
+            {translate('GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO', {
               repoName: 'Test Repo'
             })}
           </div>
           <div>
-            {translate('TOAST.COMMON.PULL_REVIEW_SUBMIT_DESCRIPTION_PULL', {
+            {translate('GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL', {
               pullTitle: 'Test Pull'
             })}
           </div>

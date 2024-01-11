@@ -8,11 +8,11 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 import { urlService } from '@/services/root/url'
 
 export const HeaderTitleButton: FC = () => {
-  const { dictionary } = useDictionary()
+  const { translate } = useDictionary()
 
   return (
     <Link href={urlService.root.index()} className="font-bold">
-      {dictionary.COMMON.APP_NAME}
+      {translate('COMMON.APP_NAME')}
     </Link>
   )
 }

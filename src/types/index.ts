@@ -1,5 +1,3 @@
-import type { getDictionary } from '@/dictionaries/root/index'
-
 export type PromiseReturnType<T> = T extends Promise<infer U> ? U : T
 
 export enum ESessionStatus {
@@ -36,5 +34,3 @@ export enum ETheme {
   LIGHT = 'light',
   DARK = 'dark'
 }
-
-export type TDictionary = PromiseReturnType<ReturnType<typeof getDictionary>>

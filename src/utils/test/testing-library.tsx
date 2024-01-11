@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react'
 import type { FC, ReactElement, ReactNode } from 'react'
 
-import * as dictionary from '@/dictionaries/root/en.json'
+import { dictionary } from '@/dictionaries/root/en'
 
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
 

@@ -55,7 +55,7 @@ export const GrantPermissionButton: FC = () => {
   return (
     <Button
       type="button"
-      label={translate('GITHUB.GRANT_PERMISSION_BUTTON') ?? ''}
+      label={translate('GITHUB.GRANT_PERMISSION_BUTTON')}
       onClick={() => {
         openWindow()
       }}

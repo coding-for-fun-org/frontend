@@ -155,7 +155,7 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
   actionLabel,
   children
 }) => {
-  const { dictionary } = useDictionary()
+  const { translate } = useDictionary()
 
   return (
     <AlertDialogRoot>
@@ -169,10 +169,12 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>
-            {cancelLabel ?? dictionary.DIALOG_BUTTON.CANCEL}
+            {cancelLabel ??
+              translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
           </AlertDialogCancel>
           <AlertDialogAction>
-            {actionLabel ?? dictionary.DIALOG_BUTTON.CONTINUE}
+            {actionLabel ??
+              translate('COMMON.ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

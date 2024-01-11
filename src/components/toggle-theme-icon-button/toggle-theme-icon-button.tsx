@@ -9,7 +9,7 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 import { useToggleTheme } from '@/contexts/root/theme-provider/theme-provider'
 
 export const ToggleThemeIconButton = () => {
-  const { dictionary } = useDictionary()
+  const { translate } = useDictionary()
   const { toggleTheme } = useToggleTheme()
 
   return (
@@ -29,7 +29,7 @@ export const ToggleThemeIconButton = () => {
           }}
         ></Button>
       }
-      content={<span>{dictionary.HEADER.TOGGLE_THEME_TOOLTIP}</span>}
+      content={<span>{translate('HEADER.TOGGLE_THEME_TOOLTIP')}</span>}
     />
   )
 }

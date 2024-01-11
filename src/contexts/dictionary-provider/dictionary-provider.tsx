@@ -2,9 +2,7 @@
 
 import { type FC, type ReactNode, createContext, useContext } from 'react'
 
-import type { TDictionary } from '@/types/root/index'
-
-import type { TTranslateParams } from './types'
+import type { TDictionary, TTranslateKeys, TTranslateParams } from './types'
 import { findTargetDictionaryValue, replaceDynamicText } from './utils'
 
 // @ts-expect-error - no need to initialize real dictionary
@@ -28,11 +26,16 @@ export const DictionaryProvider: FC<DictionaryProviderProps> = ({
 
 export const useDictionary = () => {
   const dictionary = useContext(DictionaryContext)
-  const translate = (key: string, params?: TTranslateParams) => {
+  const translate = <K extends TTranslateKeys, P extends TTranslateParams<K>>(
+    key: K,
+    params?: P
+  ) => {
     const targetDictionaryValue = findTargetDictionaryValue(key, dictionary)
 
     if (targetDictionaryValue === undefined) {
-      return undefined
+      throw new Error(
+        `Cannot find dictionary value for key: ${key}. You must've ignored typescript error.`
+      )
     }
 
     return params
@@ -40,8 +43,5 @@ export const useDictionary = () => {
       : targetDictionaryValue
   }
 
-  return {
-    dictionary,
-    translate
-  }
+  return { translate }
 }
