@@ -18,25 +18,16 @@ export const ToggleThemeIconButton = () => {
         <Button
           variant="ghost"
           size="icon"
+          icon={
+            <>
+              <MoonIcon className="hidden dark:block w-full h-full" />
+              <SunIcon className="block dark:hidden w-full h-full" />
+            </>
+          }
           onClick={() => {
             toggleTheme()
           }}
-        >
-          {
-            <MoonIcon
-              width="16"
-              height="16"
-              className="absolute hidden dark:block"
-            />
-          }
-          {
-            <SunIcon
-              width="16"
-              height="16"
-              className="absolute block dark:hidden"
-            />
-          }
-        </Button>
+        ></Button>
       }
       content={<span>{dictionary.HEADER.TOGGLE_THEME_TOOLTIP}</span>}
     />
