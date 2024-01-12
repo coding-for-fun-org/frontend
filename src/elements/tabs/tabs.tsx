@@ -6,6 +6,7 @@ import {
   type ComponentPropsWithoutRef,
   type ElementRef,
   type FC,
+  type HTMLAttributes,
   type ReactNode,
   forwardRef,
   memo
@@ -50,7 +51,7 @@ const TabsContent = forwardRef<
   <Content
     ref={ref}
     className={clsx(
-      'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'mt-2 h-[calc(100%-theme(space.10)-theme(space.2))] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       className
     )}
     {...props}
@@ -82,14 +83,23 @@ _Content.displayName = Content.displayName
 const _MemoContent = memo(_Content)
 _MemoContent.displayName = Content.displayName
 
-interface ITabsProps {
+interface ITabsProps extends ComponentPropsWithoutRef<typeof Root> {
   defaultValue: string
   values: ITabValue[]
 }
 
-export const Tabs: FC<ITabsProps> = ({ defaultValue, values }) => {
+export const Tabs: FC<ITabsProps> = ({
+  defaultValue,
+  values,
+  className,
+  ...props
+}) => {
   return (
-    <TabsRoot defaultValue={defaultValue}>
+    <TabsRoot
+      defaultValue={defaultValue}
+      className={clsx('relative', className)}
+      {...props}
+    >
       <TabsList>
         {values.map(({ label, value, memo }) =>
           !!memo ? (

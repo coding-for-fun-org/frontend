@@ -135,7 +135,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 h-full">
+    <div className="flex flex-col h-full">
       <Textarea
         className="resize-none flex-grow"
         placeholder={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER')}
@@ -144,7 +144,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         disabled={!hasChecked}
       />
 
-      <div className="flex justify-end gap-2">
+      <div className="mt-5 flex justify-end gap-2">
         <Button
           type="button"
           disabled={!hasChecked || !hasComment}
