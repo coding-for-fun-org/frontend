@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { type FC, useEffect, useState } from 'react'
 
+import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
 import { urlService } from '@/services/root/url'
 
 import { ELocalStorageKey } from '@/types/root/index'
@@ -16,7 +18,7 @@ import type { TRepoHasCheck } from '@/types/github/root/index'
 
 export const BulkMergePrs: FC = () => {
   const router = useRouter()
-  const { prsGroup } = usePrsGroup()
+  const { isLoading: isPrsGrouopFetching, prsGroup } = usePrsGroup()
   const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
     []
   )
@@ -100,17 +102,24 @@ export const BulkMergePrs: FC = () => {
   }, [prsGroup])
 
   return (
-    <div className="flex w-full h-full">
-      <ul className="flex flex-1 flex-col gap-2">
-        {repoHasCheckArray.map((repoHasCheck) => (
-          <PullListByRepo
-            key={repoHasCheck.repo}
-            repo={repoHasCheck.repo}
-            pulls={repoHasCheck.pulls}
-            handlePullChange={handlePullChange}
-            handleRepoChange={handleRepoChange}
-          />
-        ))}
+    <div className="flex w-full h-full gap-5">
+      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+        {!!isPrsGrouopFetching &&
+          Array.from({ length: 25 }).map((_, index) => (
+            <li key={index} className="w-1/2">
+              <Skeleton variant="rect" />
+            </li>
+          ))}
+        {!isPrsGrouopFetching &&
+          repoHasCheckArray.map((repoHasCheck) => (
+            <PullListByRepo
+              key={repoHasCheck.repo}
+              repo={repoHasCheck.repo}
+              pulls={repoHasCheck.pulls}
+              handlePullChange={handlePullChange}
+              handleRepoChange={handleRepoChange}
+            />
+          ))}
       </ul>
 
       <div className="flex-1">
