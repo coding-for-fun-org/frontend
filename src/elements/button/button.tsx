@@ -39,7 +39,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
           | {
               size?: Exclude<IVariantProps['size'], 'icon'>
               icon?: ReactNode
-              label: string
+              label: ReactNode
             }
           | {
               size: 'icon'
@@ -136,8 +136,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         <>
-          {!!asChild && children}
-          {!asChild && (
+          {!children && !asChild && (
             <span className="gap-4 flex items-center">
               {!!loading && <ButtonLoader size={size} />}
               {/* If size is icon and loading is true, do not display icon */}
@@ -150,6 +149,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               )}
             </span>
           )}
+          {children}
         </>
       </Comp>
     )

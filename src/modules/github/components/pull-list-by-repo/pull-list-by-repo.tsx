@@ -2,6 +2,7 @@ import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 import { type FC, useState } from 'react'
 
+import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 import { Label } from '@/elements/root/label/label'
 
@@ -32,7 +33,7 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   return (
     <li className="list-none">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <Checkbox
           id={repo}
           checked={isRepoChecked}
@@ -40,12 +41,21 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
           disabled={!hasChild}
         />
         <Label htmlFor={repo}>{repo}</Label>
-        {hasChild &&
-          (isRepoOpen ? (
-            <ChevronDownIcon onClick={handleRepoClick} />
-          ) : (
-            <ChevronRightIcon onClick={handleRepoClick} />
-          ))}
+        {hasChild && (
+          <Button
+            role="button"
+            variant="ghost"
+            size="icon"
+            className="!w-4 !h-4 hover:!bg-transparent"
+            onClick={handleRepoClick}
+          >
+            {isRepoOpen ? (
+              <ChevronDownIcon className="w-full h-full" />
+            ) : (
+              <ChevronRightIcon className="w-full h-full" />
+            )}
+          </Button>
+        )}
       </div>
 
       <ul
@@ -55,7 +65,7 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
       >
         {pulls.map((pull) => (
           <li key={pull.number}>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Checkbox
                 id={`${repo}.${pull.number}`}
                 checked={pull.isChecked}
