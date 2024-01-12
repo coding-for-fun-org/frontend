@@ -1,6 +1,8 @@
 import { type ChangeEvent, type FC, useState } from 'react'
 
+import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Button } from '@/elements/root/button/button'
+import { Progress } from '@/elements/root/progress/progress'
 import { Textarea } from '@/elements/root/textarea/textarea'
 import { useToast } from '@/elements/root/toast/toast-provider'
 
@@ -20,6 +22,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [dialogData, setDialogData] = useState<{
+    title: string
+    description: string
+  } | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [progressValue, setProgressValue] = useState<number>(0)
+  const [progressMaxValue, setProgressMaxValue] = useState<number>(0)
   const { pushToast } = useToast()
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
@@ -61,6 +71,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           ),
           variant: 'success'
         })
+        setProgressValue((prev) => prev + 1)
       })
       .catch(() => {
         const translatedRepo = translate(
@@ -85,8 +96,10 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       })
   }
 
-  const handleCommentClick = () => {
+  const handleReviewChanges = (pullRequestType: EPullRequestType) => {
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+
+    setProgressMaxValue(checkedPullsInfo.length)
 
     checkedPullsInfo.forEach((checkedPull) => {
       reviewPullRequest(
@@ -94,74 +107,88 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         checkedPull.repo,
         checkedPull.pullTitle,
         checkedPull.pullNumber,
-        EPullRequestType.COMMENT,
+        pullRequestType,
         commentInput
       )
     })
   }
+  const handleOpenDialog = (type: EPullRequestType) => {
+    setIsDialogOpen(true)
+    console.log('run handleOpenDialog()')
 
-  const handleApproveClick = () => {
-    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
-
-    checkedPullsInfo.forEach((checkedPull) => {
-      reviewPullRequest(
-        checkedPull.org,
-        checkedPull.repo,
-        checkedPull.pullTitle,
-        checkedPull.pullNumber,
-        EPullRequestType.APPROVE,
-        commentInput
-      )
-    })
+    if (type === EPullRequestType.COMMENT) {
+      setDialogData({ title: type, description: type })
+    } else if (type === EPullRequestType.APPROVE) {
+      setDialogData({ title: type, description: type })
+    } else if (type === EPullRequestType.REQUEST_CHANGES) {
+      setDialogData({ title: type, description: type })
+    }
   }
 
-  const handleRequestChangeClick = () => {
-    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+  const handleCloseDialog = () => {
+    console.log('run handleCloseDialog()')
+  }
 
-    checkedPullsInfo.forEach((checkedPull) => {
-      reviewPullRequest(
-        checkedPull.org,
-        checkedPull.repo,
-        checkedPull.pullTitle,
-        checkedPull.pullNumber,
-        EPullRequestType.REQUEST_CHANGES,
-        commentInput
-      )
-    })
+  const handleActionClick = () => {
+    console.log('processing submit...')
+    handleReviewChanges(dialogData?.title)
+  }
+
+  const handleCancelClick = () => {
+    console.log('run handleCancelClick()')
+    handleCloseDialog()
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <Textarea
-        className="resize-none flex-grow"
-        placeholder={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER')}
-        value={commentInput}
-        onChange={handleCommentChange}
-        disabled={!hasChecked}
-      />
-
-      <div className="mt-5 flex justify-end gap-2">
-        <Button
-          type="button"
-          disabled={!hasChecked || !hasComment}
-          label={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_BUTTON')}
-          onClick={handleCommentClick}
-        ></Button>
-
-        <Button
-          type="button"
+    <>
+      <div className="flex flex-col h-full">
+        <Textarea
+          className="resize-none flex-grow"
+          placeholder={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER')}
+          value={commentInput}
+          onChange={handleCommentChange}
           disabled={!hasChecked}
-          label={translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')}
-          onClick={handleApproveClick}
-        ></Button>
+        />
 
-        <Button
-          type="button"
-          disabled={!hasChecked || !hasComment}
-          label={translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')}
-          onClick={handleRequestChangeClick}
-        ></Button>
+        <div className="mt-5 flex justify-end gap-2">
+          <AlertDialog
+            open={isDialogOpen}
+            onOpenChange={() => setIsDialogOpen((prev) => !prev)}
+            onCancelClick={handleCancelClick}
+            onActionClick={handleActionClick}
+            children={
+              isSubmitting && (
+                <Progress value={progressValue} max={progressMaxValue} />
+              )
+            }
+            title={dialogData?.title}
+            description={dialogData?.description}
+            cancelLabel="Cancle"
+            actionLabel="Submit"
+          ></AlertDialog>
+
+          <Button
+            type="button"
+            disabled={!hasChecked || !hasComment}
+            label={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_BUTTON')}
+            onClick={() => handleOpenDialog(EPullRequestType.COMMENT)}
+          ></Button>
+
+          <Button
+            type="button"
+            disabled={!hasChecked}
+            label={translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')}
+            onClick={() => handleOpenDialog(EPullRequestType.APPROVE)}
+          ></Button>
+
+          <Button
+            type="button"
+            disabled={!hasChecked || !hasComment}
+            label={translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')}
+            onClick={() => handleOpenDialog(EPullRequestType.REQUEST_CHANGES)}
+          ></Button>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
