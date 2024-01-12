@@ -4,18 +4,22 @@ import { githubService } from '@/services/root/github'
 
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 
-export const usePrsGroup = () => {
+export const usePullsGroup = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
+  const [pullsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
+    const controller = new AbortController()
+
     githubService
-      .listUserInstallations()
+      .listUserInstallations({ signal: controller.signal })
       .then(({ installations }) =>
         Promise.all(
           installations.map((installation) =>
             githubService
-              .listUserInstallationRepositories(installation.id)
+              .listUserInstallationRepositories(installation.id, {
+                signal: controller.signal
+              })
               .then(({ repositories }) => repositories)
           )
         )
@@ -26,7 +30,9 @@ export const usePrsGroup = () => {
             Promise.all(
               repos.map((repo) =>
                 githubService
-                  .listPullRequests(repo.owner.login, repo.name)
+                  .listPullRequests(repo.owner.login, repo.name, {
+                    signal: controller.signal
+                  })
                   .then((response) => ({
                     org: repo.owner.login,
                     repo: repo.name,
@@ -51,7 +57,11 @@ export const usePrsGroup = () => {
       .finally(() => {
         setIsLoading(false)
       })
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
-  return { isLoading, prsGroup }
+  return { isLoading, pullsGroup }
 }

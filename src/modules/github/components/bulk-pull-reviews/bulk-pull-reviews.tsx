@@ -12,13 +12,13 @@ import { ELocalStorageKey } from '@/types/root/index'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 
-import { usePrsGroup } from '@/hooks/github/root/use-prs-group'
+import { usePullsGroup } from '@/hooks/github/root/use-pulls-group'
 
 import type { TRepoHasCheck } from '@/types/github/root/index'
 
-export const BulkMergePrs: FC = () => {
+export const BulkPullReviews: FC = () => {
   const router = useRouter()
-  const { isLoading: isPrsGrouopFetching, prsGroup } = usePrsGroup()
+  const { isLoading: isPullsGrouopFetching, pullsGroup } = usePullsGroup()
   const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
     []
   )
@@ -81,12 +81,12 @@ export const BulkMergePrs: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (!prsGroup) {
+    if (!pullsGroup) {
       return
     }
 
     setRepoHasCheckArray(
-      prsGroup.map((pulls) => ({
+      pullsGroup.map((pulls) => ({
         org: pulls.org,
         repo: pulls.repo,
         pulls: pulls.pulls.map((pull) => ({
@@ -99,18 +99,18 @@ export const BulkMergePrs: FC = () => {
         }))
       }))
     )
-  }, [prsGroup])
+  }, [pullsGroup])
 
   return (
     <div className="flex w-full h-full gap-5">
       <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        {!!isPrsGrouopFetching &&
+        {!!isPullsGrouopFetching &&
           Array.from({ length: 25 }).map((_, index) => (
             <li key={index} className="w-1/2">
               <Skeleton variant="rect" />
             </li>
           ))}
-        {!isPrsGrouopFetching &&
+        {!isPullsGrouopFetching &&
           repoHasCheckArray.map((repoHasCheck) => (
             <PullListByRepo
               key={repoHasCheck.repo}

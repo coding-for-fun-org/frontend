@@ -4,7 +4,7 @@ import { Tabs } from '@/elements/root/tabs/tabs'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { BulkMergePrs } from '@/components/github/root/bulk-merge-prs/bulk-merge-prs'
+import { BulkPullReviews } from '@/components/github/root/bulk-pull-reviews/bulk-pull-reviews'
 import { GrantPermissionButton } from '@/components/github/root/grant-permission-button/grant-permission-button'
 
 enum ETabValue {
@@ -24,7 +24,7 @@ export default function Page() {
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
       value: ETabValue.BULK_PULL_REVIEWS,
-      children: <BulkMergePrs />
+      children: <BulkPullReviews />
     }
   ]
 
