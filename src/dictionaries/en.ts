@@ -20,7 +20,9 @@ export const dictionary = {
     PULL_REVIEW_FORM_SUBMIT_TOAST_ERROR_TITLE: 'Error',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO: '- Repository Name: {{repoName}}',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL:
-      '- Pull Request Title: {{pullTitle}}'
+      '- Pull Request Title: {{pullTitle}}',
+    TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
+    TAB_GRANT_PERMISSION_LABEL: 'Grant Permission'
   },
   HEADER: {
     LINK_GITHUB_TOOLTIP: 'View source code on GitHub',

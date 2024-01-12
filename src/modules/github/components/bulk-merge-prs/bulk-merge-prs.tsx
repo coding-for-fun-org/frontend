@@ -100,7 +100,7 @@ export const BulkMergePrs: FC = () => {
   }, [prsGroup])
 
   return (
-    <div className="flex">
+    <div className="flex w-full h-full">
       <ul className="flex flex-1 flex-col gap-2">
         {repoHasCheckArray.map((repoHasCheck) => (
           <PullListByRepo

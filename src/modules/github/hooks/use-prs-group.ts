@@ -5,9 +5,11 @@ import { githubService } from '@/services/root/github'
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 
 export const usePrsGroup = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [prsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
+    setIsLoading(true)
     githubService
       .listUserInstallations()
       .then(({ installations }) =>
@@ -47,7 +49,10 @@ export const usePrsGroup = () => {
         setPrsGroup(result)
       })
       .catch(console.error)
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [])
 
-  return { prsGroup }
+  return { isLoading, prsGroup }
 }
