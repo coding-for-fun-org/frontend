@@ -20,9 +20,9 @@ export const LinkGithubIconButton = () => {
           <Button
             variant="ghost"
             size="icon"
-            role="link"
+            role="button"
             icon={<GitHubLogoIcon className="w-full h-full" />}
-          ></Button>
+          />
         </Link>
       }
       content={<span>{translate('HEADER.LINK_GITHUB_TOOLTIP')}</span>}
