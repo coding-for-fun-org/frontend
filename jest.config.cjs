@@ -56,6 +56,6 @@ module.exports = {
     '/node_modules/',
     '^.+\\.module\\.(css|sass|scss)$'
   ],
-  setupFiles: ['./jest.polyfills.js'],
+  setupFiles: ['./jest.polyfills.js', '<rootDir>/src/__mocks__/translate.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 }

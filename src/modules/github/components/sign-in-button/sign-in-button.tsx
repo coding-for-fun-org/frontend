@@ -4,6 +4,7 @@ import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { type FC, useState } from 'react'
 
+import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 

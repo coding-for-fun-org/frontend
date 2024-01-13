@@ -4,6 +4,7 @@ import {
   render,
   renderHook
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { FC, ReactElement, ReactNode } from 'react'
 
 import { dictionary } from '@/dictionaries/root/en'
@@ -31,3 +32,4 @@ const customRenderHook = <T = unknown, U = unknown>(
 export * from '@testing-library/react'
 export { customRender as render }
 export { customRenderHook as renderHook }
+export const userEventSetup = () => userEvent.setup()

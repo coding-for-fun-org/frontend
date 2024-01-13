@@ -1,15 +1,10 @@
-'use client'
-
 import {
-  Action,
   Cancel,
   Content,
-  Description,
   Overlay,
   Portal,
   Root,
-  Title,
-  Trigger
+  Title
 } from '@radix-ui/react-alert-dialog'
 import clsx from 'clsx'
 import {
@@ -17,15 +12,16 @@ import {
   type ElementRef,
   type FC,
   type HTMLAttributes,
+  type MouseEventHandler,
   type ReactNode,
   forwardRef
 } from 'react'
 
+import { Button } from '@/elements/root/button/button'
+
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 const AlertDialogRoot = Root
-
-const AlertDialogTrigger = Trigger
 
 const AlertDialogPortal = Portal
 
@@ -102,7 +98,7 @@ const AlertDialogTitle = forwardRef<
 ))
 AlertDialogTitle.displayName = Title.displayName
 
-const AlertDialogDescription = forwardRef<
+/*  const AlertDialogDescription = forwardRef<
   ElementRef<typeof Description>,
   ComponentPropsWithoutRef<typeof Description>
 >(({ className, ...props }, ref) => (
@@ -124,7 +120,7 @@ const AlertDialogAction = forwardRef<
     {...props}
   />
 ))
-AlertDialogAction.displayName = Action.displayName
+AlertDialogAction.displayName = Action.displayName */
 
 const AlertDialogCancel = forwardRef<
   ElementRef<typeof Cancel>,
@@ -138,44 +134,53 @@ const AlertDialogCancel = forwardRef<
 ))
 AlertDialogCancel.displayName = Cancel.displayName
 
-interface IAlertDialogProps {
+interface AlertDialogProps {
   title: string
-  description: string
-  trigger: ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onActionClick: MouseEventHandler<HTMLButtonElement>
+  children: ReactNode
   cancelLabel?: string
   actionLabel?: string
-  children?: ReactNode
 }
 
-export const AlertDialog: FC<IAlertDialogProps> = ({
+export const AlertDialog: FC<AlertDialogProps> = ({
   title,
-  description,
-  trigger,
+  open,
+  onOpenChange,
+  onActionClick,
+  children,
   cancelLabel,
-  actionLabel,
-  children
+  actionLabel
 }) => {
   const { translate } = useDictionary()
 
   return (
-    <AlertDialogRoot>
-      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-
+    <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
-          {children}
+          <div className="mt-2">{children}</div>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
-          <AlertDialogCancel>
-            {cancelLabel ??
-              translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
+          <AlertDialogCancel asChild>
+            <Button
+              variant="outline"
+              label={
+                cancelLabel ??
+                translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')
+              }
+            ></Button>
           </AlertDialogCancel>
-          <AlertDialogAction>
-            {actionLabel ??
-              translate('COMMON.ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON')}
-          </AlertDialogAction>
+          <Button
+            variant="primary"
+            label={
+              actionLabel ??
+              translate('COMMON.ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON')
+            }
+            onClick={onActionClick}
+          ></Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>
