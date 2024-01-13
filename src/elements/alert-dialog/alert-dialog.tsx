@@ -134,7 +134,8 @@ const AlertDialogCancel = forwardRef<
 ))
 AlertDialogCancel.displayName = Cancel.displayName
 
-interface AlertDialogProps {
+interface IAlertDialogProps {
+  className?: string | undefined
   title: string
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -144,7 +145,8 @@ interface AlertDialogProps {
   actionLabel?: string
 }
 
-export const AlertDialog: FC<AlertDialogProps> = ({
+export const AlertDialog: FC<IAlertDialogProps> = ({
+  className,
   title,
   open,
   onOpenChange,
@@ -157,7 +159,7 @@ export const AlertDialog: FC<AlertDialogProps> = ({
 
   return (
     <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className={className}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <div className="mt-2">{children}</div>

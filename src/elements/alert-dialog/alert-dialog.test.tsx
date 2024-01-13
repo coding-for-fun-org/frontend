@@ -148,4 +148,31 @@ describe('AlertDialog', () => {
     expect(onOpenChangeFn).toHaveBeenCalledTimes(2)
     expect(onOpenChangeFn).toHaveBeenLastCalledWith(false)
   })
+
+  it('should set className', () => {
+    const TEST_CLASS = 'TEST-CLASS'
+    const onOpenChangeFn = jest.fn()
+    const mockFn = jest.fn()
+    const TestComponent = () => {
+      const handleOpenChange = (open: boolean) => {
+        onOpenChangeFn(open)
+      }
+
+      return (
+        <AlertDialog
+          className={TEST_CLASS}
+          open={true}
+          onOpenChange={handleOpenChange}
+          title={DIALOG_TITLE_TEXT}
+          onActionClick={mockFn}
+        >
+          <div>{DIALOG_CHILDREN_TEXT}</div>
+        </AlertDialog>
+      )
+    }
+
+    render(<TestComponent />)
+
+    expect(screen.getByRole('alertdialog')).toHaveClass(TEST_CLASS)
+  })
 })
