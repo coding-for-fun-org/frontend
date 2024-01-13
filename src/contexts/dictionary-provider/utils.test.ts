@@ -1,4 +1,10 @@
-import { findTargetDictionaryValue, replaceDynamicText } from './utils'
+import { dictionary } from '@/dictionaries/root/en'
+
+import {
+  findTargetDictionaryValue,
+  replaceDynamicText,
+  translate
+} from './utils'
 
 describe('DictionaryProvider utils', () => {
   describe('findTargetDictionaryValue', () => {
@@ -54,11 +60,34 @@ describe('DictionaryProvider utils', () => {
     it('should replace dynamic text', () => {
       expect(
         replaceDynamicText(
-          // @ts-expect-error - for testing purpose
           { NAME: 'John Doe', AGE: '30' },
           "I am {{NAME}}. My name is {{NAME}}. I'm {{AGE}} years old"
         )
       ).toBe("I am John Doe. My name is John Doe. I'm 30 years old")
+    })
+  })
+
+  describe('translate', () => {
+    it('should translate as expected', () => {
+      expect(translate(dictionary, 'COMMON.APP_NAME')).toBe('Coding For Fun')
+      expect(
+        translate(
+          dictionary,
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+          {
+            repoName: 'Test Repo'
+          }
+        )
+      ).toBe('- Repository Name: Test Repo')
+      expect(
+        translate(
+          dictionary,
+          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+          {
+            pullTitle: 'Test Pull'
+          }
+        )
+      ).toBe('- Pull Request Title: Test Pull')
     })
   })
 })

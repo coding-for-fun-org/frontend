@@ -1,4 +1,4 @@
-import type { TDictionary, TTranslateKeys } from './types'
+import type { TDictionary, TTranslateKeys, TTranslateParams } from './types'
 
 export type TGeneralizedDictionary = {
   [key: string]: string | TGeneralizedDictionary
@@ -43,4 +43,25 @@ export const replaceDynamicText = (
 
     return accu.replace(new RegExp(placeholder, 'g'), String(paramValue))
   }, text)
+}
+
+export const translate = <
+  K extends TTranslateKeys,
+  P extends TTranslateParams<K>
+>(
+  dictionary: TDictionary,
+  key: K,
+  params?: P
+) => {
+  const targetDictionaryValue = findTargetDictionaryValue(key, dictionary)
+
+  if (targetDictionaryValue === undefined) {
+    throw new Error(
+      `Cannot find dictionary value for key: ${key}. You must've ignored typescript error.`
+    )
+  }
+
+  return params
+    ? replaceDynamicText(params, targetDictionaryValue)
+    : targetDictionaryValue
 }
