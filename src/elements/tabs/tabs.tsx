@@ -6,7 +6,6 @@ import {
   type ComponentPropsWithoutRef,
   type ElementRef,
   type FC,
-  type HTMLAttributes,
   type ReactNode,
   forwardRef,
   memo
@@ -84,20 +83,21 @@ const _MemoContent = memo(_Content)
 _MemoContent.displayName = Content.displayName
 
 interface ITabsProps extends ComponentPropsWithoutRef<typeof Root> {
-  defaultValue: string
   values: ITabValue[]
 }
 
 export const Tabs: FC<ITabsProps> = ({
-  defaultValue,
   values,
   className,
+  value,
+  onValueChange,
   ...props
 }) => {
   return (
     <TabsRoot
-      defaultValue={defaultValue}
       className={clsx('relative', className)}
+      value={value}
+      onValueChange={onValueChange}
       {...props}
     >
       <TabsList>

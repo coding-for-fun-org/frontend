@@ -1,5 +1,3 @@
-'use client'
-
 import { type FC, useEffect } from 'react'
 
 import { Button } from '@/elements/root/button/button'
@@ -8,7 +6,13 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
-export const GrantPermissionButton: FC = () => {
+interface INewConnectionButtonProps {
+  addInstallation: (installationId: number) => void
+}
+
+export const NewConnectionButton: FC<INewConnectionButtonProps> = ({
+  addInstallation
+}) => {
   const { translate } = useDictionary()
 
   let newWindow: Window | null = null
@@ -36,8 +40,8 @@ export const GrantPermissionButton: FC = () => {
 
       const { installationId, setupAction } = event.data
 
-      if (setupAction === 'install') {
-        console.log('installationId', installationId)
+      if (setupAction === 'install' && installationId !== null) {
+        addInstallation(Number(installationId))
       }
     }
 
@@ -55,7 +59,7 @@ export const GrantPermissionButton: FC = () => {
   return (
     <Button
       type="button"
-      label={translate('GITHUB.GRANT_PERMISSION_BUTTON')}
+      label={translate('GITHUB.NEW_CONNECTION_BUTTON')}
       onClick={() => {
         openWindow()
       }}

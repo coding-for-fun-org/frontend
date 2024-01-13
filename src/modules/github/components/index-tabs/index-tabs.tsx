@@ -1,25 +1,27 @@
 'use client'
 
+import { type FC, useState } from 'react'
+
 import { Tabs } from '@/elements/root/tabs/tabs'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { BulkPullReviews } from '@/components/github/root/bulk-pull-reviews/bulk-pull-reviews'
-import { GrantPermissionButton } from '@/components/github/root/grant-permission-button/grant-permission-button'
+import { Connections } from '@/components/github/root/connections/connections'
 
 enum ETabValue {
-  GRANT_PERMISSION = 'GRANT-PERMISSION',
+  CONNECTIONS = 'CONNECTIONS',
   BULK_PULL_REVIEWS = 'BULK-PULL-REVIEWS'
 }
 
-export default function Page() {
+export const IndexTabs: FC = () => {
   const { translate } = useDictionary()
-
+  const [value, setValue] = useState<ETabValue>(ETabValue.BULK_PULL_REVIEWS)
   const tabValues = [
     {
-      label: translate('GITHUB.TAB_GRANT_PERMISSION_LABEL'),
-      value: ETabValue.GRANT_PERMISSION,
-      children: <GrantPermissionButton />
+      label: translate('GITHUB.TAB_CONNECTIONS_LABEL'),
+      value: ETabValue.CONNECTIONS,
+      children: <Connections />
     },
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
@@ -28,10 +30,15 @@ export default function Page() {
     }
   ]
 
+  const handleValueChange = (value: string) => {
+    setValue(value as ETabValue)
+  }
+
   return (
     <Tabs
       className="h-full"
-      defaultValue={ETabValue.BULK_PULL_REVIEWS}
+      value={value}
+      onValueChange={handleValueChange}
       values={tabValues}
     />
   )

@@ -20,6 +20,12 @@ export type UserResponse = Endpoints['GET /user']['response']['data']
 export type UserInstallationsResponse =
   Endpoints['GET /user/installations']['response']['data']
 
+export type InstallationResponse =
+  Endpoints['GET /app/installations/{installation_id}']['response']['data']
+
+export type InstallationDeleteResponse =
+  Endpoints['DELETE /app/installations/{installation_id}']['response']['data']
+
 export type InstallationRepositoriesResponse =
   Endpoints['GET /user/installations/{installation_id}/repositories']['response']['data']
 

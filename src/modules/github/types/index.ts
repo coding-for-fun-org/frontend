@@ -19,6 +19,13 @@ export type TGithubPullRequestGroup = {
   pulls: TGithubPullRequest[]
 }
 
+export type TGithubInstallation = {
+  id: number
+  owner: string
+  pageUrl: string
+  avatarUrl: string
+}
+
 export enum EPullRequestType {
   'REQUEST_CHANGES' = 'REQUEST_CHANGES',
   'APPROVE' = 'APPROVE',

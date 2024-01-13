@@ -8,11 +8,11 @@ export const urlService = {
     }
   },
   github: {
+    index() {
+      return '/github'
+    },
     signIn() {
       return '/github/sign-in'
-    },
-    bulkReviews() {
-      return '/github/bulk-reviews'
     }
   }
 }

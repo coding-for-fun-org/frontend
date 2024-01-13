@@ -52,9 +52,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         )
 
         pushToast({
-          title: `[${translate(
-            'GITHUB.PULL_REVIEW_FORM_SUBMIT_TOAST_SUCCESS_TITLE'
-          )}]`,
+          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
           description: (
             <div>
               <div>{translatedRepo}</div>
@@ -75,9 +73,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         )
 
         pushToast({
-          title: `[${translate(
-            'GITHUB.PULL_REVIEW_FORM_SUBMIT_TOAST_ERROR_TITLE'
-          )}]`,
+          title: translate('GITHUB.TOAST_ERROR_TITLE'),
           description: (
             <div>
               <div>{translatedRepo}</div>

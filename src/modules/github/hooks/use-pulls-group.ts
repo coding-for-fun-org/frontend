@@ -6,7 +6,7 @@ import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 
 export const usePullsGroup = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [pullsGroup, setPrsGroup] = useState<TGithubPullRequestGroup[]>()
+  const [pullsGroup, setPullsGroup] = useState<TGithubPullRequestGroup[]>()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -51,7 +51,7 @@ export const usePullsGroup = () => {
           )
       )
       .then((result) => {
-        setPrsGroup(result)
+        setPullsGroup(result)
       })
       .catch(console.error)
       .finally(() => {

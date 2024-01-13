@@ -20,7 +20,7 @@ export default function Page() {
         <h4>{translate('ROOT_PAGE.PLAYGROUND_LIST_TITLE')}</h4>
 
         <div className="flex flex-row gap-4">
-          <Link href={urlService.github.bulkReviews()}>
+          <Link href={urlService.github.index()}>
             <Button
               label={translate(
                 'ROOT_PAGE.PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW'
