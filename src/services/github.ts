@@ -6,6 +6,7 @@ import type { EPullRequestType } from '@/types/github/root/index'
 import type {
   InstallationDeleteResponse,
   InstallationRepositoriesResponse,
+  InstallationResponse,
   PullReviewResponse,
   RepoPullsResponse,
   UserInstallationsResponse
@@ -19,13 +20,24 @@ export const githubService = {
       .get<UserInstallationsResponse>('/api/github/user/installations', config)
       .then((response) => response.data)
   },
+  async getInstallation(
+    installationId: number,
+    config?: AxiosRequestConfig
+  ): Promise<InstallationResponse> {
+    return axiosGithub
+      .get<InstallationResponse>(
+        `/api/github/app/installations/${installationId}`,
+        config
+      )
+      .then((response) => response.data)
+  },
   async deleteInstallation(
     installationId: number,
     config?: AxiosRequestConfig
   ): Promise<InstallationDeleteResponse> {
     return axiosGithub
       .delete<InstallationDeleteResponse>(
-        `/api/github/user/installations/${installationId}`,
+        `/api/github/app/installations/${installationId}`,
         config
       )
       .then((response) => response.data)

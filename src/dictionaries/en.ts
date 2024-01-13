@@ -11,18 +11,21 @@ export const dictionary = {
     ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Cancel'
   },
   GITHUB: {
-    GRANT_PERMISSION_BUTTON: 'Grant Permission',
+    NEW_CONNECTION_BUTTON: 'New Connection',
     PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
-    PULL_REVIEW_FORM_SUBMIT_TOAST_SUCCESS_TITLE: 'Success',
-    PULL_REVIEW_FORM_SUBMIT_TOAST_ERROR_TITLE: 'Error',
+    TOAST_SUCCESS_TITLE: '[Success]',
+    TOAST_ERROR_TITLE: '[Error]',
+    TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
+    TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:
+      'Delete connection successfully.',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO: '- Repository Name: {{repoName}}',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL:
       '- Pull Request Title: {{pullTitle}}',
     TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
-    TAB_GRANT_PERMISSION_LABEL: 'Grant Permission'
+    TAB_CONNECTIONS_LABEL: 'Connections'
   },
   HEADER: {
     LINK_GITHUB_TOOLTIP: 'View source code on GitHub',

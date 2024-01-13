@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
+import { CallbackLoading } from '@/components/root/callback-loading/callback-loading'
+
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
 export default function Page() {
@@ -19,5 +21,9 @@ export default function Page() {
     }
   }, [])
 
-  return <></>
+  return (
+    <div className="w-full h-full flex justify-center items-center">
+      <CallbackLoading />
+    </div>
+  )
 }

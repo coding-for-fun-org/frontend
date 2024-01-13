@@ -16,6 +16,7 @@
     "@octokit/auth-app": "^6.0.1",
     "@octokit/core": "^5.0.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -61,7 +62,7 @@
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "undici": "^5.28.2"
   }
 }
