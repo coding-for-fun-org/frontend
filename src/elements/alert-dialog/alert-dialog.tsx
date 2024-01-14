@@ -10,7 +10,6 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
   type HTMLAttributes,
   type MouseEventHandler,
   type ReactNode,
@@ -145,7 +144,7 @@ interface IAlertDialogProps {
   actionLabel?: string
 }
 
-export const AlertDialog: FC<IAlertDialogProps> = ({
+export function AlertDialog({
   className,
   title,
   open,
@@ -154,7 +153,7 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
   children,
   cancelLabel,
   actionLabel
-}) => {
+}: IAlertDialogProps) {
   const { translate } = useDictionary()
 
   return (
