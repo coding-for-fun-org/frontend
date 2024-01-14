@@ -6,7 +6,6 @@ import Image from 'next/image'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
   forwardRef
 } from 'react'
 
@@ -58,7 +57,7 @@ interface IAvatarProps {
   fallback: string
 }
 
-export const Avatar: FC<IAvatarProps> = ({ className, src, fallback }) => {
+export function Avatar({ className, src, fallback }: IAvatarProps) {
   return (
     <AvatarRoot className={className}>
       <AvatarImage src={src} fill={true} alt={fallback} />
