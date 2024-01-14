@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-import { Tabs } from '@/elements/root/tabs/tabs'
-
 import {
   render,
   screen,
   userEventSetup
 } from '@/utils/root/test/testing-library'
+
+import { Tabs } from './tabs'
 
 describe('Tabs', () => {
   const TAB_LABEL_0 = 'TAB-LABEL-0'

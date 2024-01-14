@@ -14,18 +14,15 @@ export const LinkGithubIconButton = () => {
   const { translate } = useDictionary()
 
   return (
-    <Tooltip
-      trigger={
-        <Link href={urlService.root.githubRepo()} target="_blank">
-          <Button
-            variant="ghost"
-            size="icon"
-            role="button"
-            icon={<GitHubLogoIcon className="w-full h-full" />}
-          />
-        </Link>
-      }
-      content={<span>{translate('HEADER.LINK_GITHUB_TOOLTIP')}</span>}
-    />
+    <Tooltip tooltip={<span>{translate('HEADER.LINK_GITHUB_TOOLTIP')}</span>}>
+      <Link href={urlService.root.githubRepo()} target="_blank">
+        <Button
+          variant="ghost"
+          size="icon"
+          role="button"
+          icon={<GitHubLogoIcon className="w-full h-full" />}
+        />
+      </Link>
+    </Tooltip>
   )
 }

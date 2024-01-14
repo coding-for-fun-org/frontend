@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
-
 import {
   render,
   screen,
   userEventSetup
 } from '@/utils/root/test/testing-library'
+
+import { AlertDialog } from './alert-dialog'
 
 describe('AlertDialog', () => {
   const OPEN_DIALOG_BUTTON_TEXT = 'OPEN-DIALAG'

@@ -13,23 +13,20 @@ export const ToggleThemeIconButton = () => {
   const { toggleTheme } = useToggleTheme()
 
   return (
-    <Tooltip
-      trigger={
-        <Button
-          variant="ghost"
-          size="icon"
-          icon={
-            <>
-              <MoonIcon className="hidden dark:block w-full h-full" />
-              <SunIcon className="block dark:hidden w-full h-full" />
-            </>
-          }
-          onClick={() => {
-            toggleTheme()
-          }}
-        ></Button>
-      }
-      content={<span>{translate('HEADER.TOGGLE_THEME_TOOLTIP')}</span>}
-    />
+    <Tooltip tooltip={<span>{translate('HEADER.TOGGLE_THEME_TOOLTIP')}</span>}>
+      <Button
+        variant="ghost"
+        size="icon"
+        icon={
+          <>
+            <MoonIcon className="hidden dark:block w-full h-full" />
+            <SunIcon className="block dark:hidden w-full h-full" />
+          </>
+        }
+        onClick={() => {
+          toggleTheme()
+        }}
+      />
+    </Tooltip>
   )
 }

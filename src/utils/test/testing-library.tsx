@@ -9,6 +9,7 @@ import type { FC, ReactElement, ReactNode } from 'react'
 
 import { dictionary } from '@/dictionaries/root/en'
 
+import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 interface ProvidersProps {
@@ -16,7 +17,9 @@ interface ProvidersProps {
 }
 
 const Providers: FC<ProvidersProps> = ({ children }) => (
-  <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>
+  <ClientProvider>
+    <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>
+  </ClientProvider>
 )
 
 const customRender = (
