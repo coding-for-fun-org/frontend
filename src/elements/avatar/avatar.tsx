@@ -52,15 +52,16 @@ const AvatarFallback = forwardRef<
 ))
 AvatarFallback.displayName = Fallback.displayName
 
-interface IAvatarProps extends ComponentPropsWithoutRef<typeof Root> {
-  imgSrc: string
+interface IAvatarProps {
+  className?: string | undefined
+  src: string
   fallback: string
 }
 
-export const Avatar: FC<IAvatarProps> = ({ imgSrc, fallback, ...props }) => {
+export const Avatar: FC<IAvatarProps> = ({ className, src, fallback }) => {
   return (
-    <AvatarRoot {...props}>
-      <AvatarImage src={imgSrc} fill={true} alt={fallback} />
+    <AvatarRoot className={className}>
+      <AvatarImage src={src} fill={true} alt={fallback} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </AvatarRoot>
   )
