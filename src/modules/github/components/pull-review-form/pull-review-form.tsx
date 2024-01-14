@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useState } from 'react'
+import { type ChangeEvent, type FC, useEffect, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Button } from '@/elements/root/button/button'
@@ -23,13 +23,12 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 }) => {
   const [commentInput, setCommentInput] = useState<string>('')
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [progressValue, setProgressValue] = useState<number>(0)
+  const [showProgress, setShowProgress] = useState<boolean>(false)
   const [dialogData, setDialogData] = useState<{
     title: string
     description: string
   } | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  const [progressValue, setProgressValue] = useState<number>(0)
-  const [progressMaxValue, setProgressMaxValue] = useState<number>(0)
   const { pushToast } = useToast()
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
@@ -47,71 +46,63 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     pullTitle: string,
     pullNumber: number,
     reviewType: EPullRequestType,
-    comment: string
+    comment: string,
+    progressIncreaseValue: number
   ) => {
     githubService
       .reviewPullRequest(owner, repo, pullNumber, { reviewType, comment })
       .then(() => {
-        const translatedRepo = translate(
-          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-          { repoName: repo }
-        )
-        const translatedPullTitle = translate(
-          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-          { pullTitle: pullTitle }
-        )
+        console.log(`progressIncreaseValue =${progressIncreaseValue}`)
 
-        pushToast({
-          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
-          description: (
-            <div>
-              <div>{translatedRepo}</div>
-              <div>{translatedPullTitle}</div>
-            </div>
-          ),
-          variant: 'success'
-        })
-        setProgressValue((prev) => prev + 1)
+        console.log(`before progressValue =${progressValue}`)
+        setProgressValue((prev) => prev + progressIncreaseValue)
+        console.log(`after progressValue =${progressValue}`)
+        if (progressValue === 100) {
+          reviewSuccess()
+        }
       })
       .catch(() => {
-        const translatedRepo = translate(
-          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-          { repoName: repo }
-        )
-        const translatedPullTitle = translate(
-          'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-          { pullTitle: pullTitle }
-        )
-
-        pushToast({
-          title: translate('GITHUB.TOAST_ERROR_TITLE'),
-          description: (
-            <div>
-              <div>{translatedRepo}</div>
-              <div>{translatedPullTitle}</div>
-            </div>
-          ),
-          variant: 'error'
-        })
+        reviewError()
       })
+  }
+  const reviewSuccess = () => {
+    setShowProgress(false)
+    pushToast({
+      title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
+      variant: 'success'
+    })
+  }
+
+  const reviewError = () => {
+    pushToast({
+      title: translate('GITHUB.TOAST_ERROR_TITLE'),
+      variant: 'error'
+    })
   }
 
   const handleReviewChanges = (pullRequestType: EPullRequestType) => {
-    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+    setShowProgress(true)
+    setProgressValue(0)
 
-    setProgressMaxValue(checkedPullsInfo.length)
+    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
+    console.log('checkedPullsInfo.length', checkedPullsInfo.length)
+
+    const progressIncreaseValue = 100 / checkedPullsInfo.length
 
     checkedPullsInfo.forEach((checkedPull) => {
+      console.log('hi')
       reviewPullRequest(
         checkedPull.org,
         checkedPull.repo,
         checkedPull.pullTitle,
         checkedPull.pullNumber,
         pullRequestType,
-        commentInput
+        commentInput,
+        progressIncreaseValue
       )
     })
   }
+
   const handleOpenDialog = (type: EPullRequestType) => {
     setIsDialogOpen(true)
     console.log('run handleOpenDialog()')
@@ -125,19 +116,23 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     }
   }
 
+  const handleOpenChange = (open: boolean) => {
+    console.log('run handleOpenChange()')
+    setIsDialogOpen(open)
+  }
+
   const handleCloseDialog = () => {
     console.log('run handleCloseDialog()')
   }
 
   const handleActionClick = () => {
     console.log('processing submit...')
+    setProgressValue(0)
     handleReviewChanges(dialogData?.title)
-  }
-
-  const handleCancelClick = () => {
-    console.log('run handleCancelClick()')
     handleCloseDialog()
   }
+
+  useEffect(() => {}, [])
 
   return (
     <>
@@ -153,16 +148,12 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         <div className="mt-5 flex justify-end gap-2">
           <AlertDialog
             open={isDialogOpen}
-            onOpenChange={() => setIsDialogOpen((prev) => !prev)}
-            onCancelClick={handleCancelClick}
+            onOpenChange={handleOpenChange}
             onActionClick={handleActionClick}
-            children={
-              isSubmitting && (
-                <Progress value={progressValue} max={progressMaxValue} />
-              )
-            }
             title={dialogData?.title}
-            description={dialogData?.description}
+            children={
+              showProgress && <Progress value={progressValue} max={100} />
+            }
             cancelLabel="Cancle"
             actionLabel="Submit"
           ></AlertDialog>
