@@ -1,16 +1,17 @@
 'use client'
 
-import { Content, Root } from '@radix-ui/react-tooltip'
+import { Content, Root, Trigger } from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type HTMLAttributes,
   type ReactNode,
   forwardRef
 } from 'react'
 
 const TooltipRoot = Root
+
+const TooltipTrigger = Trigger
 
 const TooltipContent = forwardRef<
   ElementRef<typeof Content>,
@@ -29,23 +30,29 @@ const TooltipContent = forwardRef<
 TooltipContent.displayName = Content.displayName
 
 type TCustomProps = {
-  open: boolean
-  onOpenChange(open: boolean): void
-  content: ReactNode
+  tooltip: ReactNode
+  children: ReactNode
+  // The duration from when the mouse enters a tooltip trigger until the tooltip opens.
+  delayDuration?: number
 }
 
-type TTooltipProps = Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
-  TCustomProps
+type TTooltipProps = TCustomProps
+
+const DEFAULT_TOOLTIP_DELAY_DURATION = 500
 
 export function Tooltip({
-  open,
-  onOpenChange,
-  content,
+  tooltip,
+  children,
+  delayDuration,
   ...props
 }: TTooltipProps) {
   return (
-    <TooltipRoot open={open} onOpenChange={onOpenChange} {...props}>
-      <TooltipContent>{content}</TooltipContent>
+    <TooltipRoot
+      delayDuration={delayDuration ?? DEFAULT_TOOLTIP_DELAY_DURATION}
+      {...props}
+    >
+      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
     </TooltipRoot>
   )
 }
