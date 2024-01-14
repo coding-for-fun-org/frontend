@@ -1,18 +1,16 @@
 'use client'
 
-import { Content, Root, Trigger } from '@radix-ui/react-tooltip'
+import { Content, Root } from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
+  type HTMLAttributes,
   type ReactNode,
   forwardRef
 } from 'react'
 
 const TooltipRoot = Root
-
-const TooltipTrigger = Trigger
 
 const TooltipContent = forwardRef<
   ElementRef<typeof Content>,
@@ -30,16 +28,25 @@ const TooltipContent = forwardRef<
 ))
 TooltipContent.displayName = Content.displayName
 
-interface ITooltipProps {
-  trigger: ReactNode
+type TCustomProps = {
+  open: boolean
+  onOpenChange(open: boolean): void
   content: ReactNode
 }
 
-export const Tooltip: FC<ITooltipProps> = ({ trigger, content }) => {
+type TTooltipProps = Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
+  TCustomProps
+
+export function Tooltip({
+  open,
+  onOpenChange,
+  content,
+  ...props
+}: TTooltipProps) {
   return (
-    <TooltipRoot>
-      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+    <TooltipRoot open={open} onOpenChange={onOpenChange} {...props}>
       <TooltipContent>{content}</TooltipContent>
     </TooltipRoot>
   )
 }
+Tooltip.displayName = 'Tooltip'

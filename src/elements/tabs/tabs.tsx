@@ -1,3 +1,5 @@
+'use client'
+
 import { Content, List, Root, Trigger } from '@radix-ui/react-tabs'
 import clsx from 'clsx'
 import {
@@ -70,7 +72,7 @@ type TTabValue = {
 type TCustomProps = {
   values: TTabValue[]
   value: string
-  onValueChange: (value: string) => void
+  onValueChange(value: string): void
 }
 
 type TTabsProps = Omit<

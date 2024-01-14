@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Cancel,
   Content,
@@ -136,7 +138,7 @@ AlertDialogCancel.displayName = Cancel.displayName
 type TCustomProps = {
   title: ReactNode
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange(open: boolean): void
   onActionClick: MouseEventHandler<HTMLButtonElement>
   children: ReactNode
   cancelLabel?: string
