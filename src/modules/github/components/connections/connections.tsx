@@ -27,7 +27,7 @@ export const Connections: FC = () => {
             <li key={installation.id} className="flex items-center py-2">
               <div className="flex-grow flex items-center gap-2">
                 <Avatar
-                  imgSrc={installation.avatarUrl}
+                  src={installation.avatarUrl}
                   className="w-6 h-6"
                   fallback={installation.owner}
                 />

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type { FC, HTMLAttributes } from 'react'
+import type { HTMLAttributes } from 'react'
 
 interface IVariantProps {
   variant: 'circle' | 'rect'
@@ -9,7 +9,7 @@ interface ISkeletonProps extends HTMLAttributes<HTMLDivElement> {
   variant: IVariantProps['variant']
 }
 
-const Skeleton: FC<ISkeletonProps> = ({ variant, className, ...props }) => {
+export const Skeleton = ({ variant, className, ...props }: ISkeletonProps) => {
   const baseClasses = 'skeleton'
   const variantClasses: Record<Required<IVariantProps>['variant'], string> = {
     circle: 'variant--circle',
@@ -24,5 +24,3 @@ const Skeleton: FC<ISkeletonProps> = ({ variant, className, ...props }) => {
   )
 }
 Skeleton.displayName = 'Skeleton'
-
-export { Skeleton }

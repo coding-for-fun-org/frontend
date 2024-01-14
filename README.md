@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/coding-for-fun-org/frontend/graph/badge.svg?token=C4WXQGTZTM)](https://codecov.io/gh/coding-for-fun-org/frontend)
+
 # Coding for fun
 
 My personal playground for coding and learning.

@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Cancel,
   Content,
@@ -10,7 +12,6 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
   type HTMLAttributes,
   type MouseEventHandler,
   type ReactNode,
@@ -134,32 +135,37 @@ const AlertDialogCancel = forwardRef<
 ))
 AlertDialogCancel.displayName = Cancel.displayName
 
-interface IAlertDialogProps {
-  className?: string | undefined
-  title: string
+type TCustomProps = {
+  title: ReactNode
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange(open: boolean): void
   onActionClick: MouseEventHandler<HTMLButtonElement>
   children: ReactNode
   cancelLabel?: string
   actionLabel?: string
 }
 
-export const AlertDialog: FC<IAlertDialogProps> = ({
-  className,
+type TAlertDialogProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  keyof TCustomProps
+> &
+  TCustomProps
+
+export const AlertDialog = ({
   title,
   open,
   onOpenChange,
   onActionClick,
   children,
   cancelLabel,
-  actionLabel
-}) => {
+  actionLabel,
+  ...props
+}: TAlertDialogProps) => {
   const { translate } = useDictionary()
 
   return (
     <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className={className}>
+      <AlertDialogContent {...props}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <div className="mt-2">{children}</div>

@@ -89,7 +89,7 @@ const ButtonLoader: FC<ButtonLoaderProps> = ({ size }) => {
  *   2-1. If size is 'icon', label must be undefined
  *   2-2. If size is not 'icon', label must be defined
  */
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
@@ -156,5 +156,3 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 )
 Button.displayName = 'Button'
-
-export { Button }

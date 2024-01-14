@@ -5,13 +5,18 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
+  type HTMLAttributes,
   type ReactNode,
-  forwardRef,
-  memo
+  forwardRef
 } from 'react'
 
-const TabsRoot = Root
+const TabsRoot = forwardRef<
+  ElementRef<typeof Root>,
+  ComponentPropsWithoutRef<typeof Root>
+>(({ className, ...props }, ref) => (
+  <Root ref={ref} className={clsx('relative', className)} {...props} />
+))
+TabsRoot.displayName = Root.displayName
 
 const TabsList = forwardRef<
   ElementRef<typeof List>,
@@ -58,68 +63,45 @@ const TabsContent = forwardRef<
 ))
 TabsContent.displayName = Content.displayName
 
-interface ITabValue {
+type TTabValue = {
   label: string
   value: string
   children: ReactNode
-  memo?: boolean
 }
 
-const _Trigger: FC<Pick<ITabValue, 'label' | 'value'>> = ({ label, value }) => (
-  <TabsTrigger value={value}>{label}</TabsTrigger>
-)
-_Trigger.displayName = Trigger.displayName
-
-const _MemoTrigger = memo(_Trigger)
-_MemoTrigger.displayName = Trigger.displayName
-
-const _Content: FC<Pick<ITabValue, 'value' | 'children'>> = ({
-  value,
-  children
-}) => <TabsContent value={value}>{children}</TabsContent>
-_Content.displayName = Content.displayName
-
-const _MemoContent = memo(_Content)
-_MemoContent.displayName = Content.displayName
-
-interface ITabsProps extends ComponentPropsWithoutRef<typeof Root> {
-  values: ITabValue[]
+type TCustomProps = {
+  values: TTabValue[]
+  value: string
+  onValueChange(value: string): void
 }
 
-export const Tabs: FC<ITabsProps> = ({
+type TTabsProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  // I do not need 'defaultValue' and 'dir' in my component
+  keyof TCustomProps | 'defaultValue' | 'dir'
+> &
+  TCustomProps
+
+export const Tabs = ({
   values,
-  className,
   value,
   onValueChange,
   ...props
-}) => {
+}: TTabsProps) => {
   return (
-    <TabsRoot
-      className={clsx('relative', className)}
-      value={value}
-      onValueChange={onValueChange}
-      {...props}
-    >
-      <TabsList>
-        {values.map(({ label, value, memo }) =>
-          !!memo ? (
-            <_MemoTrigger key={value} label={label} value={value} />
-          ) : (
-            <_Trigger key={value} label={label} value={value} />
-          )
-        )}
+    <TabsRoot value={value} onValueChange={onValueChange} {...props}>
+      <TabsList data-testid="tabs-list">
+        {values.map(({ label, value }) => (
+          <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
+            {label}
+          </TabsTrigger>
+        ))}
       </TabsList>
-      {values.map(({ value, children, memo }) =>
-        !!memo ? (
-          <_MemoContent key={value} value={value}>
-            {children}
-          </_MemoContent>
-        ) : (
-          <_Content key={value} value={value}>
-            {children}
-          </_Content>
-        )
-      )}
+      {values.map(({ value, children }) => (
+        <TabsContent data-testid="tabs-content" key={value} value={value}>
+          {children}
+        </TabsContent>
+      ))}
     </TabsRoot>
   )
 }

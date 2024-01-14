@@ -6,7 +6,7 @@ import Image from 'next/image'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
+  type HTMLAttributes,
   forwardRef
 } from 'react'
 
@@ -52,15 +52,18 @@ const AvatarFallback = forwardRef<
 ))
 AvatarFallback.displayName = Fallback.displayName
 
-interface IAvatarProps extends ComponentPropsWithoutRef<typeof Root> {
-  imgSrc: string
+type TCustomProps = {
+  src: string
   fallback: string
 }
 
-export const Avatar: FC<IAvatarProps> = ({ imgSrc, fallback, ...props }) => {
+type TAvatarProps = Omit<HTMLAttributes<HTMLSpanElement>, keyof TCustomProps> &
+  TCustomProps
+
+export const Avatar = ({ src, fallback, ...props }: TAvatarProps) => {
   return (
     <AvatarRoot {...props}>
-      <AvatarImage src={imgSrc} fill={true} alt={fallback} />
+      <AvatarImage src={src} fill={true} alt={fallback} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </AvatarRoot>
   )

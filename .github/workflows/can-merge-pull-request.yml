@@ -1,11 +1,14 @@
-name: Test if it's okay to merge
+name: Check if the Pull Request can be merged
 
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - main
 
 jobs:
-  supervise:
+  can-merge-pull-request:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

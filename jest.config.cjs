@@ -3,6 +3,8 @@ module.exports = {
     '<rootDir>/src/components/**/*.{ts,tsx}',
     '<rootDir>/src/hooks/**/*.{ts,tsx}',
     '<rootDir>/src/utils/**/*.{ts,tsx}',
+    '<rootDir>/src/elements/**/*.{ts,tsx}',
+    '<rootDir>/src/contexts/**/*.{ts,tsx}',
     '<rootDir>/src/**/components/**/*.{ts,tsx}',
     '<rootDir>/src/**/hooks/**/*.{ts,tsx}',
     '<rootDir>/src/**/utils/**/*.{ts,tsx}',

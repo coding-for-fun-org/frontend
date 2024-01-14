@@ -5,7 +5,6 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type FC,
   type ReactNode,
   forwardRef
 } from 'react'
@@ -30,16 +29,31 @@ const TooltipContent = forwardRef<
 ))
 TooltipContent.displayName = Content.displayName
 
-interface ITooltipProps {
-  trigger: ReactNode
-  content: ReactNode
+type TCustomProps = {
+  tooltip: ReactNode
+  children: ReactNode
+  // The duration from when the mouse enters a tooltip trigger until the tooltip opens.
+  delayDuration?: number
 }
 
-export const Tooltip: FC<ITooltipProps> = ({ trigger, content }) => {
+type TTooltipProps = TCustomProps
+
+const DEFAULT_TOOLTIP_DELAY_DURATION = 500
+
+export const Tooltip = ({
+  tooltip,
+  children,
+  delayDuration,
+  ...props
+}: TTooltipProps) => {
   return (
-    <TooltipRoot>
-      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
-      <TooltipContent>{content}</TooltipContent>
+    <TooltipRoot
+      delayDuration={delayDuration ?? DEFAULT_TOOLTIP_DELAY_DURATION}
+      {...props}
+    >
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
     </TooltipRoot>
   )
 }
+Tooltip.displayName = 'Tooltip'
