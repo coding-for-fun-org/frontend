@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  HTMLAttributes,
+  type HTMLAttributes,
   type ReactNode,
   forwardRef
 } from 'react'
