@@ -9,6 +9,7 @@
     "lint:check": "next lint",
     "format:check": "prettier -c src/",
     "test": "TZ=utc jest",
+    "test:coverage": "TZ=utc jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default",
     "test:watch": "TZ=utc jest --watch",
     "start": "next start"
   },
