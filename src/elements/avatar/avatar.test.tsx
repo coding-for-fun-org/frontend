@@ -1,6 +1,6 @@
-import { Avatar } from '@/elements/root/avatar/avatar'
-
 import { render, screen } from '@/utils/root/test/testing-library'
+
+import { Avatar } from './avatar'
 
 describe('Avatar', () => {
   it('should set img src and fallback', () => {

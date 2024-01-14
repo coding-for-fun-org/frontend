@@ -1,6 +1,6 @@
-import { Alert } from '@/elements/root/alert/alert'
-
 import { render, screen } from '@/utils/root/test/testing-library'
+
+import { Alert } from './alert'
 
 describe('Alert', () => {
   const ALERT_TITLE_TEXT = 'ALERT-TITLE-TEXT'
