@@ -5,7 +5,7 @@ import {
   InfoCircledIcon
 } from '@radix-ui/react-icons'
 import clsx from 'clsx'
-import { type FC, type HTMLAttributes, type ReactNode, forwardRef } from 'react'
+import { type HTMLAttributes, type ReactNode, forwardRef } from 'react'
 
 export interface IVariantProps {
   variant?: 'primary' | 'success' | 'info' | 'error'
@@ -60,12 +60,7 @@ interface IAlertProps extends IVariantProps {
   description?: ReactNode
 }
 
-export const Alert: FC<IAlertProps> = ({
-  className,
-  variant,
-  title,
-  description
-}) => {
+export function Alert({ className, variant, title, description }: IAlertProps) {
   return (
     <AlertRoot variant={variant} className={className}>
       <div className="flex items-center gap-2">
