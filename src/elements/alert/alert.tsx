@@ -54,15 +54,18 @@ const AlertDescription = forwardRef<
 ))
 AlertDescription.displayName = 'AlertDescription'
 
-interface IAlertProps extends IVariantProps {
-  className?: string | undefined
+type TCustomProps = {
   title: ReactNode
   description?: ReactNode
 }
 
-export function Alert({ className, variant, title, description }: IAlertProps) {
+type TAlertProps = IVariantProps &
+  Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
+  TCustomProps
+
+export function Alert({ variant, title, description, ...props }: TAlertProps) {
   return (
-    <AlertRoot variant={variant} className={className}>
+    <AlertRoot variant={variant} {...props}>
       <div className="flex items-center gap-2">
         {(variant === undefined || variant === 'primary') && (
           <DrawingPinIcon data-testid="pin-icon" />

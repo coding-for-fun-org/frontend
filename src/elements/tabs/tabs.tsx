@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
+  HTMLAttributes,
   type ReactNode,
   forwardRef
 } from 'react'
@@ -60,26 +61,32 @@ const TabsContent = forwardRef<
 ))
 TabsContent.displayName = Content.displayName
 
-interface ITabValue {
+type TTabValue = {
   label: string
   value: string
   children: ReactNode
 }
 
-interface ITabsProps {
-  values: ITabValue[]
-  className?: string | undefined
+type TCustomProps = {
+  values: TTabValue[]
   value: string
   onValueChange: (value: string) => void
 }
 
-export function Tabs({ values, className, value, onValueChange }: ITabsProps) {
+type TTabsProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  // I do not need 'defaultValue' and 'dir' in my component
+  keyof TCustomProps | 'defaultValue' | 'dir'
+> &
+  TCustomProps
+
+export function Tabs({ values, value, onValueChange, ...props }: TTabsProps) {
   return (
     <TabsRoot
       data-testid="tabs-root"
-      className={className}
       value={value}
       onValueChange={onValueChange}
+      {...props}
     >
       <TabsList data-testid="tabs-list">
         {values.map(({ label, value }) => (
