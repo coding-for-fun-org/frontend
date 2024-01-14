@@ -133,9 +133,8 @@ const AlertDialogCancel = forwardRef<
 ))
 AlertDialogCancel.displayName = Cancel.displayName
 
-interface IAlertDialogProps {
-  className?: string | undefined
-  title: string
+type TCustomProps = {
+  title: ReactNode
   open: boolean
   onOpenChange: (open: boolean) => void
   onActionClick: MouseEventHandler<HTMLButtonElement>
@@ -144,21 +143,27 @@ interface IAlertDialogProps {
   actionLabel?: string
 }
 
+type TAlertDialogProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  keyof TCustomProps
+> &
+  TCustomProps
+
 export function AlertDialog({
-  className,
   title,
   open,
   onOpenChange,
   onActionClick,
   children,
   cancelLabel,
-  actionLabel
-}: IAlertDialogProps) {
+  actionLabel,
+  ...props
+}: TAlertDialogProps) {
   const { translate } = useDictionary()
 
   return (
     <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className={className}>
+      <AlertDialogContent {...props}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <div className="mt-2">{children}</div>
