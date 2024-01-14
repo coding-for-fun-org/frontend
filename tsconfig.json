@@ -13,11 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
     /* Bundled projects */
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2023"
-    ],
+    "lib": ["dom", "dom.iterable", "ES2023"],
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -31,54 +27,22 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/styles/root/*": [
-        "./src/styles/*"
-      ],
-      "@/dictionaries/root/*": [
-        "./src/dictionaries/*"
-      ],
-      "@/server/root/*": [
-        "./src/server/*"
-      ],
-      "@/elements/root/*": [
-        "./src/elements/*"
-      ],
-      "@/components/root/*": [
-        "./src/components/*"
-      ],
-      "@/contexts/root/*": [
-        "./src/contexts/*"
-      ],
-      "@/services/root/*": [
-        "./src/services/*"
-      ],
-      "@/hooks/root/*": [
-        "./src/hooks/*"
-      ],
-      "@/utils/root/*": [
-        "./src/utils/*"
-      ],
-      "@/types/root/*": [
-        "./src/types/*"
-      ],
-      "@/styles/github/root/*": [
-        "./src/modules/github/styles/*"
-      ],
-      "@/components/github/root/*": [
-        "./src/modules/github/components/*"
-      ],
-      "@/contexts/github/root/*": [
-        "./src/modules/github/contexts/*"
-      ],
-      "@/hooks/github/root/*": [
-        "./src/modules/github/hooks/*"
-      ],
-      "@/types/github/root/*": [
-        "./src/modules/github/types/*"
-      ],
-      "@/utils/github/root/*": [
-        "./src/modules/github/utils/*"
-      ]
+      "@/styles/root/*": ["./src/styles/*"],
+      "@/dictionaries/root/*": ["./src/dictionaries/*"],
+      "@/server/root/*": ["./src/server/*"],
+      "@/elements/root/*": ["./src/elements/*"],
+      "@/components/root/*": ["./src/components/*"],
+      "@/contexts/root/*": ["./src/contexts/*"],
+      "@/services/root/*": ["./src/services/*"],
+      "@/hooks/root/*": ["./src/hooks/*"],
+      "@/utils/root/*": ["./src/utils/*"],
+      "@/types/root/*": ["./src/types/*"],
+      "@/styles/github/root/*": ["./src/modules/github/styles/*"],
+      "@/components/github/root/*": ["./src/modules/github/components/*"],
+      "@/contexts/github/root/*": ["./src/modules/github/contexts/*"],
+      "@/hooks/github/root/*": ["./src/modules/github/hooks/*"],
+      "@/types/github/root/*": ["./src/modules/github/types/*"],
+      "@/utils/github/root/*": ["./src/modules/github/utils/*"]
     }
   },
   "include": [
@@ -91,7 +55,5 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "coverage"]
 }
