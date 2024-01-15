@@ -2,21 +2,15 @@
 
 import { Root } from '@radix-ui/react-label'
 import clsx from 'clsx'
-import {
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  forwardRef
-} from 'react'
+import type { LabelHTMLAttributes } from 'react'
 
-const Label = forwardRef<
-  ElementRef<typeof Root>,
-  ComponentPropsWithoutRef<typeof Root>
->(({ className, ...props }, ref) => {
+export const Label = ({
+  className,
+  ...props
+}: LabelHTMLAttributes<HTMLLabelElement>) => {
   const basicClasses =
     'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
 
-  return <Root ref={ref} className={clsx(basicClasses, className)} {...props} />
-})
+  return <Root className={clsx(basicClasses, className)} {...props} />
+}
 Label.displayName = Root.displayName
-
-export { Label }
