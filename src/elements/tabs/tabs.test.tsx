@@ -104,6 +104,7 @@ describe('Tabs', () => {
 
       return (
         <Tabs
+          data-testid="tabs-root"
           className={TEST_CLASS}
           values={tabValues}
           value={String(value)}
