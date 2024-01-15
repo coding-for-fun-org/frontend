@@ -60,7 +60,7 @@ type TCustomProps = {
 type TAvatarProps = Omit<HTMLAttributes<HTMLSpanElement>, keyof TCustomProps> &
   TCustomProps
 
-export function Avatar({ src, fallback, ...props }: TAvatarProps) {
+export const Avatar = ({ src, fallback, ...props }: TAvatarProps) => {
   return (
     <AvatarRoot {...props}>
       <AvatarImage src={src} fill={true} alt={fallback} />

@@ -40,12 +40,12 @@ type TTooltipProps = TCustomProps
 
 const DEFAULT_TOOLTIP_DELAY_DURATION = 500
 
-export function Tooltip({
+export const Tooltip = ({
   tooltip,
   children,
   delayDuration,
   ...props
-}: TTooltipProps) {
+}: TTooltipProps) => {
   return (
     <TooltipRoot
       delayDuration={delayDuration ?? DEFAULT_TOOLTIP_DELAY_DURATION}
