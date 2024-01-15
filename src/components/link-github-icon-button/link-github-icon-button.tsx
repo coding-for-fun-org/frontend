@@ -14,7 +14,7 @@ export const LinkGithubIconButton = () => {
   const { translate } = useDictionary()
 
   return (
-    <Tooltip tooltip={<span>{translate('HEADER.LINK_GITHUB_TOOLTIP')}</span>}>
+    <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
       <Link href={urlService.root.githubRepo()} target="_blank">
         <Button
           variant="ghost"

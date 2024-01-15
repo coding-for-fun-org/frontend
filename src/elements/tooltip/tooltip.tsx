@@ -51,7 +51,7 @@ export const Tooltip = ({
       delayDuration={delayDuration ?? DEFAULT_TOOLTIP_DELAY_DURATION}
       {...props}
     >
-      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent>{tooltip}</TooltipContent>
     </TooltipRoot>
   )
