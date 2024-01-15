@@ -5,13 +5,16 @@ import clsx from 'clsx'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
+  type HTMLAttributes,
   forwardRef
 } from 'react'
 
-const Progress = forwardRef<
+const DEFAULT_MAX = 100
+
+const ProgressRoot = forwardRef<
   ElementRef<typeof Root>,
   ComponentPropsWithoutRef<typeof Root>
->(({ className, value, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
   <Root
     ref={ref}
     className={clsx(
@@ -19,13 +22,48 @@ const Progress = forwardRef<
       className
     )}
     {...props}
-  >
-    <Indicator
-      className="h-full w-full flex-1 bg-primary transition-all"
-      style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}
-    />
-  </Root>
+  />
 ))
-Progress.displayName = Root.displayName
+ProgressRoot.displayName = Root.displayName
 
-export { Progress }
+const ProgressIndicator = forwardRef<
+  ElementRef<typeof Indicator>,
+  ComponentPropsWithoutRef<typeof Indicator>
+>(({ className, ...props }, ref) => (
+  <Indicator
+    ref={ref}
+    className={clsx(
+      'h-full w-full flex-1 bg-primary transition-all',
+      className
+    )}
+    {...props}
+  />
+))
+ProgressIndicator.displayName = Indicator.displayName
+
+type TCustomProps = {
+  value: number
+  max?: number
+}
+
+type TProgressProps = Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
+  TCustomProps
+
+export const Progress = ({
+  value,
+  max = DEFAULT_MAX,
+  ...props
+}: TProgressProps) => {
+  const translateXValue = max - (value ?? 0)
+
+  return (
+    <ProgressRoot value={value < max ? value : max} max={max} {...props}>
+      <ProgressIndicator
+        data-testid="progress-indicator"
+        style={{
+          transform: `translateX(-${translateXValue > 0 ? translateXValue : 0}%)`
+        }}
+      />
+    </ProgressRoot>
+  )
+}
