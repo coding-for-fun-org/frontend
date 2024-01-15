@@ -82,7 +82,12 @@ type TTabsProps = Omit<
 > &
   TCustomProps
 
-export function Tabs({ values, value, onValueChange, ...props }: TTabsProps) {
+export const Tabs = ({
+  values,
+  value,
+  onValueChange,
+  ...props
+}: TTabsProps) => {
   return (
     <TabsRoot
       data-testid="tabs-root"

@@ -63,7 +63,12 @@ type TAlertProps = IVariantProps &
   Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
   TCustomProps
 
-export function Alert({ variant, title, description, ...props }: TAlertProps) {
+export const Alert = ({
+  variant,
+  title,
+  description,
+  ...props
+}: TAlertProps) => {
   return (
     <AlertRoot variant={variant} {...props}>
       <div className="flex items-center gap-2">

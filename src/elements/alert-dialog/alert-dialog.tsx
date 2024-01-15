@@ -151,7 +151,7 @@ type TAlertDialogProps = Omit<
 > &
   TCustomProps
 
-export function AlertDialog({
+export const AlertDialog = ({
   title,
   open,
   onOpenChange,
@@ -160,7 +160,7 @@ export function AlertDialog({
   cancelLabel,
   actionLabel,
   ...props
-}: TAlertDialogProps) {
+}: TAlertDialogProps) => {
   const { translate } = useDictionary()
 
   return (

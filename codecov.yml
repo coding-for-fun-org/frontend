@@ -10,5 +10,16 @@ coverage:
         branches:
           - main
         if_ci_failed: error
-        informational: false
+        informational: true
+        only_pulls: false
+    patch:
+      default:
+        # basic
+        target: 80%
+        base: auto
+        # advanced settings
+        branches:
+          - main
+        if_ci_failed: error
+        informational: true
         only_pulls: false

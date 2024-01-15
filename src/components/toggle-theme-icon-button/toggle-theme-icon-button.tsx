@@ -13,7 +13,7 @@ export const ToggleThemeIconButton = () => {
   const { toggleTheme } = useToggleTheme()
 
   return (
-    <Tooltip tooltip={<span>{translate('HEADER.TOGGLE_THEME_TOOLTIP')}</span>}>
+    <Tooltip tooltip={translate('HEADER.TOGGLE_THEME_TOOLTIP')}>
       <Button
         variant="ghost"
         size="icon"
