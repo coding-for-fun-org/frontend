@@ -89,12 +89,7 @@ export const Tabs = ({
   ...props
 }: TTabsProps) => {
   return (
-    <TabsRoot
-      data-testid="tabs-root"
-      value={value}
-      onValueChange={onValueChange}
-      {...props}
-    >
+    <TabsRoot value={value} onValueChange={onValueChange} {...props}>
       <TabsList data-testid="tabs-list">
         {values.map(({ label, value }) => (
           <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
