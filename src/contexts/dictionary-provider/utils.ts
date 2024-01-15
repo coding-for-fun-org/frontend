@@ -10,22 +10,21 @@ export const findTargetDictionaryValue = (
 ): string | undefined => {
   const target = key
     .split('.')
-    .reduce<TGeneralizedDictionary | string | undefined>(
-      (accu, paratialKey) => {
-        if (typeof accu === 'string') {
-          return undefined
-        }
-
-        const target = accu?.[paratialKey]
-
-        if (target !== undefined) {
-          return target
-        }
-
+    .reduce<
+      TGeneralizedDictionary | string | undefined
+    >((accu, paratialKey) => {
+      if (typeof accu === 'string') {
         return undefined
-      },
-      dictionary
-    )
+      }
+
+      const target = accu?.[paratialKey]
+
+      if (target !== undefined) {
+        return target
+      }
+
+      return undefined
+    }, dictionary)
 
   if (typeof target !== 'string') {
     return undefined

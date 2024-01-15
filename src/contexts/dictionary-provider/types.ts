@@ -41,8 +41,7 @@ type TUnionToObject<T extends string> = {
   [Key in T]: unknown
 }
 
-export type TTranslateParams<Key extends TTranslateKeys> = TExtractKeys<
-  _TValueOfKey<TDictionary, Key>
-> extends never
-  ? never
-  : TUnionToObject<TExtractKeys<_TValueOfKey<TDictionary, Key>>>
+export type TTranslateParams<Key extends TTranslateKeys> =
+  TExtractKeys<_TValueOfKey<TDictionary, Key>> extends never
+    ? never
+    : TUnionToObject<TExtractKeys<_TValueOfKey<TDictionary, Key>>>
