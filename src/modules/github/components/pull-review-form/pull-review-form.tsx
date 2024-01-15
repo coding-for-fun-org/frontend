@@ -1,6 +1,7 @@
-import { type ChangeEvent, type FC, useEffect, useState } from 'react'
+import { type ChangeEvent, type FC, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
+import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Progress } from '@/elements/root/progress/progress'
 import { Textarea } from '@/elements/root/textarea/textarea'
@@ -18,18 +19,36 @@ interface PullReviewFormProps {
   repoHasCheckArray: TRepoHasCheck[]
 }
 
+interface Errors {
+  repo: string
+  pullTitle: string
+}
+
 export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
+  const [errors, setErrors] = useState<Errors[]>([])
   const [commentInput, setCommentInput] = useState<string>('')
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const [progressValue, setProgressValue] = useState<number>(0)
-  const [showProgress, setShowProgress] = useState<boolean>(false)
-  const [dialogData, setDialogData] = useState<{
-    title: string
-    description: string
-  } | null>(null)
-  const { pushToast } = useToast()
+  const [dialogData, setDialogData] = useState<
+    | {
+        open: true
+        type: EPullRequestType
+      }
+    | {
+        open: false
+        type?: never
+      }
+  >({ open: false })
+  const [progressData, setProgressData] = useState<
+    | {
+        isRunning: true
+        value: number
+      }
+    | {
+        isRunning: false
+        value?: never
+      }
+  >({ isRunning: false })
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
@@ -43,96 +62,85 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   const reviewPullRequest = (
     owner: string,
     repo: string,
-    pullTitle: string,
     pullNumber: number,
     reviewType: EPullRequestType,
-    comment: string,
-    progressIncreaseValue: number
+    comment: string
   ) => {
-    githubService
-      .reviewPullRequest(owner, repo, pullNumber, { reviewType, comment })
-      .then(() => {
-        console.log(`progressIncreaseValue =${progressIncreaseValue}`)
-
-        console.log(`before progressValue =${progressValue}`)
-        setProgressValue((prev) => prev + progressIncreaseValue)
-        console.log(`after progressValue =${progressValue}`)
-        if (progressValue === 100) {
-          reviewSuccess()
-        }
-      })
-      .catch(() => {
-        reviewError()
-      })
-  }
-  const reviewSuccess = () => {
-    setShowProgress(false)
-    pushToast({
-      title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
-      variant: 'success'
+    return githubService.reviewPullRequest(owner, repo, pullNumber, {
+      reviewType,
+      comment
     })
   }
 
-  const reviewError = () => {
-    pushToast({
-      title: translate('GITHUB.TOAST_ERROR_TITLE'),
-      variant: 'error'
-    })
-  }
-
-  const handleReviewChanges = (pullRequestType: EPullRequestType) => {
-    setShowProgress(true)
-    setProgressValue(0)
-
+  const submit = (pullRequestType: EPullRequestType) => {
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
-    console.log('checkedPullsInfo.length', checkedPullsInfo.length)
 
     const progressIncreaseValue = 100 / checkedPullsInfo.length
 
-    checkedPullsInfo.forEach((checkedPull) => {
-      console.log('hi')
-      reviewPullRequest(
-        checkedPull.org,
-        checkedPull.repo,
-        checkedPull.pullTitle,
-        checkedPull.pullNumber,
-        pullRequestType,
-        commentInput,
-        progressIncreaseValue
+    setProgressData({ isRunning: true, value: 0 })
+
+    Promise.allSettled(
+      checkedPullsInfo.map((checkedPull) =>
+        reviewPullRequest(
+          checkedPull.org,
+          checkedPull.repo,
+          checkedPull.pullNumber,
+          pullRequestType,
+          commentInput
+        ).finally(() => {
+          setProgressData((prev) => {
+            const value = prev.value! + progressIncreaseValue
+
+            return {
+              isRunning: true,
+              value: value > 100 ? 100 : value
+            }
+          })
+        })
       )
-    })
+    )
+      .then((result) => {
+        console.log('result', result)
+        if (result.every((item) => item.status === 'fulfilled')) {
+          setDialogData({ open: false })
+          setProgressData({ isRunning: false })
+        } else {
+          const errors = result.reduce<Errors[]>((accu, item, index) => {
+            if (item.status === 'rejected') {
+              return accu.concat([
+                {
+                  repo: checkedPullsInfo[index]!.repo,
+                  pullTitle: checkedPullsInfo[index]!.pullTitle
+                }
+              ])
+            }
+            return accu
+          }, [])
+          setErrors(errors)
+        }
+      })
+      .catch(console.error)
   }
 
   const handleOpenDialog = (type: EPullRequestType) => {
-    setIsDialogOpen(true)
     console.log('run handleOpenDialog()')
-
-    if (type === EPullRequestType.COMMENT) {
-      setDialogData({ title: type, description: type })
-    } else if (type === EPullRequestType.APPROVE) {
-      setDialogData({ title: type, description: type })
-    } else if (type === EPullRequestType.REQUEST_CHANGES) {
-      setDialogData({ title: type, description: type })
-    }
+    setDialogData({ open: true, type })
   }
 
   const handleOpenChange = (open: boolean) => {
-    console.log('run handleOpenChange()')
-    setIsDialogOpen(open)
-  }
-
-  const handleCloseDialog = () => {
-    console.log('run handleCloseDialog()')
+    if (open === false) {
+      setDialogData({ open })
+      setProgressData({ isRunning: false })
+    }
   }
 
   const handleActionClick = () => {
     console.log('processing submit...')
-    setProgressValue(0)
-    handleReviewChanges(dialogData?.title)
-    handleCloseDialog()
+    if (!dialogData.open) {
+      return
+    }
+    submit(dialogData.type)
   }
-
-  useEffect(() => {}, [])
 
   return (
     <>
@@ -147,12 +155,33 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 
         <div className="mt-5 flex justify-end gap-2">
           <AlertDialog
-            open={isDialogOpen}
+            open={dialogData.open}
             onOpenChange={handleOpenChange}
             onActionClick={handleActionClick}
-            title={dialogData?.title}
+            title={dialogData.type} // TODO translate
             children={
-              showProgress && <Progress value={progressValue} max={100} />
+              <>
+                {progressData.isRunning && (
+                  <Progress value={progressData.value} max={100} />
+                )}
+
+                {errors.length > 0 && (
+                  <Alert
+                    variant="error"
+                    title="error"
+                    description={
+                      <div>
+                        {errors.map((error, index) => (
+                          <div key={index}>
+                            <div>- repo: {error.repo}</div>
+                            <div>- pullTitle: {error.pullTitle}</div>
+                          </div>
+                        ))}
+                      </div>
+                    }
+                  />
+                )}
+              </>
             }
             cancelLabel="Cancle"
             actionLabel="Submit"
