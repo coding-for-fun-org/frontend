@@ -156,6 +156,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     if (open === false) {
       setDialogData({ open })
       setProgressData({ isRunning: false })
+      setErrors([])
     }
   }
 
