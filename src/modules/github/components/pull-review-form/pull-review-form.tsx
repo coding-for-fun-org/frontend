@@ -103,7 +103,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       )
     )
       .then((result) => {
-        console.log('result', result)
         if (result.every((item) => item.status === 'fulfilled')) {
           setDialogData({ open: false })
           setProgressData({ isRunning: false })
@@ -130,7 +129,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   const handleOpenDialog = (type: EPullRequestType) => {
-    console.log('run handleOpenDialog()')
     if (type === EPullRequestType.COMMENT) {
       setDialogData({
         open: true,
@@ -161,7 +159,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   const handleActionClick = () => {
-    console.log('processing submit...')
     if (!dialogData.open) {
       return
     }
