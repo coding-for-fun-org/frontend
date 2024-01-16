@@ -33,10 +33,12 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     | {
         open: true
         type: EPullRequestType
+        title: string
       }
     | {
         open: false
         type?: never
+        title?: never
       }
   >({ open: false })
   const [progressData, setProgressData] = useState<
@@ -129,7 +131,25 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 
   const handleOpenDialog = (type: EPullRequestType) => {
     console.log('run handleOpenDialog()')
-    setDialogData({ open: true, type })
+    if (type === EPullRequestType.COMMENT) {
+      setDialogData({
+        open: true,
+        type,
+        title: translate('GITHUB.PULL_REVIEW_FORM_COMMENT_BUTTON')
+      })
+    } else if (type === EPullRequestType.APPROVE) {
+      setDialogData({
+        open: true,
+        type,
+        title: translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')
+      })
+    } else if (type === EPullRequestType.REQUEST_CHANGES) {
+      setDialogData({
+        open: true,
+        type,
+        title: translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')
+      })
+    }
   }
 
   const handleOpenChange = (open: boolean) => {
@@ -163,7 +183,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
             open={dialogData.open}
             onOpenChange={handleOpenChange}
             onActionClick={handleActionClick}
-            title={dialogData.type} // TODO translate
+            title={dialogData.title}
             children={
               <>
                 {progressData.isRunning && (
