@@ -50,6 +50,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
       }
   >({ isRunning: false })
   const { translate } = useDictionary()
+  const { pushToast } = useToast()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
@@ -118,6 +119,10 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           }, [])
           setErrors(errors)
         }
+        pushToast({
+          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
+          variant: 'success'
+        })
       })
       .catch(console.error)
   }
