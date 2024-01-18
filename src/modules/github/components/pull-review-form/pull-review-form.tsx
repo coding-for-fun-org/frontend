@@ -106,6 +106,10 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         if (result.every((item) => item.status === 'fulfilled')) {
           setDialogData({ open: false })
           setProgressData({ isRunning: false })
+          pushToast({
+            title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
+            variant: 'success'
+          })
         } else {
           const errors = result.reduce<Errors[]>((accu, item, index) => {
             if (item.status === 'rejected') {
@@ -120,10 +124,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           }, [])
           setErrors(errors)
         }
-        pushToast({
-          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
-          variant: 'success'
-        })
       })
       .catch(console.error)
   }
