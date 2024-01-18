@@ -1,4 +1,6 @@
-import type { TRepoHasCheck } from '@/types/github/root/index'
+import { githubService } from '@/services/root/github'
+
+import type { EPullRequestType, TRepoHasCheck } from '@/types/github/root/index'
 
 interface ICheckedPull {
   org: string
@@ -28,5 +30,30 @@ export const getCheckedPullsInfo = (
       )
     },
     []
+  )
+}
+
+export const processSubmit = (
+  checkedPullsInfo: ICheckedPull[],
+  handleProgressing: () => void,
+  pullRequestType: EPullRequestType,
+  commentInput: string
+) => {
+  return Promise.allSettled(
+    checkedPullsInfo.map((checkedPull) =>
+      githubService
+        .reviewPullRequest(
+          checkedPull.org,
+          checkedPull.repo,
+          checkedPull.pullNumber,
+          {
+            reviewType: pullRequestType,
+            comment: commentInput
+          }
+        )
+        .finally(() => {
+          handleProgressing()
+        })
+    )
   )
 }

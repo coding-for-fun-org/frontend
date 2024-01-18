@@ -9,9 +9,10 @@ import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { githubService } from '@/services/root/github'
-
-import { getCheckedPullsInfo } from '@/components/github/root/pull-review-form/utils'
+import {
+  getCheckedPullsInfo,
+  processSubmit
+} from '@/components/github/root/pull-review-form/utils'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 
@@ -62,45 +63,27 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     setCommentInput(event.target.value)
   }
 
-  const reviewPullRequest = (
-    owner: string,
-    repo: string,
-    pullNumber: number,
-    reviewType: EPullRequestType,
-    comment: string
-  ) => {
-    return githubService.reviewPullRequest(owner, repo, pullNumber, {
-      reviewType,
-      comment
-    })
-  }
-
   const submit = (pullRequestType: EPullRequestType) => {
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
-
     const progressIncreaseValue = 100 / checkedPullsInfo.length
 
+    const handleProgressing = () => {
+      setProgressData((prev) => {
+        const value = prev.value! + progressIncreaseValue
+
+        return {
+          isRunning: true,
+          value: value > 100 ? 100 : value
+        }
+      })
+    }
+
     setProgressData({ isRunning: true, value: 0 })
-
-    Promise.allSettled(
-      checkedPullsInfo.map((checkedPull) =>
-        reviewPullRequest(
-          checkedPull.org,
-          checkedPull.repo,
-          checkedPull.pullNumber,
-          pullRequestType,
-          commentInput
-        ).finally(() => {
-          setProgressData((prev) => {
-            const value = prev.value! + progressIncreaseValue
-
-            return {
-              isRunning: true,
-              value: value > 100 ? 100 : value
-            }
-          })
-        })
-      )
+    processSubmit(
+      checkedPullsInfo,
+      handleProgressing,
+      pullRequestType,
+      commentInput
     )
       .then((result) => {
         if (result.every((item) => item.status === 'fulfilled')) {
@@ -120,6 +103,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                 }
               ])
             }
+
             return accu
           }, [])
           setErrors(errors)
@@ -206,7 +190,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                 )}
               </>
             }
-            cancelLabel="Cancle"
             actionLabel="Submit"
           ></AlertDialog>
 
