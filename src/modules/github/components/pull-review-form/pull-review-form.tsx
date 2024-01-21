@@ -180,8 +180,15 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                       <div>
                         {errors.map((error, index) => (
                           <div key={index}>
-                            <div>- repo: {error.repo}</div>
-                            <div>- pullTitle: {error.pullTitle}</div>
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                              { repoName: error.repo }
+                            )}
+                            <br />
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                              { pullTitle: error.pullTitle }
+                            )}
                           </div>
                         ))}
                       </div>
@@ -190,7 +197,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                 )}
               </>
             }
-            actionLabel="Submit"
+            actionLabel={translate('COMMON.ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON')}
           ></AlertDialog>
 
           <Button
