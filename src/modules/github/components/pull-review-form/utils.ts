@@ -7,6 +7,9 @@ interface ICheckedPull {
   repo: string
   pullTitle: string
   pullNumber: number
+  user: {
+    login: string | undefined
+  }
 }
 
 export const getCheckedPullsInfo = (
@@ -25,7 +28,10 @@ export const getCheckedPullsInfo = (
           org: repoHasCheck.org,
           repo: repoHasCheck.repo,
           pullTitle: pull.title,
-          pullNumber: pull.number
+          pullNumber: pull.number,
+          user: {
+            login: pull.user.login
+          }
         }))
       )
     },
