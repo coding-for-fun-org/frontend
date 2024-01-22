@@ -9,10 +9,16 @@ import type {
   InstallationResponse,
   PullReviewResponse,
   RepoPullsResponse,
-  UserInstallationsResponse
+  UserInstallationsResponse,
+  UserResponse
 } from '@/types/github/root/server'
 
 export const githubService = {
+  async getUser(config?: AxiosRequestConfig): Promise<UserResponse> {
+    return axiosGithub
+      .get<UserResponse>('/api/github/user', config)
+      .then((response) => response.data)
+  },
   async listUserInstallations(
     config?: AxiosRequestConfig
   ): Promise<UserInstallationsResponse> {
