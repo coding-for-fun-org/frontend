@@ -8,7 +8,8 @@ export const dictionary = {
   COMMON: {
     APP_NAME: 'Coding For Fun',
     ALERT_DIALOG_DEFAULT_CANCEL_BUTTON: 'Cancel',
-    ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue'
+    ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
+    ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit'
   },
   GITHUB: {
     NEW_CONNECTION_BUTTON: 'New Connection',
