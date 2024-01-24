@@ -30,7 +30,7 @@ interface Errors {
 export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
-  const [currentUser, setCurrentUser] = useState<string>()
+  const [currentUser, setCurrentUser] = useState<string>('')
   const [errors, setErrors] = useState<Errors[]>([])
   const [commentInput, setCommentInput] = useState<string>('')
   const [dialogData, setDialogData] = useState<
@@ -159,7 +159,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     githubService
       .getUser()
       .then((user) => setCurrentUser(user.login))
-      .catch((error) => console.log(error))
+      .catch(() => console.error)
   }, [])
 
   return (
