@@ -23,6 +23,7 @@ jobs:
 
       - run: npm run format:check
 
-      - run: npm run test
+      # test will run at coverage report
+      # - run: npm run test
 
       - run: npm run build
