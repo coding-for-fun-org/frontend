@@ -155,7 +155,6 @@ describe('Dialog', () => {
   it('should set className', () => {
     const TEST_CLASS = 'TEST-CLASS'
     const onOpenChangeFn = jest.fn()
-    const mockFn = jest.fn()
     const TestComponent = () => {
       const handleOpenChange = (open: boolean) => {
         onOpenChangeFn(open)
