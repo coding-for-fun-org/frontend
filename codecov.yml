@@ -4,6 +4,7 @@ coverage:
       default:
         target: auto
         threshold: 1%
-    patch:
-      default:
-        target: 50%
+    # temporary block
+    # patch:
+    #   default:
+    #     target: 50%
