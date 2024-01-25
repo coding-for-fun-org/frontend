@@ -168,7 +168,8 @@ export const AlertDialog = ({
       <AlertDialogContent {...props}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <div className="mt-2">{children}</div>
+
+          <div className="mt-3">{children}</div>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
