@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useState } from 'react'
+import { type ChangeEvent, type FC, useEffect, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Alert } from '@/elements/root/alert/alert'
@@ -8,6 +8,8 @@ import { Textarea } from '@/elements/root/textarea/textarea'
 import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
+import { githubService } from '@/services/root/github'
 
 import {
   getCheckedPullsInfo,
@@ -28,6 +30,7 @@ interface Errors {
 export const PullReviewForm: FC<PullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
+  const [currentUser, setCurrentUser] = useState<string>('')
   const [errors, setErrors] = useState<Errors[]>([])
   const [commentInput, setCommentInput] = useState<string>('')
   const [dialogData, setDialogData] = useState<
@@ -57,6 +60,9 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
+  )
+  const hasMyPull = getCheckedPullsInfo(repoHasCheckArray).some(
+    (data) => data.user.login === currentUser
   )
 
   const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -149,6 +155,13 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     submit(dialogData.type)
   }
 
+  useEffect(() => {
+    githubService
+      .getUser()
+      .then((user) => setCurrentUser(user.login))
+      .catch(() => console.error)
+  }, [])
+
   return (
     <>
       <div className="flex flex-col h-full">
@@ -209,14 +222,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
 
           <Button
             type="button"
-            disabled={!hasChecked}
+            disabled={!hasChecked || hasMyPull}
             label={translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')}
             onClick={() => handleOpenDialog(EPullRequestType.APPROVE)}
           ></Button>
 
           <Button
             type="button"
-            disabled={!hasChecked || !hasComment}
+            disabled={!hasChecked || hasMyPull || !hasComment}
             label={translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')}
             onClick={() => handleOpenDialog(EPullRequestType.REQUEST_CHANGES)}
           ></Button>

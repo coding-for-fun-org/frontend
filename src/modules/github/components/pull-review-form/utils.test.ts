@@ -70,10 +70,34 @@ describe('getCheckedPullsInfo', () => {
     const result = getCheckedPullsInfo(repoHasCheckArray)
 
     expect(result).toEqual([
-      { org: 'org1', repo: 'repo1', pullTitle: 'pull1', pullNumber: 1 },
-      { org: 'org1', repo: 'repo1', pullTitle: 'pull3', pullNumber: 3 },
-      { org: 'org1', repo: 'repo2', pullTitle: 'pull1', pullNumber: 1 },
-      { org: 'org1', repo: 'repo3', pullTitle: 'pull3', pullNumber: 3 }
+      {
+        org: 'org1',
+        repo: 'repo1',
+        pullTitle: 'pull1',
+        pullNumber: 1,
+        user: { login: 'user1' }
+      },
+      {
+        org: 'org1',
+        repo: 'repo1',
+        pullTitle: 'pull3',
+        pullNumber: 3,
+        user: { login: 'user3' }
+      },
+      {
+        org: 'org1',
+        repo: 'repo2',
+        pullTitle: 'pull1',
+        pullNumber: 1,
+        user: { login: 'user1' }
+      },
+      {
+        org: 'org1',
+        repo: 'repo3',
+        pullTitle: 'pull3',
+        pullNumber: 3,
+        user: { login: 'user3' }
+      }
     ])
   })
 
