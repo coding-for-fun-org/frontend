@@ -1,67 +1,77 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
+
+import { useToast } from '@/elements/root/toast/toast-provider'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { githubService } from '@/services/root/github'
 
+import { queryKey } from '@/utils/root/index'
+
 import type { TGithubPullRequestGroup } from '@/types/github/root/index'
 
-export const usePullsGroup = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [pullsGroup, setPullsGroup] = useState<TGithubPullRequestGroup[]>()
-
-  useEffect(() => {
-    const controller = new AbortController()
-
-    githubService
-      .listUserInstallations({ signal: controller.signal })
-      .then(({ installations }) =>
-        Promise.all(
-          installations.map((installation) =>
-            githubService
-              .listUserInstallationRepositories(installation.id, {
-                signal: controller.signal
-              })
-              .then(({ repositories }) => repositories)
-          )
+const fetchPullsGroup = async (signal: AbortSignal | undefined) => {
+  return githubService
+    .listUserInstallations({ signal })
+    .then(({ installations }) =>
+      Promise.all(
+        installations.map((installation) =>
+          githubService
+            .listUserInstallationRepositories(installation.id, { signal })
+            .then(({ repositories }) => repositories)
         )
-          .then((reposByInstallation) =>
-            reposByInstallation.flatMap((repos) => repos)
-          )
-          .then((repos) =>
-            Promise.all(
-              repos.map((repo) =>
-                githubService
-                  .listPullRequests(repo.owner.login, repo.name, {
-                    signal: controller.signal
-                  })
-                  .then((response) => ({
-                    org: repo.owner.login,
-                    repo: repo.name,
-                    pulls: response.map((pull) => ({
-                      state: pull.state,
-                      number: pull.number,
-                      title: pull.title,
-                      user: {
-                        login: pull.user?.login,
-                        avatarUrl: pull.user?.avatar_url
-                      }
-                    }))
+      )
+        .then((reposByInstallation) =>
+          reposByInstallation.flatMap((repos) => repos)
+        )
+        .then((repos) =>
+          Promise.all(
+            repos.map((repo) =>
+              githubService
+                .listPullRequests(repo.owner.login, repo.name, { signal })
+                .then((response) => ({
+                  org: repo.owner.login,
+                  repo: repo.name,
+                  pulls: response.map((pull) => ({
+                    state: pull.state,
+                    number: pull.number,
+                    title: pull.title,
+                    user: {
+                      login: pull.user?.login,
+                      avatarUrl: pull.user?.avatar_url
+                    }
                   }))
-              )
+                }))
             )
           )
-      )
-      .then((result) => {
-        setPullsGroup(result)
-      })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false)
-      })
+        )
+    )
+}
 
-    return () => {
-      controller.abort()
+export const usePullsGroup = () => {
+  const {
+    data: pullsGroup,
+    isLoading,
+    isError
+  } = useQuery<TGithubPullRequestGroup[]>(
+    queryKey.github.pullsGroup(),
+    async ({ signal }) => fetchPullsGroup(signal)
+  )
+  const { pushToast } = useToast()
+  const { translate } = useDictionary()
+
+  useEffect(() => {
+    if (isError) {
+      pushToast({
+        title: translate('COMMON.TOAST_DEFAULT_ERROR_TITLE'),
+        description: translate('COMMON.TOAST_DEFAULT_ERROR_DESCRIPTION'),
+        variant: 'error'
+      })
     }
-  }, [])
+  }, [isError])
+
+  console.log('isError', isError)
 
   return { isLoading, pullsGroup }
 }

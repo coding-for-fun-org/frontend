@@ -1,11 +1,5 @@
 export type PromiseReturnType<T> = T extends Promise<infer U> ? U : T
 
-export enum ESessionStatus {
-  AUTHENTICATED = 'authenticated',
-  LOADING = 'loading',
-  UNAUTHENTICATED = 'unauthenticated'
-}
-
 const USER_STORE_PREFIX = '__cff-'
 
 export enum EAuthErrorReason {

@@ -18,7 +18,7 @@ import type { TRepoHasCheck } from '@/types/github/root/index'
 
 export const BulkPullReviews: FC = () => {
   const router = useRouter()
-  const { isLoading: isPullsGrouopFetching, pullsGroup } = usePullsGroup()
+  const { isLoading: isPullsGroupFetching, pullsGroup } = usePullsGroup()
   const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
     []
   )
@@ -104,13 +104,13 @@ export const BulkPullReviews: FC = () => {
   return (
     <div className="flex w-full h-full gap-5">
       <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        {!!isPullsGrouopFetching &&
+        {!!isPullsGroupFetching &&
           Array.from({ length: 25 }).map((_, index) => (
             <li key={index} className="w-1/2">
               <Skeleton variant="rect" />
             </li>
           ))}
-        {!isPullsGrouopFetching &&
+        {!isPullsGroupFetching &&
           repoHasCheckArray.map((repoHasCheck) => (
             <PullListByRepo
               key={repoHasCheck.repo}

@@ -7,9 +7,14 @@ export const dictionary = {
   },
   COMMON: {
     APP_NAME: 'Coding For Fun',
+    TOAST_DEFAULT_SUCCESS_TITLE: 'Success',
+    TOAST_DEFAULT_ERROR_TITLE: 'Error',
+    TOAST_DEFAULT_ERROR_DESCRIPTION:
+      'Something went wrong. Please try again later.',
     ALERT_DIALOG_DEFAULT_CANCEL_BUTTON: 'Cancel',
     ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
-    ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit'
+    ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit',
+    ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: 'Confirm'
   },
   GITHUB: {
     NEW_CONNECTION_BUTTON: 'New Connection',
@@ -17,8 +22,6 @@ export const dictionary = {
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
-    TOAST_SUCCESS_TITLE: '[Success]',
-    TOAST_ERROR_TITLE: '[Error]',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
     TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:
       'Delete connection successfully.',

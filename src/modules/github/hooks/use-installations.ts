@@ -28,7 +28,7 @@ export const useInstallations = () => {
           })
         )
         pushToast({
-          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
+          title: translate('COMMON.TOAST_DEFAULT_SUCCESS_TITLE'),
           description: translate(
             'GITHUB.TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION'
           ),
@@ -48,7 +48,7 @@ export const useInstallations = () => {
           )
         )
         pushToast({
-          title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
+          title: translate('COMMON.TOAST_DEFAULT_SUCCESS_TITLE'),
           description: translate(
             'GITHUB.TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION'
           ),
