@@ -18,6 +18,7 @@ import {
   forwardRef
 } from 'react'
 
+import { Alert } from '@/elements/root/alert/alert'
 import { Button, type TButtonProps } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
@@ -142,6 +143,10 @@ type TCustomProps = {
   open: boolean
   onOpenChange(open: boolean): void
   children: ReactNode
+  errorProps?: {
+    title?: ReactNode
+    description: ReactNode
+  }
   actionProps: PickRequired<
     ButtonHTMLAttributes<HTMLButtonElement>,
     'onClick'
@@ -163,6 +168,7 @@ export const AlertDialog = ({
   open,
   onOpenChange,
   children,
+  errorProps,
   actionProps,
   cancelLabel,
   ...props
@@ -181,6 +187,19 @@ export const AlertDialog = ({
           <AlertDialogTitle>{title}</AlertDialogTitle>
 
           <div className="mt-3">{children}</div>
+
+          {errorProps && (
+            <div className="mt-3">
+              <Alert
+                variant="error"
+                title={
+                  errorProps?.title ??
+                  translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')
+                }
+                description={errorProps.description}
+              />
+            </div>
+          )}
         </AlertDialogHeader>
 
         <AlertDialogFooter>
