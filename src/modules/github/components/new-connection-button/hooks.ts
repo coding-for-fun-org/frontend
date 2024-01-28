@@ -14,7 +14,7 @@ export const useAppInstallationWindow = (
     const top = window.screenTop + window.outerHeight * 0.5 - height * 0.5
 
     newWindow = window.open(
-      'https://github.com/apps/coding-for-fun-local/installations/select_target',
+      `https://github.com/apps/${process.env.NEXT_PUBLIC_GITHUB_APP_SLUG}/installations/select_target`,
       '_blank',
       `popup=true,left=${left},top=${top},width=${width},height=${height}`
     )
