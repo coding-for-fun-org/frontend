@@ -71,7 +71,5 @@ export const usePullsGroup = () => {
     }
   }, [isError])
 
-  console.log('isError', isError)
-
   return { isLoading, pullsGroup }
 }
