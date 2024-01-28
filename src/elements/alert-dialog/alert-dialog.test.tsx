@@ -155,6 +155,114 @@ describe('AlertDialog', () => {
     expect(onOpenChangeFn).toHaveBeenLastCalledWith(false)
   })
 
+  it('should render error if errorProps is passed', async () => {
+    const ERROR_TITLE = 'ERROR-TITLE'
+    const ERROR_DESCRIPTION = 'ERROR-DESCRIPTION'
+    const user = userEventSetup()
+    const TestComponent = () => {
+      const [open, setOpen] = useState<boolean>(false)
+
+      const handleOpenChange = (open: boolean) => {
+        setOpen(open)
+      }
+
+      const closeAlertDialog = () => {
+        setOpen(false)
+      }
+
+      return (
+        <>
+          <AlertDialog
+            open={open}
+            onOpenChange={handleOpenChange}
+            title={DIALOG_TITLE_TEXT}
+            errorProps={{
+              title: ERROR_TITLE,
+              description: ERROR_DESCRIPTION
+            }}
+            actionProps={{
+              onClick: closeAlertDialog
+            }}
+          >
+            <div>{DIALOG_CHILDREN_TEXT}</div>
+          </AlertDialog>
+
+          <div
+            onClick={() => {
+              setOpen((open) => !open)
+            }}
+          >
+            {OPEN_DIALOG_BUTTON_TEXT}
+          </div>
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    expect(screen.queryByText(ERROR_TITLE)).not.toBeInTheDocument()
+    expect(screen.queryByText(ERROR_DESCRIPTION)).not.toBeInTheDocument()
+
+    await user.click(screen.getByText(OPEN_DIALOG_BUTTON_TEXT))
+    expect(screen.getByText(ERROR_TITLE)).toBeInTheDocument()
+    expect(screen.getByText(ERROR_DESCRIPTION)).toBeInTheDocument()
+  })
+
+  it('should render error title to default title if errorProps.title is not passed', async () => {
+    const ERROR_DESCRIPTION = 'ERROR-DESCRIPTION'
+    const user = userEventSetup()
+    const TestComponent = () => {
+      const [open, setOpen] = useState<boolean>(false)
+
+      const handleOpenChange = (open: boolean) => {
+        setOpen(open)
+      }
+
+      const closeAlertDialog = () => {
+        setOpen(false)
+      }
+
+      return (
+        <>
+          <AlertDialog
+            open={open}
+            onOpenChange={handleOpenChange}
+            title={DIALOG_TITLE_TEXT}
+            errorProps={{
+              description: ERROR_DESCRIPTION
+            }}
+            actionProps={{
+              onClick: closeAlertDialog
+            }}
+          >
+            <div>{DIALOG_CHILDREN_TEXT}</div>
+          </AlertDialog>
+
+          <div
+            onClick={() => {
+              setOpen((open) => !open)
+            }}
+          >
+            {OPEN_DIALOG_BUTTON_TEXT}
+          </div>
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    expect(
+      screen.queryByText('COMMON.ALERT_DEFAULT_ERROR_TITLE')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText(ERROR_DESCRIPTION)).not.toBeInTheDocument()
+
+    await user.click(screen.getByText(OPEN_DIALOG_BUTTON_TEXT))
+    expect(
+      screen.getByText('COMMON.ALERT_DEFAULT_ERROR_TITLE')
+    ).toBeInTheDocument()
+    expect(screen.getByText(ERROR_DESCRIPTION)).toBeInTheDocument()
+  })
+
   it('should set className', () => {
     const TEST_CLASS = 'TEST-CLASS'
     const onOpenChangeFn = jest.fn()
