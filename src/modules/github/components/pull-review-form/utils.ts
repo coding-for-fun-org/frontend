@@ -1,16 +1,6 @@
-import { githubService } from '@/services/root/github'
+import type { TRepoHasCheck } from '@/types/github/root/index'
 
-import type { EPullRequestType, TRepoHasCheck } from '@/types/github/root/index'
-
-interface ICheckedPull {
-  org: string
-  repo: string
-  pullTitle: string
-  pullNumber: number
-  user: {
-    login: string | undefined
-  }
-}
+import type { ICheckedPull } from './types'
 
 export const getCheckedPullsInfo = (
   repoHasCheckArray: TRepoHasCheck[]
@@ -36,30 +26,5 @@ export const getCheckedPullsInfo = (
       )
     },
     []
-  )
-}
-
-export const processSubmit = (
-  checkedPullsInfo: ICheckedPull[],
-  handleProgressing: () => void,
-  pullRequestType: EPullRequestType,
-  commentInput: string
-) => {
-  return Promise.allSettled(
-    checkedPullsInfo.map((checkedPull) =>
-      githubService
-        .reviewPullRequest(
-          checkedPull.org,
-          checkedPull.repo,
-          checkedPull.pullNumber,
-          {
-            reviewType: pullRequestType,
-            comment: commentInput
-          }
-        )
-        .finally(() => {
-          handleProgressing()
-        })
-    )
   )
 }

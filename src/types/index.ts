@@ -1,10 +1,5 @@
 export type PromiseReturnType<T> = T extends Promise<infer U> ? U : T
-
-export enum ESessionStatus {
-  AUTHENTICATED = 'authenticated',
-  LOADING = 'loading',
-  UNAUTHENTICATED = 'unauthenticated'
-}
+export type PickRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 
 const USER_STORE_PREFIX = '__cff-'
 

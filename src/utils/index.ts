@@ -33,3 +33,10 @@ export const createRandomString = (size: number): string => {
     ''
   )
 }
+
+export const queryKey = {
+  github: {
+    currentUser: () => 'GITHUB-CURRENT-USER',
+    pullsGroup: () => 'GITHUB-PULLS-GROUP'
+  }
+}

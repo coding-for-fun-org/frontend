@@ -5,33 +5,24 @@ import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Progress } from '@/elements/root/progress/progress'
 import { Textarea } from '@/elements/root/textarea/textarea'
-import { useToast } from '@/elements/root/toast/toast-provider'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { githubService } from '@/services/root/github'
-
-import {
-  getCheckedPullsInfo,
-  processSubmit
-} from '@/components/github/root/pull-review-form/utils'
+import { useCurrentUser } from '@/hooks/github/root/use-current-user'
 
 import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
 
-interface PullReviewFormProps {
+import { useSubmitForm } from './hooks'
+import { getCheckedPullsInfo } from './utils'
+
+interface IPullReviewFormProps {
   repoHasCheckArray: TRepoHasCheck[]
 }
 
-interface Errors {
-  repo: string
-  pullTitle: string
-}
-
-export const PullReviewForm: FC<PullReviewFormProps> = ({
+export const PullReviewForm: FC<IPullReviewFormProps> = ({
   repoHasCheckArray
 }) => {
-  const [currentUser, setCurrentUser] = useState<string>('')
-  const [errors, setErrors] = useState<Errors[]>([])
+  const { user: currentUser } = useCurrentUser()
   const [commentInput, setCommentInput] = useState<string>('')
   const [dialogData, setDialogData] = useState<
     | {
@@ -45,18 +36,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
         title?: never
       }
   >({ open: false })
-  const [progressData, setProgressData] = useState<
-    | {
-        isRunning: true
-        value: number
-      }
-    | {
-        isRunning: false
-        value?: never
-      }
-  >({ isRunning: false })
+  const {
+    progressData,
+    submit,
+    isLoading,
+    error: errors,
+    reset
+  } = useSubmitForm()
   const { translate } = useDictionary()
-  const { pushToast } = useToast()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
     data.pulls.some((pull) => pull.isChecked === true)
@@ -69,51 +56,16 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     setCommentInput(event.target.value)
   }
 
-  const submit = (pullRequestType: EPullRequestType) => {
+  const handleSubmit = (pullRequestType: EPullRequestType) => {
     const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
-    const progressIncreaseValue = 100 / checkedPullsInfo.length
 
-    const handleProgressing = () => {
-      setProgressData((prev) => {
-        const value = prev.value! + progressIncreaseValue
-
-        return {
-          isRunning: true,
-          value: value > 100 ? 100 : value
-        }
-      })
-    }
-
-    setProgressData({ isRunning: true, value: 0 })
-    processSubmit(
+    submit({
       checkedPullsInfo,
-      handleProgressing,
-      pullRequestType,
-      commentInput
-    )
-      .then((result) => {
-        if (result.every((item) => item.status === 'fulfilled')) {
-          setDialogData({ open: false })
-          setProgressData({ isRunning: false })
-          pushToast({
-            title: translate('GITHUB.TOAST_SUCCESS_TITLE'),
-            variant: 'success'
-          })
-        } else {
-          const errors = result.reduce<Errors[]>((accu, item, index) => {
-            if (item.status === 'rejected') {
-              return accu.concat([
-                {
-                  repo: checkedPullsInfo[index]!.repo,
-                  pullTitle: checkedPullsInfo[index]!.pullTitle
-                }
-              ])
-            }
-
-            return accu
-          }, [])
-          setErrors(errors)
-        }
+      reviewType: pullRequestType,
+      comment: commentInput
+    })
+      .then(() => {
+        setDialogData({ open: false })
       })
       .catch(console.error)
   }
@@ -141,10 +93,8 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
   }
 
   const handleOpenChange = (open: boolean) => {
-    if (open === false) {
+    if (!open) {
       setDialogData({ open })
-      setProgressData({ isRunning: false })
-      setErrors([])
     }
   }
 
@@ -152,15 +102,14 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
     if (!dialogData.open) {
       return
     }
-    submit(dialogData.type)
+    handleSubmit(dialogData.type)
   }
 
   useEffect(() => {
-    githubService
-      .getUser()
-      .then((user) => setCurrentUser(user.login))
-      .catch(() => console.error)
-  }, [])
+    if (!dialogData.open) {
+      reset()
+    }
+  }, [dialogData])
 
   return (
     <>
@@ -177,7 +126,6 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
           <AlertDialog
             open={dialogData.open}
             onOpenChange={handleOpenChange}
-            onActionClick={handleActionClick}
             title={dialogData.title}
             children={
               <>
@@ -185,7 +133,7 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                   <Progress value={progressData.value} max={100} />
                 )}
 
-                {errors.length > 0 && (
+                {errors && errors.length > 0 && (
                   <Alert
                     variant="error"
                     title="error"
@@ -210,7 +158,11 @@ export const PullReviewForm: FC<PullReviewFormProps> = ({
                 )}
               </>
             }
-            actionLabel={translate('COMMON.ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON')}
+            actionProps={{
+              disabled: isLoading,
+              onClick: handleActionClick,
+              label: translate('COMMON.ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON')
+            }}
           ></AlertDialog>
 
           <Button

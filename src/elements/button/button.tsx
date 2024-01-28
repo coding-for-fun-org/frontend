@@ -20,11 +20,11 @@ interface IVariantProps {
   size?: 'sm' | 'md' | 'lg' | 'icon'
 }
 
-type ButtonLoaderProps = {
+type TButtonLoaderProps = {
   size: IVariantProps['size']
 }
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   (
     | (IVariantProps & {
         asChild?: true
@@ -49,7 +49,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
         ))
   )
 
-const ButtonLoader: FC<ButtonLoaderProps> = ({ size }) => {
+const ButtonLoader: FC<TButtonLoaderProps> = ({ size }) => {
   const basicClasses = 'loader'
   const sizeClasses: Record<Required<IVariantProps>['size'], string> = {
     sm: 'size--sm',
@@ -89,7 +89,7 @@ const ButtonLoader: FC<ButtonLoaderProps> = ({ size }) => {
  *   2-1. If size is 'icon', label must be undefined
  *   2-2. If size is not 'icon', label must be defined
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, TButtonProps>(
   (
     {
       className,
