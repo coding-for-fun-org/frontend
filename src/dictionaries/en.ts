@@ -7,6 +7,8 @@ export const dictionary = {
   },
   COMMON: {
     APP_NAME: 'Coding For Fun',
+    ALERT_DEFAULT_SUCCESS_TITLE: 'Success',
+    ALERT_DEFAULT_ERROR_TITLE: 'Error',
     TOAST_DEFAULT_SUCCESS_TITLE: 'Success',
     TOAST_DEFAULT_ERROR_TITLE: 'Error',
     TOAST_DEFAULT_ERROR_DESCRIPTION:

@@ -132,31 +132,34 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
                 {progressData.isRunning && (
                   <Progress value={progressData.value} max={100} />
                 )}
-
-                {errors && errors.length > 0 && (
-                  <Alert
-                    variant="error"
-                    title="error"
-                    description={
+              </>
+            }
+            errorProps={
+              errors
+                ? {
+                    description: (
                       <div>
                         {errors.map((error, index) => (
                           <div key={index}>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-                              { repoName: error.repo }
-                            )}
-                            <br />
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-                              { pullTitle: error.pullTitle }
-                            )}
+                            <span>
+                              {translate(
+                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                                { repoName: error.repo }
+                              )}
+                            </span>
+                            <div></div>
+                            <span>
+                              {translate(
+                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                                { pullTitle: error.pullTitle }
+                              )}
+                            </span>
                           </div>
                         ))}
                       </div>
-                    }
-                  />
-                )}
-              </>
+                    )
+                  }
+                : undefined
             }
             actionProps={{
               disabled: isLoading,
