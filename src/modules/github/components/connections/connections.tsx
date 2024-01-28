@@ -23,7 +23,7 @@ export const Connections: FC = () => {
       <ul className="flex flex-col divide-y">
         {isLoading && <li>Loading...</li>}
         {!isLoading &&
-          installations.map((installation) => (
+          installations!.map((installation) => (
             <li key={installation.id} className="flex items-center py-2">
               <div className="flex-grow flex items-center gap-2">
                 <Avatar
