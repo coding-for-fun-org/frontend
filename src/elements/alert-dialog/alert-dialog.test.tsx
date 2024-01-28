@@ -32,7 +32,9 @@ describe('AlertDialog', () => {
             open={open}
             onOpenChange={handleOpenChange}
             title={DIALOG_TITLE_TEXT}
-            onActionClick={closeAlertDialog}
+            actionProps={{
+              onClick: closeAlertDialog
+            }}
           >
             <div>{DIALOG_CHILDREN_TEXT}</div>
           </AlertDialog>
@@ -88,7 +90,9 @@ describe('AlertDialog', () => {
             open={open}
             onOpenChange={handleOpenChange}
             title={DIALOG_TITLE_TEXT}
-            onActionClick={closeAlertDialog}
+            actionProps={{
+              onClick: closeAlertDialog
+            }}
           >
             <div>{DIALOG_CHILDREN_TEXT}</div>
           </AlertDialog>
@@ -129,7 +133,9 @@ describe('AlertDialog', () => {
           open={true}
           onOpenChange={handleOpenChange}
           title={DIALOG_TITLE_TEXT}
-          onActionClick={mockFn}
+          actionProps={{
+            onClick: mockFn
+          }}
         >
           <div>{DIALOG_CHILDREN_TEXT}</div>
         </AlertDialog>
@@ -164,7 +170,9 @@ describe('AlertDialog', () => {
           open={true}
           onOpenChange={handleOpenChange}
           title={DIALOG_TITLE_TEXT}
-          onActionClick={mockFn}
+          actionProps={{
+            onClick: mockFn
+          }}
         >
           <div>{DIALOG_CHILDREN_TEXT}</div>
         </AlertDialog>

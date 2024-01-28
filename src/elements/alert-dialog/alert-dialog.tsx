@@ -10,17 +10,19 @@ import {
 } from '@radix-ui/react-alert-dialog'
 import clsx from 'clsx'
 import {
+  type ButtonHTMLAttributes,
   type ComponentPropsWithoutRef,
   type ElementRef,
   type HTMLAttributes,
-  type MouseEventHandler,
   type ReactNode,
   forwardRef
 } from 'react'
 
-import { Button } from '@/elements/root/button/button'
+import { Button, type TButtonProps } from '@/elements/root/button/button'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
+import type { PickRequired } from '@/types/root/index'
 
 const AlertDialogRoot = Root
 
@@ -139,10 +141,15 @@ type TCustomProps = {
   title: ReactNode
   open: boolean
   onOpenChange(open: boolean): void
-  onActionClick: MouseEventHandler<HTMLButtonElement>
   children: ReactNode
+  actionProps: PickRequired<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    'onClick'
+  > & {
+    label?: TButtonProps['label']
+    loading?: TButtonProps['loading']
+  }
   cancelLabel?: string
-  actionLabel?: string
 }
 
 type TAlertDialogProps = Omit<
@@ -155,13 +162,17 @@ export const AlertDialog = ({
   title,
   open,
   onOpenChange,
-  onActionClick,
   children,
+  actionProps,
   cancelLabel,
-  actionLabel,
   ...props
 }: TAlertDialogProps) => {
   const { translate } = useDictionary()
+  const {
+    label: actionLabel,
+    onClick: actionOnClick,
+    ...restActionProps
+  } = actionProps
 
   return (
     <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
@@ -188,7 +199,8 @@ export const AlertDialog = ({
               actionLabel ??
               translate('COMMON.ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON')
             }
-            onClick={onActionClick}
+            onClick={actionOnClick}
+            {...restActionProps}
           ></Button>
         </AlertDialogFooter>
       </AlertDialogContent>

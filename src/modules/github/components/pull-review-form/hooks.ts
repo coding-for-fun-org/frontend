@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useMutation } from 'react-query'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
@@ -73,7 +73,6 @@ export const useSubmitForm = () => {
         )
 
         if (isAllSuccessful) {
-          setProgressData({ isRunning: false })
           pushToast({
             title: translate('COMMON.TOAST_DEFAULT_SUCCESS_TITLE'),
             variant: 'success'
@@ -103,16 +102,16 @@ export const useSubmitForm = () => {
     }
   })
 
-  useEffect(() => {
-    return () => {
-      setProgressData({ isRunning: false })
-    }
-  }, [])
+  const reset = () => {
+    setProgressData({ isRunning: false })
+    mutationReviews.reset()
+  }
 
   return {
     progressData,
     submit: mutationReviews.mutateAsync,
     isLoading: mutationReviews.isLoading,
-    error: mutationReviews.error
+    error: mutationReviews.error,
+    reset
   }
 }

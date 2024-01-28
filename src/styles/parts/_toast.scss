@@ -33,7 +33,29 @@
     }
 
     .toast__close {
-      @apply absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2;
+      @apply absolute right-2 top-2 h-6 w-6 rounded-md p-1 focus:outline-none focus:ring-2;
+
+      &.variant {
+        &--primary {
+          @apply text-foreground;
+        }
+
+        &--secondary {
+          @apply text-secondary-foreground;
+        }
+
+        &--success {
+          @apply text-success-foreground;
+        }
+
+        &--info {
+          @apply text-info-foreground;
+        }
+
+        &--error {
+          @apply text-error-foreground;
+        }
+      }
     }
 
     .toast__title {

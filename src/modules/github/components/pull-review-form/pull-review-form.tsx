@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useState } from 'react'
+import { type ChangeEvent, type FC, useEffect, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Alert } from '@/elements/root/alert/alert'
@@ -36,7 +36,13 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
         title?: never
       }
   >({ open: false })
-  const { progressData, submit, error: errors } = useSubmitForm()
+  const {
+    progressData,
+    submit,
+    isLoading,
+    error: errors,
+    reset
+  } = useSubmitForm()
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const hasChecked = repoHasCheckArray.some((data) =>
@@ -87,7 +93,7 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
   }
 
   const handleOpenChange = (open: boolean) => {
-    if (open === false) {
+    if (!open) {
       setDialogData({ open })
     }
   }
@@ -98,6 +104,12 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
     }
     handleSubmit(dialogData.type)
   }
+
+  useEffect(() => {
+    if (!dialogData.open) {
+      reset()
+    }
+  }, [dialogData])
 
   return (
     <>
@@ -114,7 +126,6 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
           <AlertDialog
             open={dialogData.open}
             onOpenChange={handleOpenChange}
-            onActionClick={handleActionClick}
             title={dialogData.title}
             children={
               <>
@@ -147,7 +158,11 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
                 )}
               </>
             }
-            actionLabel={translate('COMMON.ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON')}
+            actionProps={{
+              disabled: isLoading,
+              onClick: handleActionClick,
+              label: translate('COMMON.ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON')
+            }}
           ></AlertDialog>
 
           <Button
