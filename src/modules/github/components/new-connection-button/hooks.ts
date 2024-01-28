@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
-export const useAppInstallationWindow = () => {
+export const useAppInstallationWindow = (
+  receiveMessageCB: (data: TCallbackApplicationInstall) => void
+) => {
   let newWindow: Window | null = null
 
   const openWindow = () => {
@@ -26,11 +28,7 @@ export const useAppInstallationWindow = () => {
         return
       }
 
-      const { installationId, setupAction } = event.data
-
-      if (setupAction === 'install') {
-        console.log('installationId', installationId)
-      }
+      receiveMessageCB(event.data)
     }
 
     window.addEventListener('message', receiveMessage)
