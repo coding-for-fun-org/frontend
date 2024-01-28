@@ -1,7 +1,6 @@
 import { type ChangeEvent, type FC, useEffect, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
-import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Progress } from '@/elements/root/progress/progress'
 import { Textarea } from '@/elements/root/textarea/textarea'
