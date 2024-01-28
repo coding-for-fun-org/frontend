@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 
 import type { TCallbackApplicationInstall } from '@/types/github/root/index'
 
-export const useAppInstallationWindow = () => {
+export const useAppInstallationWindow = (
+  receiveMessageCB: (data: TCallbackApplicationInstall) => void
+) => {
   let newWindow: Window | null = null
 
   const openWindow = () => {
@@ -12,7 +14,7 @@ export const useAppInstallationWindow = () => {
     const top = window.screenTop + window.outerHeight * 0.5 - height * 0.5
 
     newWindow = window.open(
-      'https://github.com/apps/coding-for-fun-local/installations/select_target',
+      `https://github.com/apps/${process.env.NEXT_PUBLIC_GITHUB_APP_SLUG}/installations/select_target`,
       '_blank',
       `popup=true,left=${left},top=${top},width=${width},height=${height}`
     )
@@ -26,11 +28,7 @@ export const useAppInstallationWindow = () => {
         return
       }
 
-      const { installationId, setupAction } = event.data
-
-      if (setupAction === 'install') {
-        console.log('installationId', installationId)
-      }
+      receiveMessageCB(event.data)
     }
 
     window.addEventListener('message', receiveMessage)
