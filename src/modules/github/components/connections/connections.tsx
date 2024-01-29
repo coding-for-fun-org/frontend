@@ -46,7 +46,7 @@ export const Connections: FC = () => {
     if (!dialogData.installationId) {
       return
     }
-    deleteInstallation(dialogData.installationId)
+    deleteInstallation(-1)
       .then(() => {
         handleOpenChange(false)
       })
@@ -121,15 +121,18 @@ export const Connections: FC = () => {
         children={
           <>
             <div>
-              Are you sure you want to delete this{' '}
-              {dialogData.installationOwner} connection?
+              {translate('GITHUB.CONNECTION_DELETE_CONNECTION_DESCRIPTION_1', {
+                installationOwner: dialogData.installationOwner
+              })}
               <br />
-              You can not undo this action?
+              {translate('GITHUB.CONNECTION_DELETE_CONNECTION_DESCRIPTION_2')}
             </div>
             {error !== '' && (
               <Alert
                 variant="error"
-                title="Delete error"
+                title={translate(
+                  'GITHUB.CONNECTION_DELETE_CONNECTION_TITLE_ERROR'
+                )}
                 description={<div>{error}</div>}
               />
             )}
