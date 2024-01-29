@@ -5,7 +5,6 @@ import { type FC, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
-import { Label } from '@/elements/root/label/label'
 
 import type { TPull } from '@/types/github/root/index'
 
