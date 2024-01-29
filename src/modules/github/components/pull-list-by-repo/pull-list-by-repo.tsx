@@ -9,6 +9,7 @@ import { Label } from '@/elements/root/label/label'
 import type { TPull } from '@/types/github/root/index'
 
 interface PullListByRepoProps {
+  org: string
   repo: string
   pulls: TPull[]
   handlePullChange: (repo: string, pullNumber: number) => void
@@ -16,6 +17,7 @@ interface PullListByRepoProps {
 }
 
 export const PullListByRepo: FC<PullListByRepoProps> = ({
+  org,
   repo,
   pulls,
   handlePullChange,
@@ -29,6 +31,7 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   const handleRepoClick = () => {
     setIsRepoOpen((prev) => !prev)
+    window.location.href = `https://github.com/${org}/${repo}`
   }
 
   return (
@@ -40,7 +43,7 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label htmlFor={repo}>{repo}</Label>
+        <Label onClick={handleRepoClick}>{repo}</Label>
         {hasChild && (
           <Button
             role="button"

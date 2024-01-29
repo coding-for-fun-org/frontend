@@ -114,6 +114,7 @@ export const BulkPullReviews: FC = () => {
           repoHasCheckArray.map((repoHasCheck) => (
             <PullListByRepo
               key={repoHasCheck.repo}
+              org={repoHasCheck.org}
               repo={repoHasCheck.repo}
               pulls={repoHasCheck.pulls}
               handlePullChange={handlePullChange}
