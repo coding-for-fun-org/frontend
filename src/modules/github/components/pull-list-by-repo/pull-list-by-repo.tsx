@@ -81,7 +81,13 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
                   handlePullChange(repo, pull.number)
                 }}
               />
-              <Label htmlFor={`${repo}.${pull.number}`}>{pull.title}</Label>
+              <Link
+                href={pull.pullUrl}
+                target="_blank"
+                className="underline-offset-4 hover:underline"
+              >
+                <span>{pull.title}</span>
+              </Link>
             </div>
           </li>
         ))}
