@@ -31,7 +31,7 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   const handleRepoClick = () => {
     setIsRepoOpen((prev) => !prev)
-    window.location.href = `https://github.com/${org}/${repo}`
+    window.open(`https://github.com/${org}/${repo}`, '_blank')
   }
 
   return (
