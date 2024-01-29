@@ -7,6 +7,7 @@ export type TGithubPullRequest = {
   state: string
   number: number
   title: string
+  pullUrl: string
   user: {
     login: string | undefined
     avatarUrl: string | undefined
@@ -16,6 +17,7 @@ export type TGithubPullRequest = {
 export type TGithubPullRequestGroup = {
   org: string
   repo: string
+  repoUrl: string
   pulls: TGithubPullRequest[]
 }
 
@@ -35,12 +37,14 @@ export enum EPullRequestType {
 export type TRepoHasCheck = {
   org: string
   repo: string
+  repoUrl: string
   pulls: TPull[]
 }
 
 export type TPull = {
   number: number
   title: string
+  pullUrl: string
   isChecked: boolean
   user: {
     login: string | undefined

@@ -33,7 +33,9 @@ const fetchPullsGroup = async (signal: AbortSignal | undefined) => {
                 .then((response) => ({
                   org: repo.owner.login,
                   repo: repo.name,
+                  repoUrl: repo.html_url,
                   pulls: response.map((pull) => ({
+                    pullUrl: pull.html_url,
                     state: pull.state,
                     number: pull.number,
                     title: pull.title,

@@ -89,9 +89,11 @@ export const BulkPullReviews: FC = () => {
       pullsGroup.map((pulls) => ({
         org: pulls.org,
         repo: pulls.repo,
+        repoUrl: pulls.repoUrl,
         pulls: pulls.pulls.map((pull) => ({
           number: pull.number,
           title: pull.title,
+          pullUrl: pull.pullUrl,
           isChecked: false,
           user: {
             login: pull.user.login ?? ''
@@ -114,8 +116,8 @@ export const BulkPullReviews: FC = () => {
           repoHasCheckArray.map((repoHasCheck) => (
             <PullListByRepo
               key={repoHasCheck.repo}
-              org={repoHasCheck.org}
               repo={repoHasCheck.repo}
+              repoUrl={repoHasCheck.repoUrl}
               pulls={repoHasCheck.pulls}
               handlePullChange={handlePullChange}
               handleRepoChange={handleRepoChange}

@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
@@ -9,16 +10,16 @@ import { Label } from '@/elements/root/label/label'
 import type { TPull } from '@/types/github/root/index'
 
 interface PullListByRepoProps {
-  org: string
   repo: string
+  repoUrl: string
   pulls: TPull[]
   handlePullChange: (repo: string, pullNumber: number) => void
   handleRepoChange: (repo: string) => void
 }
 
 export const PullListByRepo: FC<PullListByRepoProps> = ({
-  org,
   repo,
+  repoUrl,
   pulls,
   handlePullChange,
   handleRepoChange
@@ -31,19 +32,23 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
 
   const handleRepoClick = () => {
     setIsRepoOpen((prev) => !prev)
-    window.open(`https://github.com/${org}/${repo}`, '_blank')
   }
 
   return (
     <li className="list-none">
       <div className="flex gap-2 items-center">
         <Checkbox
-          id={repo}
           checked={isRepoChecked}
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label onClick={handleRepoClick}>{repo}</Label>
+        <Link
+          href={repoUrl}
+          target="_blank"
+          className="underline-offset-4 hover:underline"
+        >
+          <span>{repo}</span>
+        </Link>
         {hasChild && (
           <Button
             role="button"
