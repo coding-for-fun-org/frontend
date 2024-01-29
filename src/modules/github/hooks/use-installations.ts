@@ -78,7 +78,6 @@ export const useInstallations = () => {
           if (!installations) {
             return undefined
           }
-
           return installations.filter(
             (installation) => installation.id !== installationId
           )

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
+import { Alert } from '@/elements/root/alert/alert'
 import { Avatar } from '@/elements/root/avatar/avatar'
 import { Button } from '@/elements/root/button/button'
 
@@ -15,6 +16,7 @@ import { NewConnectionButton } from '@/components/github/root/new-connection-but
 import { useInstallations } from '@/hooks/github/root/use-installations'
 
 export const Connections: FC = () => {
+  const [error, setError] = useState<string>('')
   const [dialogData, setDialogData] = useState<
     | {
         open: true
@@ -45,12 +47,21 @@ export const Connections: FC = () => {
       return
     }
     deleteInstallation(dialogData.installationId)
-    handleOpenChange(false)
+      .then(() => {
+        handleOpenChange(false)
+      })
+      .catch(() => {
+        setError(dialogData.installationOwner)
+      })
   }
 
   const handleOpenChange = (open: boolean) => {
     if (open === false) {
       setDialogData({ open })
+      if (dialogData.title === undefined) {
+        return
+      }
+      setError('')
     }
   }
 
@@ -60,7 +71,7 @@ export const Connections: FC = () => {
   ) => {
     setDialogData({
       open: true,
-      title: translate('GITHUB.CONNECTION_DELETE_TITLE'),
+      title: translate('GITHUB.CONNECTION_DELETE_CONNECTION_TITLE'),
       installationId,
       installationOwner
     })
@@ -108,9 +119,21 @@ export const Connections: FC = () => {
         onActionClick={() => handleActionClick()}
         title={dialogData.title}
         children={
-          <div>
-            Are you sure delete connection of {dialogData.installationOwner}?
-          </div>
+          <>
+            <div>
+              Are you sure you want to delete this{' '}
+              {dialogData.installationOwner} connection?
+              <br />
+              You can not undo this action?
+            </div>
+            {error !== '' && (
+              <Alert
+                variant="error"
+                title="Delete error"
+                description={<div>{error}</div>}
+              />
+            )}
+          </>
         }
         actionLabel={translate('COMMON.ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON')}
       ></AlertDialog>
