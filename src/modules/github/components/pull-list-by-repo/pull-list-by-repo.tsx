@@ -1,15 +1,16 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
-import { Label } from '@/elements/root/label/label'
 
 import type { TPull } from '@/types/github/root/index'
 
 interface PullListByRepoProps {
   repo: string
+  repoUrl: string
   pulls: TPull[]
   handlePullChange: (repo: string, pullNumber: number) => void
   handleRepoChange: (repo: string) => void
@@ -17,6 +18,7 @@ interface PullListByRepoProps {
 
 export const PullListByRepo: FC<PullListByRepoProps> = ({
   repo,
+  repoUrl,
   pulls,
   handlePullChange,
   handleRepoChange
@@ -35,12 +37,17 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
     <li className="list-none">
       <div className="flex gap-2 items-center">
         <Checkbox
-          id={repo}
           checked={isRepoChecked}
           onCheckedChange={() => handleRepoChange(repo)}
           disabled={!hasChild}
         />
-        <Label htmlFor={repo}>{repo}</Label>
+        <Link
+          href={repoUrl}
+          target="_blank"
+          className="underline-offset-4 hover:underline"
+        >
+          <span>{repo}</span>
+        </Link>
         {hasChild && (
           <Button
             role="button"
@@ -73,7 +80,13 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
                   handlePullChange(repo, pull.number)
                 }}
               />
-              <Label htmlFor={`${repo}.${pull.number}`}>{pull.title}</Label>
+              <Link
+                href={pull.pullUrl}
+                target="_blank"
+                className="underline-offset-4 hover:underline"
+              >
+                <span>{pull.title}</span>
+              </Link>
             </div>
           </li>
         ))}
