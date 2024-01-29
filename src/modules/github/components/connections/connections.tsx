@@ -46,7 +46,7 @@ export const Connections: FC = () => {
     if (!dialogData.installationId) {
       return
     }
-    deleteInstallation(-1)
+    deleteInstallation(dialogData.installationId)
       .then(() => {
         handleOpenChange(false)
       })
@@ -116,7 +116,6 @@ export const Connections: FC = () => {
       <AlertDialog
         open={dialogData.open}
         onOpenChange={handleOpenChange}
-        onActionClick={() => handleActionClick()}
         title={dialogData.title}
         children={
           <>
@@ -138,7 +137,11 @@ export const Connections: FC = () => {
             )}
           </>
         }
-        actionLabel={translate('COMMON.ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON')}
+        actionProps={{
+          disabled: isLoading,
+          onClick: handleActionClick,
+          label: translate('COMMON.ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON')
+        }}
       ></AlertDialog>
     </div>
   )
