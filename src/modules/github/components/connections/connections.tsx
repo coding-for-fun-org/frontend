@@ -1,15 +1,17 @@
 'use client'
 
-import { TrashIcon } from '@radix-ui/react-icons'
+import { PlusIcon, TrashIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Avatar } from '@/elements/root/avatar/avatar'
 import { Button } from '@/elements/root/button/button'
+import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { useAppInstallationWindow } from '@/components/github/root/new-connection-button/hooks'
 import { NewConnectionButton } from '@/components/github/root/new-connection-button/new-connection-button'
 
 import { useInstallations } from '@/hooks/github/root/use-installations'
@@ -33,6 +35,13 @@ export const Connections: FC = () => {
   const { translate } = useDictionary()
   const { isLoading, installations, addInstallation, deleteInstallation } =
     useInstallations()
+  const { openWindow } = useAppInstallationWindow((data) => {
+    const { installationId, setupAction } = data
+
+    if (setupAction === 'install' && installationId !== null) {
+      addInstallation(Number(installationId))
+    }
+  })
 
   const handleActionClick = () => {
     if (!dialogData.open) {
@@ -75,43 +84,77 @@ export const Connections: FC = () => {
       installationOwner
     })
   }
+
   return (
     <div className="px-16">
-      <div className="flex justify-end">
-        <NewConnectionButton addInstallation={addInstallation} />
-      </div>
-      <ul className="flex flex-col divide-y">
-        {isLoading && <li>Loading...</li>}
-        {!isLoading &&
-          installations!.map((installation) => (
-            <li key={installation.id} className="flex items-center py-2">
-              <div className="flex-grow flex items-center gap-2">
-                <Avatar
-                  src={installation.avatarUrl}
-                  className="w-6 h-6"
-                  fallback={installation.owner}
-                />
-                <Link
-                  href={installation.pageUrl}
-                  target="_blank"
-                  className="underline-offset-4 hover:underline"
-                >
-                  <span>{installation.owner}</span>
-                </Link>
-              </div>
-              <div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  icon={<TrashIcon className="w-full h-full" />}
-                  onClick={() =>
-                    handleOpenDialog(installation.id, installation.owner)
+      <Table
+        headers={[
+          {
+            key: 'header',
+            items: [
+              { key: 'Connection', children: 'Connection' },
+              {
+                key: 'NewConnection',
+                children: (
+                  <Button
+                    className="float-right"
+                    variant="ghost"
+                    size="icon"
+                    icon={<PlusIcon className="w-full h-full" />}
+                    onClick={() => {
+                      openWindow()
+                    }}
+                  />
+                )
+              }
+            ]
+          }
+        ]}
+        cells={
+          !isLoading
+            ? installations!.map((installation) => ({
+                key: `cell${installation.id}`,
+                items: [
+                  {
+                    key: `owner${installation.id}`,
+                    children: (
+                      <div>
+                        <Link
+                          href={installation.pageUrl}
+                          target="_blank"
+                          className="underline-offset-4 hover:underline"
+                        >
+                          <span>{installation.owner}</span>
+                        </Link>
+                      </div>
+                    )
+                  },
+                  {
+                    key: `deleteConnection${installation.id}`,
+                    children: (
+                      <Button
+                        className="float-right"
+                        variant="ghost"
+                        size="icon"
+                        icon={<TrashIcon className="w-full h-full" />}
+                        onClick={() => {
+                          deleteInstallation(installation.id)
+                        }}
+                      />
+                    )
                   }
-                />
-              </div>
-            </li>
-          ))}
-      </ul>
+                ]
+              }))
+            : [
+                {
+                  key: 'temp',
+                  items: [
+                    { key: 'tempItem', children: 'Loading...', colSpan: 2 }
+                  ]
+                }
+              ]
+        }
+      ></Table>
       <AlertDialog
         open={dialogData.open}
         onOpenChange={handleOpenChange}
