@@ -93,12 +93,14 @@ export const Connections: FC = () => {
             key: 'header',
             className: 'sticky top-0 z-10',
             items: [
-              { key: 'header-cell-0', children: 'Connection' },
               {
-                key: 'header-cell-1',
+                key: 'header-cell-0',
+                children: translate('GITHUB.CONNECTION_TABLE_HEADER_CONNECTION')
+              },
+              {
+                key: 'header-cell-1 w-3',
                 children: (
                   <Button
-                    className="float-right"
                     variant="ghost"
                     size="icon"
                     icon={<PlusIcon className="w-full h-full" />}
@@ -137,9 +139,9 @@ export const Connections: FC = () => {
                   },
                   {
                     key: `row-${installation.id}-cell-1`,
+                    className: 'w-3',
                     children: (
                       <Button
-                        className="float-right"
                         variant="ghost"
                         size="icon"
                         icon={<TrashIcon className="w-full h-full" />}
