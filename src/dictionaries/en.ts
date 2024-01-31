@@ -20,6 +20,7 @@ export const dictionary = {
   },
   GITHUB: {
     NEW_CONNECTION_BUTTON: 'New Connection',
+    CONNECTION_DELETE_CONNECTION_TITLE: 'Delete Connection',
     PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
@@ -30,6 +31,9 @@ export const dictionary = {
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO: '- Repository Name: {{repoName}}',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL:
       '- Pull Request Title: {{pullTitle}}',
+    CONNECTION_DELETE_CONNECTION_DESCRIPTION_1:
+      'Are you sure you want to delete this {{installationOwner}} connection?',
+    CONNECTION_DELETE_CONNECTION_DESCRIPTION_2: 'You can not undo this action.',
     TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
     TAB_CONNECTIONS_LABEL: 'Connections'
   },

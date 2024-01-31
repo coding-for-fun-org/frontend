@@ -78,7 +78,6 @@ export const useInstallations = () => {
           if (!installations) {
             return undefined
           }
-
           return installations.filter(
             (installation) => installation.id !== installationId
           )
@@ -98,6 +97,6 @@ export const useInstallations = () => {
     isLoading,
     installations,
     addInstallation: addMutation.mutate,
-    deleteInstallation: deleteMutation.mutate
+    deleteInstallation: deleteMutation.mutateAsync
   }
 }
