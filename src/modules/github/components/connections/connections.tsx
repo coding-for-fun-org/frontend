@@ -86,11 +86,12 @@ export const Connections: FC = () => {
   }
 
   return (
-    <div className="px-16">
+    <div className="px-16 overflow-auto max-h-full">
       <Table
         headers={[
           {
             key: 'header',
+            className: 'sticky top-0 z-10',
             items: [
               { key: 'header-cell-0', children: 'Connection' },
               {
