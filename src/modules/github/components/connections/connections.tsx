@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
-import { Alert } from '@/elements/root/alert/alert'
 import { Avatar } from '@/elements/root/avatar/avatar'
 import { Button } from '@/elements/root/button/button'
 
@@ -126,16 +125,14 @@ export const Connections: FC = () => {
               <br />
               {translate('GITHUB.CONNECTION_DELETE_CONNECTION_DESCRIPTION_2')}
             </div>
-            {error !== '' && (
-              <Alert
-                variant="error"
-                title={translate(
-                  'GITHUB.CONNECTION_DELETE_CONNECTION_TITLE_ERROR'
-                )}
-                description={<div>{error}</div>}
-              />
-            )}
           </>
+        }
+        errorProps={
+          error
+            ? {
+                description: <div>{error}</div>
+              }
+            : undefined
         }
         actionProps={{
           disabled: isLoading,
