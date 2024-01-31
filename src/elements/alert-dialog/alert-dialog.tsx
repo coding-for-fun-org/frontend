@@ -156,7 +156,7 @@ type TCustomProps = {
       'primary' | 'secondary' | 'success' | 'info' | 'error'
     >
     label?: TButtonProps['label']
-    loading?: TButtonProps['loading']
+    isLoading?: TButtonProps['isLoading']
   }
   cancelLabel?: string
 }

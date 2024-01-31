@@ -21,6 +21,8 @@ export const dictionary = {
   GITHUB: {
     NEW_CONNECTION_BUTTON: 'New Connection',
     CONNECTION_DELETE_CONNECTION_TITLE: 'Delete Connection',
+    CONNECTION_DELETE_CONNECTION_ERROR:
+      'Fail to delete {{connection}} connection.',
     PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',

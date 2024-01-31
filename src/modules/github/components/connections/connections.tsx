@@ -11,30 +11,32 @@ import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { useAppInstallationWindow } from '@/components/github/root/new-connection-button/hooks'
-import { NewConnectionButton } from '@/components/github/root/new-connection-button/new-connection-button'
-
 import { useInstallations } from '@/hooks/github/root/use-installations'
+
+import { useAppInstallationWindow } from './hooks'
 
 export const Connections: FC = () => {
   const [error, setError] = useState<string>('')
   const [dialogData, setDialogData] = useState<
     | {
         open: true
-        title: string
         installationId: number
         installationOwner: string
       }
     | {
         open: false
-        title?: never
         installationId?: never
         installationOwner?: never
       }
   >({ open: false })
   const { translate } = useDictionary()
-  const { isLoading, installations, addInstallation, deleteInstallation } =
-    useInstallations()
+  const {
+    isLoading,
+    installations,
+    addInstallation,
+    isDeleteLoading,
+    deleteInstallation
+  } = useInstallations()
   const { openWindow } = useAppInstallationWindow((data) => {
     const { installationId, setupAction } = data
 
@@ -54,21 +56,24 @@ export const Connections: FC = () => {
     if (!dialogData.installationId) {
       return
     }
+
     deleteInstallation(dialogData.installationId)
       .then(() => {
         handleOpenChange(false)
       })
       .catch(() => {
-        setError(dialogData.installationOwner)
+        setError(
+          translate('GITHUB.CONNECTION_DELETE_CONNECTION_ERROR', {
+            connection: dialogData.installationOwner
+          })
+        )
       })
   }
 
   const handleOpenChange = (open: boolean) => {
     if (open === false) {
       setDialogData({ open })
-      if (dialogData.title === undefined) {
-        return
-      }
+
       setError('')
     }
   }
@@ -77,12 +82,7 @@ export const Connections: FC = () => {
     installationId: number,
     installationOwner: string
   ) => {
-    setDialogData({
-      open: true,
-      title: translate('GITHUB.CONNECTION_DELETE_CONNECTION_TITLE'),
-      installationId,
-      installationOwner
-    })
+    setDialogData({ open: true, installationId, installationOwner })
   }
 
   return (
@@ -92,9 +92,9 @@ export const Connections: FC = () => {
           {
             key: 'header',
             items: [
-              { key: 'Connection', children: 'Connection' },
+              { key: 'header-cell-0', children: 'Connection' },
               {
-                key: 'NewConnection',
+                key: 'header-cell-1',
                 children: (
                   <Button
                     className="float-right"
@@ -113,12 +113,17 @@ export const Connections: FC = () => {
         cells={
           !isLoading
             ? installations!.map((installation) => ({
-                key: `cell${installation.id}`,
+                key: `row-${installation.id}`,
                 items: [
                   {
-                    key: `owner${installation.id}`,
+                    key: `row-${installation.id}-cell-0`,
                     children: (
-                      <div>
+                      <div className="flex-grow flex items-center gap-2">
+                        <Avatar
+                          src={installation.avatarUrl}
+                          className="w-6 h-6"
+                          fallback={installation.owner}
+                        />
                         <Link
                           href={installation.pageUrl}
                           target="_blank"
@@ -130,7 +135,7 @@ export const Connections: FC = () => {
                     )
                   },
                   {
-                    key: `deleteConnection${installation.id}`,
+                    key: `row-${installation.id}-cell-1`,
                     children: (
                       <Button
                         className="float-right"
@@ -138,7 +143,7 @@ export const Connections: FC = () => {
                         size="icon"
                         icon={<TrashIcon className="w-full h-full" />}
                         onClick={() => {
-                          deleteInstallation(installation.id)
+                          handleOpenDialog(installation.id, installation.owner)
                         }}
                       />
                     )
@@ -147,18 +152,23 @@ export const Connections: FC = () => {
               }))
             : [
                 {
-                  key: 'temp',
+                  key: 'loading-header',
                   items: [
-                    { key: 'tempItem', children: 'Loading...', colSpan: 2 }
+                    {
+                      key: 'loading-header-cell',
+                      children: 'Loading...',
+                      colSpan: 2
+                    }
                   ]
                 }
               ]
         }
-      ></Table>
+      />
+
       <AlertDialog
         open={dialogData.open}
         onOpenChange={handleOpenChange}
-        title={dialogData.title}
+        title={translate('GITHUB.CONNECTION_DELETE_CONNECTION_TITLE')}
         children={
           <>
             <div>
@@ -178,11 +188,11 @@ export const Connections: FC = () => {
             : undefined
         }
         actionProps={{
-          disabled: isLoading,
+          isLoading: isDeleteLoading,
           onClick: handleActionClick,
           label: translate('COMMON.ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON')
         }}
-      ></AlertDialog>
+      />
     </div>
   )
 }

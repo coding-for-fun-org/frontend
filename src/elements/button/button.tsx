@@ -29,12 +29,12 @@ export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     | (IVariantProps & {
         asChild?: true
         label?: never
-        loading?: never
+        isLoading?: never
         icon?: never
       })
     | (Omit<IVariantProps, 'size'> & {
         asChild?: false
-        loading?: boolean
+        isLoading?: boolean
       } & (
           | {
               size?: Exclude<IVariantProps['size'], 'icon'>
@@ -84,7 +84,7 @@ const ButtonLoader: FC<TButtonLoaderProps> = ({ size }) => {
 /**
  * @description
  * Please check the following condition of props:
- * 1. If asChild is true, label, loading and icon must be undefined
+ * 1. If asChild is true, label, isLoading and icon must be undefined
  * 2. If asChild is false,
  *   2-1. If size is 'icon', label must be undefined
  *   2-2. If size is not 'icon', label must be defined
@@ -99,7 +99,7 @@ export const Button = forwardRef<HTMLButtonElement, TButtonProps>(
       children,
       label,
       icon,
-      loading,
+      isLoading,
       ...props
     },
     ref
@@ -131,16 +131,16 @@ export const Button = forwardRef<HTMLButtonElement, TButtonProps>(
           sizeClasses[size ?? 'md'],
           className
         )}
-        disabled={!!loading}
+        disabled={!!isLoading}
         ref={ref}
         {...props}
       >
         <>
           {!children && !asChild && (
             <span className="gap-4 flex items-center">
-              {!!loading && <ButtonLoader size={size} />}
-              {/* If size is icon and loading is true, do not display icon */}
-              {!!icon && !(loading && size === 'icon') && (
+              {!!isLoading && <ButtonLoader size={size} />}
+              {/* If size is icon and isLoading is true, do not display icon */}
+              {!!icon && !(isLoading && size === 'icon') && (
                 <span className="icon">{icon}</span>
               )}
               {/* @ts-expect-error - I know size can't be 'icon' by typescript but I put this condition to make sure programatically */}

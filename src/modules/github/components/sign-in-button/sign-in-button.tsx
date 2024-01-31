@@ -45,7 +45,7 @@ export const SignInButton: FC = () => {
         variant="outline"
         label={translate('AUTH.SIGN_IN_WITH_GITHUB')}
         icon={<GitHubLogoIcon className="w-full h-full" />}
-        loading={isSigningIn}
+        isLoading={isSigningIn}
         onClick={() => {
           signIn().catch(console.error)
         }}
