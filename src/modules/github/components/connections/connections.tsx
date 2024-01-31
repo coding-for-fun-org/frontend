@@ -7,6 +7,7 @@ import { type FC, useState } from 'react'
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Avatar } from '@/elements/root/avatar/avatar'
 import { Button } from '@/elements/root/button/button'
+import { Skeleton } from '@/elements/root/skeleton/skeleton'
 import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
@@ -155,12 +156,29 @@ export const Connections: FC = () => {
               }))
             : [
                 {
-                  key: 'loading-header',
+                  key: 'loading-header-1',
                   items: [
                     {
                       key: 'loading-header-cell',
-                      children: 'Loading...',
-                      colSpan: 2
+                      children: <Skeleton variant="rect" />
+                    }
+                  ]
+                },
+                {
+                  key: 'loading-header-2',
+                  items: [
+                    {
+                      key: 'loading-header-cell',
+                      children: <Skeleton variant="rect" />
+                    }
+                  ]
+                },
+                {
+                  key: 'loading-header-3',
+                  items: [
+                    {
+                      key: 'loading-header-cell',
+                      children: <Skeleton variant="rect" />
                     }
                   ]
                 }
