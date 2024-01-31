@@ -98,7 +98,8 @@ export const Connections: FC = () => {
                 children: translate('GITHUB.CONNECTION_TABLE_HEADER_CONNECTION')
               },
               {
-                key: 'header-cell-1 w-3',
+                key: 'header-cell-1',
+                className: 'w-3',
                 children: (
                   <Button
                     variant="ghost"
@@ -153,18 +154,7 @@ export const Connections: FC = () => {
                   }
                 ]
               }))
-            : [
-                {
-                  key: 'loading-header',
-                  items: [
-                    {
-                      key: 'loading-header-cell',
-                      children: 'Loading...',
-                      colSpan: 2
-                    }
-                  ]
-                }
-              ]
+            : undefined
         }
       />
 
