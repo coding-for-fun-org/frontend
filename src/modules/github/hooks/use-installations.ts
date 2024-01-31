@@ -97,6 +97,7 @@ export const useInstallations = () => {
     isLoading,
     installations,
     addInstallation: addMutation.mutate,
+    isDeleteLoading: deleteMutation.isLoading,
     deleteInstallation: deleteMutation.mutateAsync
   }
 }

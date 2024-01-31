@@ -11,13 +11,11 @@ const TableRoot = forwardRef<
   HTMLTableElement,
   HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={clsx('w-full caption-bottom text-sm', className)}
-      {...props}
-    />
-  </div>
+  <table
+    ref={ref}
+    className={clsx('w-full caption-bottom text-sm', className)}
+    {...props}
+  />
 ))
 TableRoot.displayName = 'Table'
 
@@ -41,7 +39,7 @@ const TableBody = forwardRef<
 ))
 TableBody.displayName = 'TableBody'
 
-const TableFooter = forwardRef<
+/* const TableFooter = forwardRef<
   HTMLTableSectionElement,
   HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
@@ -54,7 +52,7 @@ const TableFooter = forwardRef<
     {...props}
   />
 ))
-TableFooter.displayName = 'TableFooter'
+TableFooter.displayName = 'TableFooter' */
 
 const TableRow = forwardRef<
   HTMLTableRowElement,
@@ -63,7 +61,7 @@ const TableRow = forwardRef<
   <tr
     ref={ref}
     className={clsx(
-      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+      'border-b transition-colors data-[state=selected]:bg-muted',
       className
     )}
     {...props}
@@ -146,7 +144,11 @@ export const Table = ({ headers, cells, ...props }: TTableProps) => {
         {!!headers &&
           headers.map(
             ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
-              <TableRow key={rowKey} className={rowClassName} {...rowProps}>
+              <TableRow
+                key={rowKey}
+                className={clsx('bg-background', rowClassName)}
+                {...rowProps}
+              >
                 {items.map(
                   ({
                     key: itemKey,
