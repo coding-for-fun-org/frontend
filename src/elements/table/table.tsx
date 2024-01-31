@@ -7,6 +7,8 @@ import {
   forwardRef
 } from 'react'
 
+import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
 const TableRoot = forwardRef<
   HTMLTableElement,
   HTMLAttributes<HTMLTableElement>
@@ -170,7 +172,7 @@ export const Table = ({ headers, cells, ...props }: TTableProps) => {
           )}
       </TableHeader>
       <TableBody>
-        {!!cells &&
+        {!!cells ? (
           cells.map(
             ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
               <TableRow key={rowKey} className={rowClassName} {...rowProps}>
@@ -192,7 +194,26 @@ export const Table = ({ headers, cells, ...props }: TTableProps) => {
                 )}
               </TableRow>
             )
-          )}
+          )
+        ) : (
+          <>
+            <TableRow>
+              <TableCell>
+                <Skeleton variant="rect" />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Skeleton variant="rect" />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Skeleton variant="rect" />
+              </TableCell>
+            </TableRow>
+          </>
+        )}
       </TableBody>
     </TableRoot>
   )
