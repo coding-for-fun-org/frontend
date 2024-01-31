@@ -151,6 +151,10 @@ type TCustomProps = {
     ButtonHTMLAttributes<HTMLButtonElement>,
     'onClick'
   > & {
+    variant?: Extract<
+      TButtonProps['variant'],
+      'primary' | 'secondary' | 'success' | 'info' | 'error'
+    >
     label?: TButtonProps['label']
     loading?: TButtonProps['loading']
   }
@@ -175,6 +179,7 @@ export const AlertDialog = ({
 }: TAlertDialogProps) => {
   const { translate } = useDictionary()
   const {
+    variant: actionVariant,
     label: actionLabel,
     onClick: actionOnClick,
     ...restActionProps
@@ -210,17 +215,17 @@ export const AlertDialog = ({
                 cancelLabel ??
                 translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')
               }
-            ></Button>
+            />
           </AlertDialogCancel>
           <Button
-            variant="primary"
+            variant={actionVariant ?? 'primary'}
             label={
               actionLabel ??
               translate('COMMON.ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON')
             }
             onClick={actionOnClick}
             {...restActionProps}
-          ></Button>
+          />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>
