@@ -114,7 +114,7 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
     <>
       <div className="flex flex-col h-full">
         <Textarea
-          className="resize-none flex-grow"
+          className="resize-none flex-grow max-h-96"
           placeholder={translate('GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER')}
           value={commentInput}
           onChange={handleCommentChange}
