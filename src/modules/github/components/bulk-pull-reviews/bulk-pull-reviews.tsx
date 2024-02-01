@@ -12,9 +12,9 @@ import { ELocalStorageKey } from '@/types/root/index'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 
-import { usePullsGroup } from '@/hooks/github/root/use-pulls-group'
-
 import type { TRepoHasCheck } from '@/types/github/root/index'
+
+import { usePullsGroup } from './hooks'
 
 export const BulkPullReviews: FC = () => {
   const router = useRouter()
@@ -85,12 +85,18 @@ export const BulkPullReviews: FC = () => {
       return
     }
 
+    const hasUndefined = pullsGroup.some((pulls) => !pulls)
+
+    if (hasUndefined) {
+      return
+    }
+
     setRepoHasCheckArray(
       pullsGroup.map((pulls) => ({
-        org: pulls.org,
-        repo: pulls.repo,
-        repoUrl: pulls.repoUrl,
-        pulls: pulls.pulls.map((pull) => ({
+        org: pulls!.org,
+        repo: pulls!.repo,
+        repoUrl: pulls!.repoUrl,
+        pulls: pulls!.pulls.map((pull) => ({
           number: pull.number,
           title: pull.title,
           pullUrl: pull.pullUrl,

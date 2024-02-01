@@ -35,12 +35,14 @@
       "@/contexts/root/*": ["./src/contexts/*"],
       "@/services/root/*": ["./src/services/*"],
       "@/hooks/root/*": ["./src/hooks/*"],
+      "@/queries/root/*": ["./src/queries/*"],
       "@/utils/root/*": ["./src/utils/*"],
       "@/types/root/*": ["./src/types/*"],
       "@/styles/github/root/*": ["./src/modules/github/styles/*"],
       "@/components/github/root/*": ["./src/modules/github/components/*"],
       "@/contexts/github/root/*": ["./src/modules/github/contexts/*"],
       "@/hooks/github/root/*": ["./src/modules/github/hooks/*"],
+      "@/queries/github/root/*": ["./src/modules/github/queries/*"],
       "@/types/github/root/*": ["./src/modules/github/types/*"],
       "@/utils/github/root/*": ["./src/modules/github/utils/*"]
     }

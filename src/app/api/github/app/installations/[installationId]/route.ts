@@ -43,6 +43,7 @@ export async function GET(
 
     return NextResponse.json(installation, { status: 200 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }
@@ -74,6 +75,7 @@ export async function DELETE(
 
     return new NextResponse(undefined, { status: 204 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

@@ -45,6 +45,7 @@ export async function GET(
 
     return NextResponse.json(repos, { status: 200 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

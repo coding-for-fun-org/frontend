@@ -1,8 +1,8 @@
 'use client'
 
 import { TooltipProvider } from '@radix-ui/react-tooltip'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { FC, ReactNode } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { ToastProvider } from '@/elements/root/toast/toast-provider'
 
