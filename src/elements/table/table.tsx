@@ -7,6 +7,14 @@ import {
   forwardRef
 } from 'react'
 
+import { Alert } from '@/elements/root/alert/alert'
+import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
+import type { TTableCell, TTableHeader, TTableRow } from './types'
+import { getHighestColumnsLength } from './utils'
+
 const TableRoot = forwardRef<
   HTMLTableElement,
   HTMLAttributes<HTMLTableElement>
@@ -111,24 +119,9 @@ TableCell.displayName = 'TableCell'
 ))
 TableCaption.displayName = 'TableCaption' */
 
-type TTableItem = {
-  key: string
-}
-
-type TTableRow<T> = TTableItem &
-  Omit<HTMLAttributes<HTMLTableRowElement>, keyof TTableItem> & {
-    items: T[]
-  }
-
-type TTableHeader = TTableItem &
-  Omit<ThHTMLAttributes<HTMLTableCellElement>, keyof TTableItem>
-
-type TTableCell = TTableItem &
-  Omit<TdHTMLAttributes<HTMLTableCellElement>, keyof TTableItem>
-
 type TCustomProps = {
-  headers?: TTableRow<TTableHeader>[]
-  cells?: TTableRow<TTableCell>[]
+  headers: TTableRow<TTableHeader>[]
+  cells: TTableRow<TTableCell>[] | undefined
 }
 
 type TTableProps = Omit<
@@ -137,62 +130,125 @@ type TTableProps = Omit<
 > &
   TCustomProps
 
+// export it for testing purposes
+export const SKELETON_ROW_LENGTH = 5
+
+// export it for testing purposes
+export const TableSkeleton = ({
+  header
+}: {
+  header: TTableRow<TTableHeader> | undefined
+}) => {
+  if (!header) {
+    return null
+  }
+
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    key: _,
+    className: rowClassName,
+    items,
+    ...rowProps
+  } = header
+
+  return Array.from({ length: SKELETON_ROW_LENGTH }, (_, rowIndex: number) => (
+    <TableRow
+      key={`skeleton-row-${rowIndex}`}
+      className={rowClassName}
+      {...rowProps}
+    >
+      {items.map(
+        ({ key: _, className: itemClassName, ...cellProps }, columnIndex) => (
+          <TableCell
+            key={`skeleton-row-${rowIndex}-cell-${columnIndex}`}
+            className={itemClassName}
+            {...cellProps}
+          >
+            <Skeleton variant="rect" className="w-full" />
+          </TableCell>
+        )
+      )}
+    </TableRow>
+  ))
+}
+
+// export it for testing purposes
+export const TableBodyContent = ({ headers, cells }: TCustomProps) => {
+  const { translate } = useDictionary()
+
+  if (cells === undefined) {
+    return <TableSkeleton header={headers[0]} />
+  }
+
+  if (cells.length === 0) {
+    const highestColumnLength = getHighestColumnsLength(headers)
+
+    return (
+      <TableRow>
+        <TableCell colSpan={highestColumnLength}>
+          <Alert
+            variant="info"
+            title={translate('COMMON.ALERT_NO_DATA_TITLE')}
+            description={translate('COMMON.ALERT_NO_DATA_DESCRIPTION')}
+          />
+        </TableCell>
+      </TableRow>
+    )
+  }
+
+  return cells.map(
+    ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
+      <TableRow key={rowKey} className={rowClassName} {...rowProps}>
+        {items.map(
+          ({
+            key: itemKey,
+            className: itemClassName,
+            children,
+            ...cellProps
+          }) => (
+            <TableCell key={itemKey} className={itemClassName} {...cellProps}>
+              {children}
+            </TableCell>
+          )
+        )}
+      </TableRow>
+    )
+  )
+}
+
 export const Table = ({ headers, cells, ...props }: TTableProps) => {
   return (
     <TableRoot {...props}>
       <TableHeader>
-        {!!headers &&
-          headers.map(
-            ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
-              <TableRow
-                key={rowKey}
-                className={clsx('bg-background', rowClassName)}
-                {...rowProps}
-              >
-                {items.map(
-                  ({
-                    key: itemKey,
-                    className: itemClassName,
-                    children,
-                    ...cellProps
-                  }) => (
-                    <TableHead
-                      key={itemKey}
-                      className={itemClassName}
-                      {...cellProps}
-                    >
-                      {children}
-                    </TableHead>
-                  )
-                )}
-              </TableRow>
-            )
-          )}
+        {headers.map(
+          ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
+            <TableRow
+              key={rowKey}
+              className={clsx('bg-background', rowClassName)}
+              {...rowProps}
+            >
+              {items.map(
+                ({
+                  key: itemKey,
+                  className: itemClassName,
+                  children,
+                  ...cellProps
+                }) => (
+                  <TableHead
+                    key={itemKey}
+                    className={itemClassName}
+                    {...cellProps}
+                  >
+                    {children}
+                  </TableHead>
+                )
+              )}
+            </TableRow>
+          )
+        )}
       </TableHeader>
       <TableBody>
-        {!!cells &&
-          cells.map(
-            ({ key: rowKey, className: rowClassName, items, ...rowProps }) => (
-              <TableRow key={rowKey} className={rowClassName} {...rowProps}>
-                {items.map(
-                  ({
-                    key: itemKey,
-                    className: itemClassName,
-                    children,
-                    ...cellProps
-                  }) => (
-                    <TableCell
-                      key={itemKey}
-                      className={itemClassName}
-                      {...cellProps}
-                    >
-                      {children}
-                    </TableCell>
-                  )
-                )}
-              </TableRow>
-            )
-          )}
+        <TableBodyContent headers={headers} cells={cells} />
       </TableBody>
     </TableRoot>
   )
