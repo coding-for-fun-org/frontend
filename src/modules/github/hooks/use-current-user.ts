@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { githubService } from '@/services/root/github'
 
@@ -15,10 +15,10 @@ export const useCurrentUser = () => {
     data: user,
     isLoading,
     isError
-  } = useQuery<UserResponse>(
-    queryKey.github.currentUser(),
-    async ({ signal }) => fetchUser(signal)
-  )
+  } = useQuery<UserResponse>({
+    queryKey: queryKey.github.currentUser(),
+    queryFn: async ({ signal }) => fetchUser(signal)
+  })
 
   return { user, isLoading, isError }
 }

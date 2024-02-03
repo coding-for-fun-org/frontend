@@ -60,6 +60,7 @@ export async function POST(
 
     return NextResponse.json(review, { status: 201 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

@@ -1,5 +1,5 @@
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useMutation } from 'react-query'
 
 import { useToast } from '@/elements/root/toast/toast-provider'
 
@@ -110,7 +110,7 @@ export const useSubmitForm = () => {
   return {
     progressData,
     submit: mutationReviews.mutateAsync,
-    isLoading: mutationReviews.isLoading,
+    isLoading: mutationReviews.isPending,
     error: mutationReviews.error,
     reset
   }

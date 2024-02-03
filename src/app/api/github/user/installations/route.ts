@@ -42,6 +42,7 @@ export async function GET(
 
     return NextResponse.json(installations, { status: 200 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

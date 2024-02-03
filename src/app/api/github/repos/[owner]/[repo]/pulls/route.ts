@@ -46,6 +46,7 @@ export async function GET(
 
     return NextResponse.json(pulls, { status: 200 })
   } catch (error) {
+    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

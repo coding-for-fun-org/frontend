@@ -36,8 +36,12 @@ export const createRandomString = (size: number): string => {
 
 export const queryKey = {
   github: {
-    installations: () => 'GITHUB-INSTALLATIONS',
-    currentUser: () => 'GITHUB-CURRENT-USER',
-    pullsGroup: () => 'GITHUB-PULLS-GROUP'
+    installations: () => ['GITHUB-INSTALLATIONS'] as const,
+    installationRepositories: (installationId: number) =>
+      ['GITHUB-INSTALLATION-REPOSITORIES', installationId] as const,
+    repositoryPullRequests: (owner: string, repo: string) =>
+      ['GITHUB-REPOSITORY-PULLREQUESTS', owner, repo] as const,
+    currentUser: () => ['GITHUB-CURRENT-USER'] as const,
+    pullsGroup: () => ['GITHUB-PULLS-GROUP'] as const
   }
 }

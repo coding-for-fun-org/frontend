@@ -1,6 +1,13 @@
 import { useEffect } from 'react'
 
-import type { TCallbackApplicationInstall } from '@/types/github/root/index'
+import { useGetInstallations } from '@/queries/github/root/use-installations'
+
+import type {
+  TCallbackApplicationInstall,
+  TGithubInstallation
+} from '@/types/github/root/index'
+
+import { useAddInstallation, useDeleteInstallation } from './queries'
 
 export const useAppInstallationWindow = (
   receiveMessageCB: (data: TCallbackApplicationInstall) => void
@@ -44,5 +51,29 @@ export const useAppInstallationWindow = (
 
   return {
     openWindow
+  }
+}
+
+export const useInstallations = () => {
+  const { data: installations, isLoading } = useGetInstallations<
+    TGithubInstallation[]
+  >(({ installations }) =>
+    installations.map((installation) => ({
+      id: installation.id,
+      // @ts-expect-error - It seems like login is not valid for enterprise level but I don't care about it
+      owner: (installation.account?.login ?? '') as string,
+      pageUrl: installation.account?.html_url ?? '',
+      avatarUrl: installation.account?.avatar_url ?? ''
+    }))
+  )
+  const addMutation = useAddInstallation()
+  const deleteMutation = useDeleteInstallation()
+
+  return {
+    isLoading,
+    installations,
+    addInstallation: addMutation.mutate,
+    isDeleteLoading: deleteMutation.isPending,
+    deleteInstallation: deleteMutation.mutateAsync
   }
 }

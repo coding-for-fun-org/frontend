@@ -11,9 +11,7 @@ import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { useInstallations } from '@/hooks/github/root/use-installations'
-
-import { useAppInstallationWindow } from './hooks'
+import { useAppInstallationWindow, useInstallations } from './hooks'
 
 export const Connections: FC = () => {
   const [error, setError] = useState<string>('')
