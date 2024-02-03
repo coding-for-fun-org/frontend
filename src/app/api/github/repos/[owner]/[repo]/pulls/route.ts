@@ -41,6 +41,7 @@ export async function GET(
       })
       .then((response) => response.data)
       .catch((error: RequestError) => {
+        console.error('error', error)
         throw createHttpError(error?.status)
       })
 

@@ -62,9 +62,6 @@ export const usePullsGroup = () => {
         responses.some((response) => response.isPending)
     })
   )
-  console.log('pullsGroup', pullsGroup)
-  console.log('isPullsGroupLoading', isPullsGroupLoading)
-  console.log('isPullsGroupPending', isPullsGroupPending)
 
   return {
     isLoading: isPullsGroupLoading || isPullsGroupPending,
