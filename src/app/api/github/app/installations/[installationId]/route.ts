@@ -38,6 +38,7 @@ export async function GET(
       })
       .then((response) => response.data)
       .catch((error: RequestError) => {
+        console.error('error', error)
         throw createHttpError(error?.status)
       })
 
@@ -70,6 +71,7 @@ export async function DELETE(
         installation_id: Number(installationId)
       })
       .catch((error: RequestError) => {
+        console.error('error', error)
         throw createHttpError(error?.status)
       })
 

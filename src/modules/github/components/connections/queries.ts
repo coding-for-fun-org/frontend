@@ -18,11 +18,9 @@ export const useAddInstallation = () => {
     mutationFn: (installationId: number) =>
       githubService.getInstallation(installationId),
     onSuccess: (installation) => {
-      console.log(queryClient.getQueryData(queryKey.github.installations()))
       queryClient.setQueryData<UserInstallationsResponse | undefined>(
         queryKey.github.installations(),
         (response) => {
-          console.log('response', response)
           if (!response) {
             return undefined
           }
@@ -60,7 +58,6 @@ export const useDeleteInstallation = () => {
       queryClient.setQueryData<UserInstallationsResponse | undefined>(
         queryKey.github.installations(),
         (response) => {
-          console.log('response', response)
           if (!response) {
             return undefined
           }
