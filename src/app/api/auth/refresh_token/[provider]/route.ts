@@ -65,6 +65,7 @@ export async function GET(
 
     return NextResponse.json({ accessToken: accessToken }, { status: 200 })
   } catch (error) {
+    console.error('error', error)
     deleteCookie(ECookieKey.AUTH_GITHUB_REFRESH_TOKEN)
     deleteCookie(ECookieKey.AUTH_PROVIDER)
 
