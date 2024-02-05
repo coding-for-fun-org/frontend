@@ -90,7 +90,9 @@ axiosGithub.interceptors.response.use(
               refreshAndRetryQueue.length = 0
             })
           })
-          .catch(() => {
+          .catch((error) => {
+            console.error('error', error)
+
             isRefreshing = false
 
             authService

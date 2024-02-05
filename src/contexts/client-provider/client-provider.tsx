@@ -18,6 +18,14 @@ export const ClientProvider: FC<ClientProviderProps> = ({ children }) => {
         refetchOnWindowFocus: false
       }
     }
+    /**
+     * TODO: handle 401 error here instead of axios
+     */
+    // queryCache: new QueryCache({
+    //   onError: (error, query) => {
+    //     //
+    //   }
+    // })
   })
 
   return (

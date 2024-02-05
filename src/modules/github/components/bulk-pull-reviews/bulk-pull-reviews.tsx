@@ -1,13 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { type FC, useEffect, useState } from 'react'
 
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
-
-import { urlService } from '@/services/root/url'
-
-import { ELocalStorageKey } from '@/types/root/index'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
@@ -17,7 +12,6 @@ import type { TRepoHasCheck } from '@/types/github/root/index'
 import { usePullsGroup } from './hooks'
 
 export const BulkPullReviews: FC = () => {
-  const router = useRouter()
   const { isLoading: isPullsGroupFetching, pullsGroup } = usePullsGroup()
   const [repoHasCheckArray, setRepoHasCheckArray] = useState<TRepoHasCheck[]>(
     []
@@ -73,12 +67,6 @@ export const BulkPullReviews: FC = () => {
       })
     )
   }
-
-  useEffect(() => {
-    if (!localStorage.getItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN)) {
-      router.replace(urlService.github.signIn())
-    }
-  }, [])
 
   useEffect(() => {
     if (!pullsGroup) {
