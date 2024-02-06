@@ -69,33 +69,25 @@ export const BulkPullReviews: FC = () => {
   }
 
   useEffect(() => {
-    if (!pullsGroup) {
-      return
-    }
-
-    const hasUndefined = pullsGroup.some((pulls) => !pulls)
-
-    if (hasUndefined) {
-      return
-    }
-
-    setRepoHasCheckArray(
-      pullsGroup.map((pulls) => ({
-        org: pulls!.org,
-        repo: pulls!.repo,
-        repoUrl: pulls!.repoUrl,
-        pulls: pulls!.pulls.map((pull) => ({
-          number: pull.number,
-          title: pull.title,
-          pullUrl: pull.pullUrl,
-          isChecked: false,
-          user: {
-            login: pull.user.login ?? ''
-          }
+    if (!isPullsGroupFetching) {
+      setRepoHasCheckArray(
+        pullsGroup!.map((pulls) => ({
+          org: pulls!.org,
+          repo: pulls!.repo,
+          repoUrl: pulls!.repoUrl,
+          pulls: pulls!.pulls.map((pull) => ({
+            number: pull.number,
+            title: pull.title,
+            pullUrl: pull.pullUrl,
+            isChecked: false,
+            user: {
+              login: pull.user.login ?? ''
+            }
+          }))
         }))
-      }))
-    )
-  }, [pullsGroup])
+      )
+    }
+  }, [isPullsGroupFetching])
 
   return (
     <div className="flex w-full h-full gap-5">
