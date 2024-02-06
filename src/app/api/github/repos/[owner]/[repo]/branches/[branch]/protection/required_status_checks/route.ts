@@ -10,12 +10,12 @@ import {
 
 import type { TErrorResponse } from '@/types/root/server'
 
-import type { InstallationRepositoriesResponse } from '@/types/github/root/server'
+import type { BranchRequiredStatusChecksResponse } from '@/types/github/root/server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { installationId: string } }
-): Promise<TErrorResponse | NextResponse<InstallationRepositoriesResponse>> {
+  { params }: { params: { owner: string; repo: string; branch: string } }
+): Promise<TErrorResponse | NextResponse<BranchRequiredStatusChecksResponse>> {
   try {
     const accessToken = req.headers.get('authorization')
 
@@ -23,28 +23,24 @@ export async function GET(
       throw createHttpError(401)
     }
 
-    const { installationId } = params
-    const searchParams = req.nextUrl.searchParams
-    const page = searchParams.get('page')
-    const perPage = searchParams.get('perPage')
+    const { owner, repo, branch } = params
     const octokit = getOctokitWithAccessToken(accessToken)
 
     /**
-     * @see https://docs.github.com/en/rest/apps/installations?apiVersion=2022-11-28#list-repositories-accessible-to-the-user-access-token
+     * @see https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#get-status-checks-protection
      */
-    const repos = await octokit
-      .request('GET /user/installations/{installation_id}/repositories', {
-        installation_id: Number(installationId),
-        ...(page && { page: Number(page) }),
-        ...(perPage && { per_page: Number(perPage) })
-      })
+    const pulls = await octokit
+      .request(
+        'GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks',
+        { owner, repo, branch }
+      )
       .then((response) => response.data)
       .catch((error: RequestError) => {
         console.error('error', error)
         throw createHttpError(error?.status)
       })
 
-    return NextResponse.json(repos, { status: 200 })
+    return NextResponse.json(pulls, { status: 200 })
   } catch (error) {
     console.error('error', error)
     return handleHttpErrorResponse(error)
