@@ -8,8 +8,13 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import { urlService } from '@/services/root/url'
 
+import { ELocalStorageKey } from '@/types/root/index'
+
 export default function Page() {
   const { translate } = useDictionary()
+  const githubAccessToken = localStorage.getItem(
+    ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
+  )
 
   return (
     <div className="mt-5 flex flex-col gap-12">
@@ -20,7 +25,13 @@ export default function Page() {
         <h4>{translate('ROOT_PAGE.PLAYGROUND_LIST_TITLE')}</h4>
 
         <div className="flex flex-row gap-4">
-          <Link href={urlService.github.index()}>
+          <Link
+            href={
+              githubAccessToken
+                ? urlService.github.index()
+                : urlService.github.signIn()
+            }
+          >
             <Button
               label={translate(
                 'ROOT_PAGE.PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW'
