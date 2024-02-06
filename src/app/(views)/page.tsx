@@ -11,7 +11,7 @@ import { urlService } from '@/services/root/url'
 import { ELocalStorageKey } from '@/types/root/index'
 
 export default function Page() {
-  1
+  2
   const { translate } = useDictionary()
   const githubAccessToken = localStorage.getItem(
     ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
