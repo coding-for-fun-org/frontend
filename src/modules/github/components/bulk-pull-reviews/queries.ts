@@ -3,7 +3,6 @@ import {
   type UseQueryResult,
   useQueries
 } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 
 import { githubService } from '@/services/root/github'
 
@@ -25,7 +24,6 @@ export const useGetInstallationsRepositories = <T, R>(
     >[]
   ) => R
 ) => {
-  const router = useRouter()
   const query = useQueries<
     UseQueryOptions<InstallationRepositoriesResponse, unknown, T>[],
     R
@@ -39,9 +37,6 @@ export const useGetInstallationsRepositories = <T, R>(
             }),
           select: (response) => selectCB(response),
           retry: 3,
-          onError: () => {
-            router.replace('/404')
-          },
           enabled: !!installationId
         }))
       : [],
@@ -67,7 +62,6 @@ export const useGetRepositoryPullRequests = <T, R>(
     >[]
   ) => R
 ) => {
-  const router = useRouter()
   const query = useQueries<UseQueryOptions<RepoPullsResponse, unknown, T>[], R>(
     {
       queries: !!repositories
@@ -86,9 +80,6 @@ export const useGetRepositoryPullRequests = <T, R>(
               ),
             select: (response) => selectCB(response, repository!),
             retry: 3,
-            onError: () => {
-              router.replace('/404')
-            },
             enabled: !!repository
           }))
         : [],

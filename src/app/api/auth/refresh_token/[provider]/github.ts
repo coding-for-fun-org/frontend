@@ -33,7 +33,8 @@ export const refreshToken = async (): Promise<{
     }
 
     return { accessToken, refreshToken: newRefreshToken }
-  } catch (_) {
+  } catch (error) {
+    console.error('error', error)
     return null
   }
 }
