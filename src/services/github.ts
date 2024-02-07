@@ -4,10 +4,13 @@ import { axiosGithub } from '@/utils/github/root/axios'
 
 import type { EPullRequestType } from '@/types/github/root/index'
 import type {
+  BranchRequiredStatusChecksResponse,
   InstallationDeleteResponse,
   InstallationRepositoriesResponse,
   InstallationResponse,
   PullReviewResponse,
+  RepoCheckRunsForRefResponse,
+  RepoCommitsResponse,
   RepoPullsResponse,
   UserInstallationsResponse,
   UserResponse
@@ -85,6 +88,48 @@ export const githubService = {
       .post<PullReviewResponse>(
         `/api/github/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
         { event: payload.reviewType, body: payload.comment },
+        config
+      )
+      .then((response) => response.data)
+  },
+  async listCommits(
+    owner: string,
+    repo: string,
+    config?: Omit<AxiosRequestConfig, 'params'> & {
+      params: { sha: string; page?: number; perPage?: number }
+    }
+  ) {
+    return axiosGithub
+      .get<RepoCommitsResponse>(
+        `/api/github/repos/${owner}/${repo}/commits`,
+        config
+      )
+      .then((response) => response.data)
+  },
+  async listCheckRunsForRef(
+    owner: string,
+    repo: string,
+    ref: string,
+    config?: Omit<AxiosRequestConfig, 'params'> & {
+      params?: { page?: number; perPage?: number }
+    }
+  ) {
+    return axiosGithub
+      .get<RepoCheckRunsForRefResponse>(
+        `/api/github/repos/${owner}/${repo}/commits/${ref}/check-runs`,
+        config
+      )
+      .then((response) => response.data)
+  },
+  async listBranchRequiredStatusChecks(
+    owner: string,
+    repo: string,
+    branch: string,
+    config?: AxiosRequestConfig
+  ) {
+    return axiosGithub
+      .get<BranchRequiredStatusChecksResponse>(
+        `/api/github/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks`,
         config
       )
       .then((response) => response.data)

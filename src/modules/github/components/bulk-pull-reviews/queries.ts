@@ -74,9 +74,7 @@ export const useGetRepositoryPullRequests = <T, R>(
               githubService.listPullRequests(
                 repository?.owner.login ?? '',
                 repository?.name ?? '',
-                {
-                  signal
-                }
+                { signal }
               ),
             select: (response) => selectCB(response, repository!),
             retry: 3,

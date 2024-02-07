@@ -48,6 +48,8 @@ export const usePullsGroup = () => {
         state: pull.state,
         number: pull.number,
         title: pull.title,
+        baseRef: pull.base.ref,
+        headRef: pull.head.ref,
         user: {
           login: pull.user?.login,
           avatarUrl: pull.user?.avatar_url
