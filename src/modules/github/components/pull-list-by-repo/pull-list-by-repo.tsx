@@ -1,14 +1,17 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { type FC, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 
+import { PullListItem } from '@/components/github/root/pull-list-item/pull-list-item'
+
 import type { TPull } from '@/types/github/root/index'
 
 interface PullListByRepoProps {
+  org: string
   repo: string
   repoUrl: string
   pulls: TPull[]
@@ -16,13 +19,14 @@ interface PullListByRepoProps {
   handleRepoChange: (repo: string) => void
 }
 
-export const PullListByRepo: FC<PullListByRepoProps> = ({
+export const PullListByRepo = ({
+  org,
   repo,
   repoUrl,
   pulls,
   handlePullChange,
   handleRepoChange
-}) => {
+}: PullListByRepoProps) => {
   const [isRepoOpen, setIsRepoOpen] = useState<boolean>(false)
   const hasChild = pulls.length > 0
   const isRepoChecked = hasChild
@@ -72,22 +76,12 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
       >
         {pulls.map((pull) => (
           <li key={pull.number}>
-            <div className="flex gap-2 items-center">
-              <Checkbox
-                id={`${repo}.${pull.number}`}
-                checked={pull.isChecked}
-                onCheckedChange={() => {
-                  handlePullChange(repo, pull.number)
-                }}
-              />
-              <Link
-                href={pull.pullUrl}
-                target="_blank"
-                className="underline-offset-4 hover:underline"
-              >
-                <span>{pull.title}</span>
-              </Link>
-            </div>
+            <PullListItem
+              org={org}
+              repo={repo}
+              pull={pull}
+              handlePullChange={handlePullChange}
+            />
           </li>
         ))}
       </ul>

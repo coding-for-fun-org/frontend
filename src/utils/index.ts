@@ -42,6 +42,8 @@ export const queryKey = {
     repositoryPullRequests: (owner: string, repo: string) =>
       ['GITHUB-REPOSITORY-PULLREQUESTS', owner, repo] as const,
     currentUser: () => ['GITHUB-CURRENT-USER'] as const,
-    pullsGroup: () => ['GITHUB-PULLS-GROUP'] as const
+    pullsGroup: () => ['GITHUB-PULLS-GROUP'] as const,
+    pullStatus: (owner: string, repo: string, pullNumber: number) =>
+      ['GITHUB-PULL-STATUS', owner, repo, pullNumber] as const
   }
 }
