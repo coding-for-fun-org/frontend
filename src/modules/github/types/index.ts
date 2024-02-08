@@ -37,18 +37,18 @@ export enum EPullRequestType {
 export type TPull = {
   number: number
   title: string
-  pullUrl: string
+  url: string
   baseRef: string
   headRef: string
-  isChecked: boolean
+  checked: boolean
   user: {
     login: string | undefined
   }
 }
 
-export type TRepoHasCheck = {
-  org: string
-  repo: string
-  repoUrl: string
-  pulls: TPull[]
+export type TRepo = {
+  owner: string
+  name: string
+  url: string
+  pulls: TPull[] | undefined
 }

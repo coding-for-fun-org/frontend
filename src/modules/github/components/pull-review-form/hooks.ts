@@ -34,21 +34,21 @@ export const useSubmitForm = () => {
     PullReviewResponse[],
     IError[],
     {
-      checkedPullsInfo: ICheckedPull[]
+      checkedPulls: ICheckedPull[]
       reviewType: EPullRequestType
       comment: string
     }
   >({
     mutationFn: async (params) => {
-      const progressIncreaseValue = 100 / params.checkedPullsInfo.length
+      const progressIncreaseValue = 100 / params.checkedPulls.length
 
       setProgressData({ isRunning: true, value: 0 })
 
       return Promise.allSettled(
-        params.checkedPullsInfo.map((checkedPull) =>
+        params.checkedPulls.map((checkedPull) =>
           githubService
             .reviewPullRequest(
-              checkedPull.org,
+              checkedPull.owner,
               checkedPull.repo,
               checkedPull.pullNumber,
               {
@@ -88,8 +88,8 @@ export const useSubmitForm = () => {
           if (item.status === 'rejected') {
             return accu.concat([
               {
-                repo: params.checkedPullsInfo[index]!.repo,
-                pullTitle: params.checkedPullsInfo[index]!.pullTitle
+                repo: params.checkedPulls[index]!.repo,
+                pullTitle: params.checkedPulls[index]!.pullTitle
               }
             ])
           }

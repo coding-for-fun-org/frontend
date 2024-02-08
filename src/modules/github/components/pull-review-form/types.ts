@@ -1,5 +1,5 @@
 export interface ICheckedPull {
-  org: string
+  owner: string
   repo: string
   pullTitle: string
   pullNumber: number

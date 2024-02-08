@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useEffect, useState } from 'react'
+import { type ChangeEvent, useEffect, useState } from 'react'
 
 import { AlertDialog } from '@/elements/root/alert-dialog/alert-dialog'
 import { Button } from '@/elements/root/button/button'
@@ -7,20 +7,17 @@ import { Textarea } from '@/elements/root/textarea/textarea'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
+
 import { useCurrentUser } from '@/hooks/github/root/use-current-user'
 
-import { EPullRequestType, type TRepoHasCheck } from '@/types/github/root/index'
+import { EPullRequestType } from '@/types/github/root/index'
 
 import { useSubmitForm } from './hooks'
-import { getCheckedPullsInfo } from './utils'
+import { getFlattenCheckedPulls } from './utils'
 
-interface IPullReviewFormProps {
-  repoHasCheckArray: TRepoHasCheck[]
-}
-
-export const PullReviewForm: FC<IPullReviewFormProps> = ({
-  repoHasCheckArray
-}) => {
+export const PullReviewForm = () => {
+  const { repos } = useRepos()
   const { user: currentUser } = useCurrentUser()
   const [commentInput, setCommentInput] = useState<string>('')
   const [dialogData, setDialogData] = useState<
@@ -44,10 +41,10 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
   } = useSubmitForm()
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
-  const hasChecked = repoHasCheckArray.some((data) =>
-    data.pulls.some((pull) => pull.isChecked === true)
-  )
-  const hasMyPull = getCheckedPullsInfo(repoHasCheckArray).some(
+  const flattenCheckedPulls = getFlattenCheckedPulls(repos)
+  console.log('flattenCheckedPulls', flattenCheckedPulls)
+  const hasChecked = flattenCheckedPulls.length > 0
+  const hasMyPull = flattenCheckedPulls.some(
     (data) => data.user.login === currentUser
   )
 
@@ -56,10 +53,8 @@ export const PullReviewForm: FC<IPullReviewFormProps> = ({
   }
 
   const handleSubmit = (pullRequestType: EPullRequestType) => {
-    const checkedPullsInfo = getCheckedPullsInfo(repoHasCheckArray)
-
     submit({
-      checkedPullsInfo,
+      checkedPulls: flattenCheckedPulls,
       reviewType: pullRequestType,
       comment: commentInput
     })

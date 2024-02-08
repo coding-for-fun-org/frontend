@@ -14,8 +14,8 @@ export const ClientProvider: FC<ClientProviderProps> = ({ children }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false,
-        refetchOnWindowFocus: false
+        retry: 1,
+        staleTime: Infinity
       }
     }
     /**
