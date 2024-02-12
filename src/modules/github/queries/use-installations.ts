@@ -12,8 +12,7 @@ export const useGetInstallations = <T>(
   const query = useQuery<UserInstallationsResponse, unknown, T>({
     queryKey: queryKey.github.installations(),
     queryFn: ({ signal }) => githubService.listUserInstallations({ signal }),
-    select: (response) => selectCB(response),
-    retry: 3
+    select: (response) => selectCB(response)
   })
 
   return {

@@ -1,73 +1,84 @@
+import { type UseQueryOptions, useQueries } from '@tanstack/react-query'
+import { useEffect } from 'react'
+
+import { githubService } from '@/services/root/github'
+
+import { queryKey } from '@/utils/root/index'
+
+import { useUpdateRepoOrPull } from '@/contexts/github/root/selected-pulls-provider'
+
 import { useGetInstallations } from '@/queries/github/root/use-installations'
 
-import {
-  useGetInstallationsRepositories,
-  useGetRepositoryPullRequests
-} from './queries'
+import type { InstallationRepositoriesResponse } from '@/types/github/root/server'
 
-export const usePullsGroup = () => {
+export const useFetchRepositories = () => {
+  const { setRepos } = useUpdateRepoOrPull()
   const { data: installationIds, isLoading: isInstallationsLoading } =
     useGetInstallations<number[]>(({ installations }) =>
       installations.map((installation) => installation.id)
     )
   const {
-    data: repositories,
-    isPending: isRepositoriesPending,
-    isAllLoading: isAllRepositoriesLoading,
-    isAllPending: isAllRepositoriesPending
-  } = useGetInstallationsRepositories(
-    installationIds,
-    ({ repositories }) => repositories,
-    (responses) => ({
-      data: responses.map((response) => response.data),
-      isPending:
+    data: repos,
+    isLoading: isRepositoriesLoading,
+    isPending: isRepositoriesPending
+  } = useQueries<
+    UseQueryOptions<
+      InstallationRepositoriesResponse,
+      unknown,
+      {
+        installationId: number
+        repos: InstallationRepositoriesResponse['repositories']
+      }
+    >[],
+    {
+      data:
+        | {
+            installationId: number
+            repos: InstallationRepositoriesResponse['repositories']
+          }[]
+        | undefined
+      isLoading: boolean
+      isPending: boolean
+    }
+  >({
+    queries: !!installationIds
+      ? installationIds.map((installationId) => ({
+          queryKey: queryKey.github.installationRepositories(installationId),
+          queryFn: ({ signal }) =>
+            githubService.listUserInstallationRepositories(installationId, {
+              signal
+            }),
+          select: ({ repositories }) => ({
+            installationId,
+            repos: repositories
+          }),
+          enabled: !!installationId
+        }))
+      : [],
+    combine: (responses) => {
+      const isLoading =
         isInstallationsLoading ||
-        responses.some((response) => response.isPending),
-      isAllLoading:
+        responses.some((response) => response.isLoading)
+      const isPending =
         isInstallationsLoading ||
-        responses.every((response) => response.isLoading),
-      isAllPending:
-        isInstallationsLoading ||
-        responses.every((response) => response.isPending)
-    })
-  )
-  const {
-    data: pullsGroup,
-    isLoading: isPullsGroupLoading,
-    isPending: isPullsGroupPending
-  } = useGetRepositoryPullRequests(
-    !isAllRepositoriesPending && !isAllRepositoriesLoading
-      ? repositories.flatMap((repo) => repo)
-      : undefined,
-    (pulls, repository) => ({
-      org: repository.owner.login,
-      repo: repository.name,
-      repoUrl: repository.html_url,
-      pulls: pulls.map((pull) => ({
-        pullUrl: pull.html_url,
-        state: pull.state,
-        number: pull.number,
-        title: pull.title,
-        baseRef: pull.base.ref,
-        headRef: pull.head.ref,
-        user: {
-          login: pull.user?.login,
-          avatarUrl: pull.user?.avatar_url
-        }
-      }))
-    }),
-    (responses) => ({
-      data: responses.map((response) => response.data),
-      isLoading: responses.some((response) => response.isLoading),
-      isPending:
-        isRepositoriesPending ||
         responses.some((response) => response.isPending)
-    })
-  )
+
+      return {
+        data:
+          !isLoading && !isPending
+            ? responses.map((response) => response.data!)
+            : undefined,
+        isLoading,
+        isPending
+      }
+    }
+  })
+
+  useEffect(() => {
+    setRepos(repos)
+  }, [repos])
 
   return {
-    isLoading: isPullsGroupLoading || isPullsGroupPending,
-    pullsGroup:
-      isPullsGroupLoading || isPullsGroupPending ? undefined : pullsGroup
+    isLoading: isRepositoriesLoading || isRepositoriesPending
   }
 }

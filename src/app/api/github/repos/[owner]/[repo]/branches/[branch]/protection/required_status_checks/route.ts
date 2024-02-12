@@ -1,7 +1,7 @@
 import type { RequestError } from '@octokit/types'
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { getOctokitWithAccessToken } from '@/server/root/github'
+import { getOctokitWithInstallationId } from '@/server/root/github'
 
 import {
   createHttpError,
@@ -24,7 +24,14 @@ export async function GET(
     }
 
     const { owner, repo, branch } = params
-    const octokit = getOctokitWithAccessToken(accessToken)
+    const searchParams = req.nextUrl.searchParams
+    const installationId = searchParams.get('installationId')
+
+    if (!installationId) {
+      throw createHttpError(400, 'installationId is required')
+    }
+
+    const octokit = getOctokitWithInstallationId(installationId)
 
     /**
      * @see https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#get-status-checks-protection

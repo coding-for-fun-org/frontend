@@ -30,10 +30,11 @@ interface IPullListItemStatusProps {
 }
 
 interface IPullListItemProps {
-  org: string
+  installationId: number
+  owner: string
   repo: string
   pull: TPull
-  handlePullChange: (repo: string, pullNumber: number) => void
+  handlePullCheckChange: (pullNumber: number) => void
 }
 
 export const PullListItemStatus = ({
@@ -83,32 +84,39 @@ export const PullListItemStatus = ({
 }
 
 export const PullListItem = ({
-  org,
+  installationId,
+  owner,
   repo,
   pull,
-  handlePullChange
+  handlePullCheckChange
 }: IPullListItemProps) => {
   const {
     data: checkStatus,
     isLoading,
     error
   } = useQuery<ECheckStatus>({
-    queryKey: queryKey.github.pullStatus(org, repo, pull.number),
-    queryFn: async () => {
+    queryKey: queryKey.github.pullStatus(owner, repo, pull.number),
+    queryFn: async ({ signal }) => {
       return githubService
-        .listCommits(org, repo, {
+        .listCommits(owner, repo, {
           params: {
             sha: pull.headRef,
             perPage: 1
-          }
+          },
+          signal
         })
         .then(([latestCommit]) =>
           Promise.all([
             githubService
-              .listBranchRequiredStatusChecks(org, repo, pull.baseRef)
+              .listBranchRequiredStatusChecks(
+                owner,
+                repo,
+                pull.baseRef,
+                installationId
+              )
               .then(({ contexts: requiredChecksName }) => requiredChecksName),
             githubService
-              .listCheckRunsForRef(org, repo, latestCommit!.sha ?? '')
+              .listCheckRunsForRef(owner, repo, latestCommit!.sha ?? '')
               .then(
                 ({ check_runs: latestCommitCheckRuns }) => latestCommitCheckRuns
               )
@@ -134,7 +142,7 @@ export const PullListItem = ({
 
           const hasAllRequiredChecks = requiredChecksName.every((checkName) =>
             latestCommitCheckRuns.some(
-              (checkSuite) => checkSuite.name === checkName
+              (checkRun) => checkRun.name === checkName
             )
           )
 
@@ -151,13 +159,13 @@ export const PullListItem = ({
     <div className="flex gap-2 items-center">
       <Checkbox
         id={`${repo}.${pull.number}`}
-        checked={pull.isChecked}
+        checked={pull.checked}
         onCheckedChange={() => {
-          handlePullChange(repo, pull.number)
+          handlePullCheckChange(pull.number)
         }}
       />
       <Link
-        href={pull.pullUrl}
+        href={pull.url}
         target="_blank"
         className="underline-offset-4 hover:underline"
       >

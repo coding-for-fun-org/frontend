@@ -9,6 +9,8 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 import { BulkPullReviews } from '@/components/github/root/bulk-pull-reviews/bulk-pull-reviews'
 import { Connections } from '@/components/github/root/connections/connections'
 
+import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-provider'
+
 enum ETabValue {
   CONNECTIONS = 'CONNECTIONS',
   BULK_PULL_REVIEWS = 'BULK-PULL-REVIEWS'
@@ -26,7 +28,11 @@ export const IndexTabs: FC = () => {
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
       value: ETabValue.BULK_PULL_REVIEWS,
-      children: <BulkPullReviews />
+      children: (
+        <SelectedPullsProvider>
+          <BulkPullReviews />
+        </SelectedPullsProvider>
+      )
     }
   ]
 
