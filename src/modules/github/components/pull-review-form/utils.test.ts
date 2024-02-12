@@ -1,4 +1,4 @@
-import type { TPull, TRepo } from '@/types/github/root/index'
+import type { TRepo } from '@/types/github/root/index'
 
 import { getFlattenCheckedPulls } from './utils'
 
