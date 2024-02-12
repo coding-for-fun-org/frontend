@@ -1,5 +1,14 @@
 import type { FC } from 'react'
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/elements/root/dropdown-menu/dropdown-menu'
+
 import { HeaderTitleButton } from '@/components/root/header-title-button/header-title-button'
 import { LinkGithubIconButton } from '@/components/root/link-github-icon-button/link-github-icon-button'
 import { ToggleThemeIconButton } from '@/components/root/toggle-theme-icon-button/toggle-theme-icon-button'
@@ -12,6 +21,20 @@ export const Header: FC = () => {
           <HeaderTitleButton />
         </div>
         <div className="flex flex-1 justify-end items-center space-x-2">
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                DropdownMenu
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>label</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Item1</DropdownMenuItem>
+                  <DropdownMenuItem>Item2</DropdownMenuItem>
+                  <DropdownMenuItem>Item3</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenuTrigger>
+            </DropdownMenu>
+          </div>
           <LinkGithubIconButton />
 
           <ToggleThemeIconButton />
