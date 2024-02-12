@@ -135,7 +135,7 @@ export const PullListItem = ({
 
           const hasAllRequiredChecks = requiredChecksName.every((checkName) =>
             latestCommitCheckRuns.some(
-              (checkSuite) => checkSuite.name === checkName
+              (checkRun) => checkRun.name === checkName
             )
           )
 

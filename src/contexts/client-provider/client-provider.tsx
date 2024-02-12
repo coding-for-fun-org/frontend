@@ -15,7 +15,7 @@ export const ClientProvider: FC<ClientProviderProps> = ({ children }) => {
     defaultOptions: {
       queries: {
         retry: 1,
-        staleTime: Infinity
+        staleTime: 1000 * 60 // 1 minute
       }
     }
     /**

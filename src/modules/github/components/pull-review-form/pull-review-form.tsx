@@ -42,7 +42,6 @@ export const PullReviewForm = () => {
   const { translate } = useDictionary()
   const hasComment = commentInput.length > 0
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
-  console.log('flattenCheckedPulls', flattenCheckedPulls)
   const hasChecked = flattenCheckedPulls.length > 0
   const hasMyPull = flattenCheckedPulls.some(
     (data) => data.user.login === currentUser

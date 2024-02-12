@@ -3,24 +3,6 @@ export type TCallbackApplicationInstall = {
   setupAction: string | null
 }
 
-export type TGithubPullRequest = {
-  state: string
-  number: number
-  title: string
-  pullUrl: string
-  user: {
-    login: string | undefined
-    avatarUrl: string | undefined
-  }
-}
-
-export type TGithubPullRequestGroup = {
-  org: string
-  repo: string
-  repoUrl: string
-  pulls: TGithubPullRequest[]
-}
-
 export type TGithubInstallation = {
   id: number
   owner: string
