@@ -57,6 +57,7 @@ const Repositories = () => {
   return repos.map((repo) => (
     <PullListByRepo
       key={`${repo.owner}-${repo.name}`}
+      installationId={repo.installationId}
       owner={repo.owner}
       repo={repo.name}
       repoUrl={repo.url}

@@ -18,6 +18,7 @@ import type { TPull } from '@/types/github/root/index'
 import { useFetchPulls } from './hooks'
 
 interface PullListByRepoProps {
+  installationId: number
   owner: string
   repo: string
   repoUrl: string
@@ -25,6 +26,7 @@ interface PullListByRepoProps {
 }
 
 export const PullListByRepo = ({
+  installationId,
   owner,
   repo,
   repoUrl,
@@ -91,6 +93,7 @@ export const PullListByRepo = ({
             pulls.map((pull) => (
               <li key={pull.number}>
                 <PullListItem
+                  installationId={installationId}
                   owner={owner}
                   repo={repo}
                   pull={pull}

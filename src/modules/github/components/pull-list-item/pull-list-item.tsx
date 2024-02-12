@@ -30,6 +30,7 @@ interface IPullListItemStatusProps {
 }
 
 interface IPullListItemProps {
+  installationId: number
   owner: string
   repo: string
   pull: TPull
@@ -83,6 +84,7 @@ export const PullListItemStatus = ({
 }
 
 export const PullListItem = ({
+  installationId,
   owner,
   repo,
   pull,
@@ -106,7 +108,12 @@ export const PullListItem = ({
         .then(([latestCommit]) =>
           Promise.all([
             githubService
-              .listBranchRequiredStatusChecks(owner, repo, pull.baseRef)
+              .listBranchRequiredStatusChecks(
+                owner,
+                repo,
+                pull.baseRef,
+                installationId
+              )
               .then(({ contexts: requiredChecksName }) => requiredChecksName),
             githubService
               .listCheckRunsForRef(owner, repo, latestCommit!.sha ?? '')

@@ -125,12 +125,13 @@ export const githubService = {
     owner: string,
     repo: string,
     branch: string,
+    installationId: number,
     config?: AxiosRequestConfig
   ) {
     return axiosGithub
       .get<BranchRequiredStatusChecksResponse>(
         `/api/github/repos/${owner}/${repo}/branches/${branch}/protection/required_status_checks`,
-        config
+        { ...config, params: { installationId } }
       )
       .then((response) => response.data)
   }

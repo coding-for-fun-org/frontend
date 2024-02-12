@@ -25,11 +25,17 @@ export const useFetchRepositories = () => {
     UseQueryOptions<
       InstallationRepositoriesResponse,
       unknown,
-      InstallationRepositoriesResponse['repositories']
+      {
+        installationId: number
+        repos: InstallationRepositoriesResponse['repositories']
+      }
     >[],
     {
       data:
-        | InstallationRepositoriesResponse['repositories'][number][]
+        | {
+            installationId: number
+            repos: InstallationRepositoriesResponse['repositories']
+          }[]
         | undefined
       isLoading: boolean
       isPending: boolean
@@ -42,7 +48,10 @@ export const useFetchRepositories = () => {
             githubService.listUserInstallationRepositories(installationId, {
               signal
             }),
-          select: ({ repositories }) => repositories,
+          select: ({ repositories }) => ({
+            installationId,
+            repos: repositories
+          }),
           enabled: !!installationId
         }))
       : [],
@@ -57,7 +66,7 @@ export const useFetchRepositories = () => {
       return {
         data:
           !isLoading && !isPending
-            ? responses.flatMap((response) => response.data!)
+            ? responses.map((response) => response.data!)
             : undefined,
         isLoading,
         isPending

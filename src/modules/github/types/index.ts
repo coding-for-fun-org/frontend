@@ -29,6 +29,7 @@ export type TPull = {
 }
 
 export type TRepo = {
+  installationId: number
   owner: string
   name: string
   url: string

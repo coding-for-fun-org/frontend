@@ -22,8 +22,11 @@ type TSelectedPullActionType =
   | {
       type: 'set-repos'
       payload: {
-        repos:
-          | InstallationRepositoriesResponse['repositories'][number][]
+        reposByInstallationId:
+          | {
+              installationId: number
+              repos: InstallationRepositoriesResponse['repositories']
+            }[]
           | undefined
       }
     }
@@ -64,38 +67,48 @@ const selectedPullsReducer = (
       if (existRepos) {
         return {
           ...state,
-          repos: payload.repos?.map((repo) => {
-            const existRepo = existRepos.find(
-              (r) => r.owner === repo.owner.login && r.name === repo.name
-            )
+          repos: payload.reposByInstallationId?.flatMap(
+            ({ installationId, repos }) => {
+              return repos.map((repo) => {
+                const existRepo = existRepos.find(
+                  (r) => r.owner === repo.owner.login && r.name === repo.name
+                )
 
-            if (existRepo) {
-              return {
-                owner: repo.owner.login,
-                name: repo.name,
-                url: repo.html_url,
-                pulls: existRepo.pulls
-              }
-            }
+                if (existRepo) {
+                  return {
+                    installationId,
+                    owner: repo.owner.login,
+                    name: repo.name,
+                    url: repo.html_url,
+                    pulls: existRepo.pulls
+                  }
+                }
 
-            return {
-              owner: repo.owner.login,
-              name: repo.name,
-              url: repo.html_url,
-              pulls: undefined
+                return {
+                  installationId,
+                  owner: repo.owner.login,
+                  name: repo.name,
+                  url: repo.html_url,
+                  pulls: undefined
+                }
+              })
             }
-          })
+          )
         }
       }
 
       return {
         ...state,
-        repos: payload.repos?.map((repo) => ({
-          owner: repo.owner.login,
-          name: repo.name,
-          url: repo.html_url,
-          pulls: undefined
-        }))
+        repos: payload.reposByInstallationId?.flatMap(
+          ({ installationId, repos }) =>
+            repos.map((repo) => ({
+              installationId,
+              owner: repo.owner.login,
+              name: repo.name,
+              url: repo.html_url,
+              pulls: undefined
+            }))
+        )
       }
     }
 
@@ -341,11 +354,14 @@ export const useUpdateRepoOrPull = () => {
 
   return {
     setRepos: (
-      repos:
-        | InstallationRepositoriesResponse['repositories'][number][]
+      reposByInstallationId:
+        | {
+            installationId: number
+            repos: InstallationRepositoriesResponse['repositories']
+          }[]
         | undefined
     ) => {
-      dispatch({ type: 'set-repos', payload: { repos } })
+      dispatch({ type: 'set-repos', payload: { reposByInstallationId } })
     },
     setPulls: (
       owner: string,
