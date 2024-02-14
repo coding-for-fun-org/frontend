@@ -24,7 +24,6 @@ import {
 type TWidthType = 'narrow' | 'default' | 'wide' | 'full'
 
 const DialogRoot = Root
-
 const DialogPortal = Portal
 
 const DialogClose = Close
