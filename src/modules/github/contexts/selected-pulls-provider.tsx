@@ -142,7 +142,8 @@ const selectedPullsReducer = (
                     checked: false,
                     user: {
                       login: pull.user?.login ?? ''
-                    }
+                    },
+                    body: pull.body
                   }
                 }
 
@@ -160,7 +161,8 @@ const selectedPullsReducer = (
                     checked: existPull.checked,
                     user: {
                       login: pull.user?.login ?? ''
-                    }
+                    },
+                    body: pull.body
                   }
                 }
 
@@ -173,7 +175,8 @@ const selectedPullsReducer = (
                   checked: false,
                   user: {
                     login: pull.user?.login ?? ''
-                  }
+                  },
+                  body: pull.body
                 }
               })
             }
