@@ -7,8 +7,7 @@ import {
   Overlay,
   Portal,
   Root,
-  Title,
-  Trigger
+  Title
 } from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
@@ -22,8 +21,6 @@ import {
 } from 'react'
 
 const DialogRoot = Root
-
-const DialogTrigger = Trigger
 
 const DialogPortal = Portal
 
@@ -173,7 +170,6 @@ export const Dialog = ({
 
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger>Open</DialogTrigger>
       <DialogContent {...props}>
         {!!formProps && (
           <form {...formProps}>

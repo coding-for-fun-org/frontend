@@ -26,6 +26,7 @@ export type TPull = {
   user: {
     login: string | undefined
   }
+  body: string | null
 }
 
 export type TRepo = {
