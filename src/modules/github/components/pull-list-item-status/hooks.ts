@@ -19,7 +19,7 @@ export const useCheckStatus = (
     isLoading,
     error
   } = useQuery<ECheckStatus>({
-    queryKey: queryKey.github.pullStatus(owner, repo, pull.number),
+    queryKey: queryKey.github.repoPullStatus(owner, repo, pull.number),
     queryFn: async ({ signal }) => {
       return githubService
         .listCommits(owner, repo, {

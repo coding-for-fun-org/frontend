@@ -43,7 +43,7 @@ export const useFetchRepositories = () => {
   >({
     queries: !!installationIds
       ? installationIds.map((installationId) => ({
-          queryKey: queryKey.github.installationRepositories(installationId),
+          queryKey: queryKey.github.installationRepos(installationId),
           queryFn: ({ signal }) =>
             githubService.listUserInstallationRepositories(installationId, {
               signal
