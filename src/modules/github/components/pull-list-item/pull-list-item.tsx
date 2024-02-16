@@ -43,44 +43,26 @@ export const PullListItemStatus = ({
   error
 }: IPullListItemStatusProps) => {
   if (isLoading) {
-    return (
-      <div className="w-6 h-6 flex items-center">
-        <Skeleton variant="rect" className="!h-full" />
-      </div>
-    )
+    return <Skeleton variant="rect" className="!h-full" />
   }
 
   if (error) {
     return (
-      <div className="w-6 h-6 flex items-center">
-        <Tooltip tooltip={error.message}>
-          <ExclamationTriangleIcon className="w-full h-full text-error" />
-        </Tooltip>
-      </div>
+      <Tooltip tooltip={error.message}>
+        <ExclamationTriangleIcon className="w-full h-full text-error" />
+      </Tooltip>
     )
   }
 
   if (checkStatus === ECheckStatus.SUCCESS) {
-    return (
-      <div className="w-6 h-6 flex items-center">
-        <CheckIcon className="w-full h-full text-success" />
-      </div>
-    )
+    return <CheckIcon className="w-full h-full text-success" />
   }
 
   if (checkStatus === ECheckStatus.RUNNING) {
-    return (
-      <div className="w-6 h-6 flex items-center">
-        <DotFilledIcon className="w-full h-full text-info" />
-      </div>
-    )
+    return <DotFilledIcon className="w-full h-full text-info" />
   }
 
-  return (
-    <div className="w-6 h-6 flex items-center">
-      <Cross2Icon className="w-full h-full text-error" />
-    </div>
-  )
+  return <Cross2Icon className="w-full h-full text-error" />
 }
 
 export const PullListItem = ({
@@ -159,6 +141,7 @@ export const PullListItem = ({
     <div className="flex gap-2 items-center">
       <Checkbox
         id={`${repo}.${pull.number}`}
+        className="flex-none"
         checked={pull.checked}
         onCheckedChange={() => {
           handlePullCheckChange(pull.number)
@@ -167,15 +150,17 @@ export const PullListItem = ({
       <Link
         href={pull.url}
         target="_blank"
-        className="underline-offset-4 hover:underline"
+        className="underline-offset-4 hover:underline flex-1"
       >
         <span>{pull.title}</span>
       </Link>
-      <PullListItemStatus
-        isLoading={isLoading}
-        checkStatus={checkStatus}
-        error={error}
-      />
+      <div className="w-6 h-6 flex items-center flex-none">
+        <PullListItemStatus
+          isLoading={isLoading}
+          checkStatus={checkStatus}
+          error={error}
+        />
+      </div>
     </div>
   )
 }
