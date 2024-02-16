@@ -5,8 +5,12 @@ import { githubService } from '@/services/root/github'
 import { queryKey } from '@/utils/root/index'
 
 import type { TPull } from '@/types/github/root/index'
+import type {
+  RepoCheckRunsForRefResponse,
+  RepoCommitsResponse
+} from '@/types/github/root/server'
 
-import { ECheckStatus } from './types'
+import { getCheckStatus } from './utils'
 
 export const useCheckStatus = (
   installationId: number,
@@ -15,13 +19,13 @@ export const useCheckStatus = (
   pull: TPull
 ) => {
   const {
-    data: checkStatus,
-    isLoading,
-    error
-  } = useQuery<ECheckStatus>({
-    queryKey: queryKey.github.repoPullStatus(owner, repo, pull.number),
-    queryFn: async ({ signal }) => {
-      return githubService
+    data: latestCommit,
+    isLoading: isLatestCommitLoading,
+    error: latestCommitError
+  } = useQuery<RepoCommitsResponse[number] | undefined>({
+    queryKey: queryKey.github.repoPullCommits(owner, repo, pull.number),
+    queryFn: ({ signal }) =>
+      githubService
         .listCommits(owner, repo, {
           params: {
             sha: pull.headRef,
@@ -29,59 +33,58 @@ export const useCheckStatus = (
           },
           signal
         })
-        .then(([latestCommit]) =>
-          Promise.all([
-            githubService
-              .listBranchRequiredStatusChecks(
-                owner,
-                repo,
-                pull.baseRef,
-                installationId
-              )
-              .then(({ contexts: requiredChecksName }) => requiredChecksName),
-            githubService
-              .listCheckRunsForRef(owner, repo, latestCommit!.sha ?? '')
-              .then(
-                ({ check_runs: latestCommitCheckRuns }) => latestCommitCheckRuns
-              )
-          ])
-        )
-        .then(([requiredChecksName, latestCommitCheckRuns]) => {
-          const hasRunningChecks = latestCommitCheckRuns.some(
-            (checkRun) =>
-              checkRun.status === 'queued' || checkRun.status === 'in_progress'
-          )
-
-          if (hasRunningChecks) {
-            return ECheckStatus.RUNNING
-          }
-
-          const hasNonSuccessChecks = latestCommitCheckRuns.some(
-            (checkRun) => checkRun.conclusion !== 'success'
-          )
-
-          if (hasNonSuccessChecks) {
-            return ECheckStatus.FAILED
-          }
-
-          const hasAllRequiredChecks = requiredChecksName.every((checkName) =>
-            latestCommitCheckRuns.some(
-              (checkRun) => checkRun.name === checkName
-            )
-          )
-
-          if (!hasAllRequiredChecks) {
-            return ECheckStatus.RUNNING
-          }
-
-          return ECheckStatus.SUCCESS
-        })
-    }
+        .then(([latestCommit]) => latestCommit)
   })
+  const {
+    data: requiredChecksName,
+    isLoading: isRequiredChecksNameLoading,
+    error: requiredChecksNameError
+  } = useQuery<string[]>({
+    queryKey: queryKey.github.branchRequiredStatusChecks(
+      installationId,
+      owner,
+      repo,
+      pull.baseRef
+    ),
+    queryFn: ({ signal }) =>
+      githubService
+        .listBranchRequiredStatusChecks(
+          installationId,
+          owner,
+          repo,
+          pull.baseRef,
+          { signal }
+        )
+        .then(({ contexts }) => contexts)
+  })
+  const {
+    data: checkRuns,
+    isLoading: isCheckRunsLoading,
+    isPending: isCheckRunsPending,
+    error: checkRunsError
+  } = useQuery<RepoCheckRunsForRefResponse['check_runs']>({
+    queryKey: queryKey.github.repoPullCommitCheckRuns(
+      owner,
+      repo,
+      pull.number,
+      latestCommit?.sha ?? ''
+    ),
+    queryFn: ({ signal }) =>
+      githubService
+        .listCheckRuns(owner, repo, latestCommit!.sha ?? '', { signal })
+        .then(({ check_runs }) => check_runs),
+    enabled: !!latestCommit
+  })
+  const checkStatus = getCheckStatus(requiredChecksName, checkRuns)
 
   return {
     checkStatus,
-    isLoading,
-    error
+    isLoading:
+      isLatestCommitLoading ||
+      isRequiredChecksNameLoading ||
+      isCheckRunsLoading ||
+      isCheckRunsPending,
+    // TODO: handle error better
+    error: latestCommitError ?? requiredChecksNameError ?? checkRunsError
   }
 }

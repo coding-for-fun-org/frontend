@@ -106,7 +106,7 @@ export const githubService = {
       )
       .then((response) => response.data)
   },
-  async listCheckRunsForRef(
+  async listCheckRuns(
     owner: string,
     repo: string,
     ref: string,
@@ -122,10 +122,10 @@ export const githubService = {
       .then((response) => response.data)
   },
   async listBranchRequiredStatusChecks(
+    installationId: number,
     owner: string,
     repo: string,
     branch: string,
-    installationId: number,
     config?: AxiosRequestConfig
   ) {
     return axiosGithub
