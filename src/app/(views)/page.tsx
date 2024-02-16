@@ -8,13 +8,15 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import { urlService } from '@/services/root/url'
 
+import { isServer } from '@/utils/root/index'
+
 import { ELocalStorageKey } from '@/types/root/index'
 
 export default function Page() {
   const { translate } = useDictionary()
-  const githubAccessToken = localStorage.getItem(
-    ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-  )
+  const hasGithubAccessToken = !isServer()
+    ? Boolean(localStorage.getItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN))
+    : false
 
   return (
     <div className="mt-5 flex flex-col gap-12">
@@ -27,7 +29,7 @@ export default function Page() {
         <div className="flex flex-row gap-4">
           <Link
             href={
-              githubAccessToken
+              hasGithubAccessToken
                 ? urlService.github.index()
                 : urlService.github.signIn()
             }
