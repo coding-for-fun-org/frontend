@@ -41,3 +41,20 @@ export const getCheckStatus = (
 
   return ECheckStatus.SUCCESS
 }
+
+export const getCheckSuccessCount = (
+  requiredChecksName: string[] | undefined,
+  checkRuns: RepoCheckRunsForRefResponse['check_runs'] | undefined
+): number | undefined => {
+  if (!requiredChecksName || !checkRuns) {
+    return undefined
+  }
+
+  return checkRuns.filter((checkRun) => {
+    return (
+      requiredChecksName.includes(checkRun.name) &&
+      checkRun.status === 'completed' &&
+      checkRun.conclusion === 'success'
+    )
+  }).length
+}

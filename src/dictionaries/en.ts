@@ -39,7 +39,8 @@ export const dictionary = {
       'Are you sure you want to delete this {{installationOwner}} connection?',
     CONNECTION_DELETE_CONNECTION_DESCRIPTION_2: 'You can not undo this action.',
     TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
-    TAB_CONNECTIONS_LABEL: 'Connections'
+    TAB_CONNECTIONS_LABEL: 'Connections',
+    PULL_CHECK_STATUS_TEXT: '{{successCount}} / {{totalCount}} checks OK'
   },
   HEADER: {
     LINK_GITHUB_TOOLTIP: 'View source code on GitHub',

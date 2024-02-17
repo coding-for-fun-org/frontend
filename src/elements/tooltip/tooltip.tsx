@@ -6,7 +6,8 @@ import {
   type ComponentPropsWithoutRef,
   type ElementRef,
   type ReactNode,
-  forwardRef
+  forwardRef,
+  useState
 } from 'react'
 
 const TooltipRoot = Root
@@ -36,9 +37,14 @@ type TCustomProps = {
   delayDuration?: number
 }
 
-type TTooltipProps = TCustomProps
+type TTooltipProps = Omit<
+  ComponentPropsWithoutRef<typeof TooltipContent>,
+  keyof TCustomProps
+> &
+  TCustomProps
 
-const DEFAULT_TOOLTIP_DELAY_DURATION = 500
+// export this for testing purposes
+export const DEFAULT_TOOLTIP_DELAY_DURATION = 500
 
 export const Tooltip = ({
   tooltip,
@@ -46,13 +52,16 @@ export const Tooltip = ({
   delayDuration,
   ...props
 }: TTooltipProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <TooltipRoot
+      open={tooltip !== null && isOpen}
+      onOpenChange={setIsOpen}
       delayDuration={delayDuration ?? DEFAULT_TOOLTIP_DELAY_DURATION}
-      {...props}
     >
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
+      <TooltipContent {...props}>{tooltip}</TooltipContent>
     </TooltipRoot>
   )
 }
