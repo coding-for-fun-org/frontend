@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
 import { githubService } from '@/services/root/github'
 
 import { queryKey } from '@/utils/root/index'
@@ -10,7 +12,7 @@ import type {
   RepoCommitsResponse
 } from '@/types/github/root/server'
 
-import { getCheckStatus } from './utils'
+import { getCheckStatus, getCheckSuccessCount } from './utils'
 
 export const useCheckStatus = (
   installationId: number,
@@ -18,6 +20,7 @@ export const useCheckStatus = (
   repo: string,
   pull: TPull
 ) => {
+  const { translate } = useDictionary()
   const {
     data: latestCommit,
     isLoading: isLatestCommitLoading,
@@ -52,7 +55,7 @@ export const useCheckStatus = (
           installationId,
           owner,
           repo,
-          pull.baseRef,
+          encodeURIComponent(pull.baseRef),
           { signal }
         )
         .then(({ contexts }) => contexts)
@@ -76,9 +79,18 @@ export const useCheckStatus = (
     enabled: !!latestCommit
   })
   const checkStatus = getCheckStatus(requiredChecksName, checkRuns)
+  const checkSuccessCount = getCheckSuccessCount(requiredChecksName, checkRuns)
+  const checkStatusText =
+    checkSuccessCount !== undefined
+      ? translate('GITHUB.PULL_CHECK_STATUS_TEXT', {
+          successCount: checkSuccessCount,
+          totalCount: requiredChecksName?.length ?? 0
+        })
+      : null
 
   return {
     checkStatus,
+    checkStatusText,
     isLoading:
       isLatestCommitLoading ||
       isRequiredChecksNameLoading ||
