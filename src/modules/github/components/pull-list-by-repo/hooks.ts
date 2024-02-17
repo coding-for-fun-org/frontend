@@ -18,7 +18,7 @@ export const useFetchPulls = (
     isLoading,
     data: pulls
   } = useQuery({
-    queryKey: queryKey.github.repositoryPullRequests(owner, repo),
+    queryKey: queryKey.github.repoPulls(owner, repo),
     queryFn: ({ signal }) =>
       githubService.listPullRequests(owner, repo, { signal }),
     enabled: isRepoOpen
