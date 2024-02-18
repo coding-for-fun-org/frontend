@@ -29,8 +29,17 @@ export type InstallationDeleteResponse =
 export type InstallationRepositoriesResponse =
   Endpoints['GET /user/installations/{installation_id}/repositories']['response']['data']
 
+export type BranchRequiredStatusChecksResponse =
+  Endpoints['GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks']['response']['data']
+
 export type RepoPullsResponse =
   Endpoints['GET /repos/{owner}/{repo}/pulls']['response']['data']
+
+export type RepoCommitsResponse =
+  Endpoints['GET /repos/{owner}/{repo}/commits']['response']['data']
+
+export type RepoCheckRunsForRefResponse =
+  Endpoints['GET /repos/{owner}/{repo}/commits/{ref}/check-runs']['response']['data']
 
 export type PullReviewResponse =
   Endpoints['POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews']['response']['data']

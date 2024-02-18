@@ -1,32 +1,45 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
 import Link from 'next/link'
-import { type FC, useState } from 'react'
+import { useState } from 'react'
 
+import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
+import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
+import { PullListItem } from '@/components/github/root/pull-list-item/pull-list-item'
+
+import { useUpdateRepoOrPull } from '@/contexts/github/root/selected-pulls-provider'
 
 import type { TPull } from '@/types/github/root/index'
 
+import { useFetchPulls } from './hooks'
+
 interface PullListByRepoProps {
+  installationId: number
+  owner: string
   repo: string
   repoUrl: string
-  pulls: TPull[]
-  handlePullChange: (repo: string, pullNumber: number) => void
-  handleRepoChange: (repo: string) => void
+  pulls: TPull[] | undefined
 }
 
-export const PullListByRepo: FC<PullListByRepoProps> = ({
+export const PullListByRepo = ({
+  installationId,
+  owner,
   repo,
   repoUrl,
-  pulls,
-  handlePullChange,
-  handleRepoChange
-}) => {
+  pulls
+}: PullListByRepoProps) => {
+  const { translate } = useDictionary()
   const [isRepoOpen, setIsRepoOpen] = useState<boolean>(false)
-  const hasChild = pulls.length > 0
-  const isRepoChecked = hasChild
-    ? pulls.every((pull) => pull.isChecked === true)
+  const { toggleRepoCheckStatus, togglePullCheckStatus } = useUpdateRepoOrPull()
+  // TODO: handle error case
+  const { isPending, isLoading } = useFetchPulls(owner, repo, isRepoOpen)
+  const hasChild = !!pulls && pulls.length > 0
+  const isRepoChecked = !!pulls
+    ? pulls.length > 0 && pulls.every((pull) => pull.checked)
     : false
 
   const handleRepoClick = () => {
@@ -38,8 +51,10 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
       <div className="flex gap-2 items-center">
         <Checkbox
           checked={isRepoChecked}
-          onCheckedChange={() => handleRepoChange(repo)}
-          disabled={!hasChild}
+          onCheckedChange={() => {
+            toggleRepoCheckStatus(owner, repo)
+          }}
+          disabled={isPending || isLoading || !hasChild}
         />
         <Link
           href={repoUrl}
@@ -48,49 +63,56 @@ export const PullListByRepo: FC<PullListByRepoProps> = ({
         >
           <span>{repo}</span>
         </Link>
-        {hasChild && (
-          <Button
-            role="button"
-            variant="ghost"
-            size="icon"
-            className="!w-4 !h-4 hover:!bg-transparent"
-            onClick={handleRepoClick}
-          >
-            {isRepoOpen ? (
-              <ChevronDownIcon className="w-full h-full" />
-            ) : (
-              <ChevronRightIcon className="w-full h-full" />
-            )}
-          </Button>
-        )}
+
+        <Button
+          role="button"
+          variant="ghost"
+          size="icon"
+          className="!w-4 !h-4 hover:!bg-transparent"
+          onClick={handleRepoClick}
+        >
+          {isRepoOpen ? (
+            <ChevronDownIcon className="w-full h-full" />
+          ) : (
+            <ChevronRightIcon className="w-full h-full" />
+          )}
+        </Button>
       </div>
 
-      <ul
-        className={clsx('flex flex-col gap-2 mt-2 ml-4', {
-          hidden: !isRepoOpen
-        })}
-      >
-        {pulls.map((pull) => (
-          <li key={pull.number}>
-            <div className="flex gap-2 items-center">
-              <Checkbox
-                id={`${repo}.${pull.number}`}
-                checked={pull.isChecked}
-                onCheckedChange={() => {
-                  handlePullChange(repo, pull.number)
-                }}
-              />
-              <Link
-                href={pull.pullUrl}
-                target="_blank"
-                className="underline-offset-4 hover:underline"
-              >
-                <span>{pull.title}</span>
-              </Link>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {isRepoOpen && (
+        <ul className="flex flex-col gap-2 mt-2 ml-4">
+          {isLoading &&
+            Array.from({ length: 5 }).map((_, index) => (
+              <li key={index} className="w-1/2">
+                <Skeleton variant="rect" />
+              </li>
+            ))}
+
+          {!isLoading &&
+            !!pulls &&
+            pulls.map((pull) => (
+              <li key={pull.number}>
+                <PullListItem
+                  installationId={installationId}
+                  owner={owner}
+                  repo={repo}
+                  pull={pull}
+                  handlePullCheckChange={() => {
+                    togglePullCheckStatus(owner, repo, pull.number)
+                  }}
+                />
+              </li>
+            ))}
+        </ul>
+      )}
+
+      {isRepoOpen && pulls && pulls.length === 0 && (
+        <Alert
+          variant="info"
+          title={translate('COMMON.ALERT_NO_DATA_TITLE')}
+          description={translate('COMMON.ALERT_NO_DATA_DESCRIPTION')}
+        />
+      )}
     </li>
   )
 }

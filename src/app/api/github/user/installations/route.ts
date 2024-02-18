@@ -24,7 +24,7 @@ export async function GET(
 
     const searchParams = req.nextUrl.searchParams
     const page = searchParams.get('page')
-    const perPage = searchParams.get('per_page')
+    const perPage = searchParams.get('perPage')
     const octokit = getOctokitWithAccessToken(accessToken)
 
     /**

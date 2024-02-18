@@ -10,12 +10,12 @@ import {
 
 import type { TErrorResponse } from '@/types/root/server'
 
-import type { InstallationRepositoriesResponse } from '@/types/github/root/server'
+import type { RepoCommitsResponse } from '@/types/github/root/server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { installationId: string } }
-): Promise<TErrorResponse | NextResponse<InstallationRepositoriesResponse>> {
+  { params }: { params: { owner: string; repo: string } }
+): Promise<TErrorResponse | NextResponse<RepoCommitsResponse>> {
   try {
     const accessToken = req.headers.get('authorization')
 
@@ -23,18 +23,27 @@ export async function GET(
       throw createHttpError(401)
     }
 
-    const { installationId } = params
+    const { owner, repo } = params
     const searchParams = req.nextUrl.searchParams
+    const sha = searchParams.get('sha')
     const page = searchParams.get('page')
     const perPage = searchParams.get('perPage')
     const octokit = getOctokitWithAccessToken(accessToken)
 
+    // sha is not actually requried,
+    // but there's no point in making the request without it in this app
+    if (!sha) {
+      throw createHttpError(400, 'sha is required')
+    }
+
     /**
-     * @see https://docs.github.com/en/rest/apps/installations?apiVersion=2022-11-28#list-repositories-accessible-to-the-user-access-token
+     * @see https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits
      */
-    const repos = await octokit
-      .request('GET /user/installations/{installation_id}/repositories', {
-        installation_id: Number(installationId),
+    const pulls = await octokit
+      .request('GET /repos/{owner}/{repo}/commits', {
+        owner,
+        repo,
+        sha,
         ...(page && { page: Number(page) }),
         ...(perPage && { per_page: Number(perPage) })
       })
@@ -44,7 +53,7 @@ export async function GET(
         throw createHttpError(error?.status)
       })
 
-    return NextResponse.json(repos, { status: 200 })
+    return NextResponse.json(pulls, { status: 200 })
   } catch (error) {
     console.error('error', error)
     return handleHttpErrorResponse(error)

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
@@ -12,9 +13,20 @@ import { ELocalStorageKey } from '@/types/root/index'
 
 export default function Page() {
   const { translate } = useDictionary()
-  const githubAccessToken = localStorage.getItem(
-    ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN
-  )
+  const [bulkPullReviewPathname, setBulkPullReviewPathname] =
+    useState<string>('')
+
+  useEffect(() => {
+    const hasGithubAccessToken = Boolean(
+      localStorage.getItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN)
+    )
+
+    setBulkPullReviewPathname(
+      hasGithubAccessToken
+        ? urlService.github.pulls()
+        : urlService.github.signIn()
+    )
+  }, [])
 
   return (
     <div className="mt-5 flex flex-col gap-12">
@@ -25,13 +37,7 @@ export default function Page() {
         <h4>{translate('ROOT_PAGE.PLAYGROUND_LIST_TITLE')}</h4>
 
         <div className="flex flex-row gap-4">
-          <Link
-            href={
-              githubAccessToken
-                ? urlService.github.index()
-                : urlService.github.signIn()
-            }
-          >
+          <Link href={bulkPullReviewPathname}>
             <Button
               label={translate(
                 'ROOT_PAGE.PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW'

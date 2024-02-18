@@ -36,12 +36,128 @@ export const createRandomString = (size: number): string => {
 
 export const queryKey = {
   github: {
-    installations: () => ['GITHUB-INSTALLATIONS'] as const,
-    installationRepositories: (installationId: number) =>
-      ['GITHUB-INSTALLATION-REPOSITORIES', installationId] as const,
-    repositoryPullRequests: (owner: string, repo: string) =>
-      ['GITHUB-REPOSITORY-PULLREQUESTS', owner, repo] as const,
-    currentUser: () => ['GITHUB-CURRENT-USER'] as const,
-    pullsGroup: () => ['GITHUB-PULLS-GROUP'] as const
+    _base() {
+      return ['GITHUB'] as const
+    },
+    _installations() {
+      return ['INSTALLATIONS'] as const
+    },
+    _installation(installationId: number) {
+      return [...this._installations(), installationId] as const
+    },
+    _repos() {
+      return ['REPOS'] as const
+    },
+    _repo(owner: string, repo: string) {
+      return [...this._repos(), owner, repo] as const
+    },
+    _pulls() {
+      return ['PULLS'] as const
+    },
+    _pullByNumber(number: number) {
+      return [...this._pulls(), 'NUMBER', number] as const
+    },
+    _pullByRef(ref: string) {
+      return [...this._pulls(), 'REF', ref] as const
+    },
+    _commits() {
+      return ['COMMITS'] as const
+    },
+    _commitBySha(sha: string) {
+      return [...this._commits(), sha] as const
+    },
+    _checkRuns() {
+      return ['CHECK-RUNS'] as const
+    },
+    _requiredStatusChecks() {
+      return ['REQUIRED-STATUS-CHECKS'] as const
+    },
+    currentUser() {
+      return [...this._base(), 'CURRENT-USER'] as const
+    },
+    installations() {
+      return [...this._base(), ...this._installations()] as const
+    },
+    installation(installationId: number) {
+      return [...this._base(), ...this._installation(installationId)] as const
+    },
+    installationRepos(installationId: number) {
+      return [
+        ...this._base(),
+        ...this._installation(installationId),
+        ...this._repos()
+      ] as const
+    },
+    branchRequiredStatusChecks(
+      installationId: number,
+      owner: string,
+      repo: string,
+      pullRef: string
+    ) {
+      return [
+        ...this._base(),
+        ...this._installation(installationId),
+        ...this._repo(owner, repo),
+        ...this._pullByRef(pullRef),
+        ...this._requiredStatusChecks()
+      ] as const
+    },
+    repo(owner: string, repo: string) {
+      return [...this._base(), this._repo(owner, repo)] as const
+    },
+    repoPulls(owner: string, repo: string) {
+      return [
+        ...this._base(),
+        ...this._repo(owner, repo),
+        ...this._pulls()
+      ] as const
+    },
+    repoPull(owner: string, repo: string, pullNumber: number) {
+      return [
+        ...this._base(),
+        ...this._repo(owner, repo),
+        ...this._pullByNumber(pullNumber)
+      ] as const
+    },
+    repoPullCommits(owner: string, repo: string, pullNumber: number) {
+      return [
+        ...this._base(),
+        ...this._repo(owner, repo),
+        ...this._pullByNumber(pullNumber),
+        ...this._commits()
+      ] as const
+    },
+    repoPullCommit(
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      commitSha: string
+    ) {
+      return [
+        ...this._base(),
+        ...this.repoPull(owner, repo, pullNumber),
+        ...this._commitBySha(commitSha)
+      ] as const
+    },
+    repoPullCommitCheckRuns(
+      owner: string,
+      repo: string,
+      pullNumber: number,
+      commitSha: string
+    ) {
+      return [
+        ...this._base(),
+        ...this.repoPull(owner, repo, pullNumber),
+        ...this._commitBySha(commitSha),
+        ...this._checkRuns()
+      ] as const
+    },
+    repoPullStatus(owner: string, repo: string, pullNumber: number) {
+      return [
+        ...this._base(),
+        ...this.repoPull(owner, repo, pullNumber),
+        'STATUS'
+      ] as const
+    }
   }
 }
