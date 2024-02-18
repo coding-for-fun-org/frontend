@@ -30,7 +30,7 @@ export default function Page() {
           <Link
             href={
               hasGithubAccessToken
-                ? urlService.github.index()
+                ? urlService.github.pulls()
                 : urlService.github.signIn()
             }
           >

@@ -8,7 +8,7 @@ export const urlService = {
     }
   },
   github: {
-    index() {
+    pulls() {
       return '/github/pulls'
     },
     connections() {
