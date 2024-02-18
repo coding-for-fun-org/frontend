@@ -1,10 +1,13 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { type FC, useState } from 'react'
 
 import { Tabs } from '@/elements/root/tabs/tabs'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
+import { urlService } from '@/services/root/url'
 
 import { BulkPullReviews } from '@/components/github/root/bulk-pull-reviews/bulk-pull-reviews'
 import { Connections } from '@/components/github/root/connections/connections'
@@ -18,21 +21,18 @@ enum ETabValue {
 
 export const IndexTabs: FC = () => {
   const { translate } = useDictionary()
+  const router = useRouter()
   const [value, setValue] = useState<ETabValue>(ETabValue.BULK_PULL_REVIEWS)
   const tabValues = [
     {
       label: translate('GITHUB.TAB_CONNECTIONS_LABEL'),
       value: ETabValue.CONNECTIONS,
-      children: <Connections />
+      children: router.push(urlService.github.connections())
     },
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
       value: ETabValue.BULK_PULL_REVIEWS,
-      children: (
-        <SelectedPullsProvider>
-          <BulkPullReviews />
-        </SelectedPullsProvider>
-      )
+      children: router.push(urlService.github.index())
     }
   ]
 
