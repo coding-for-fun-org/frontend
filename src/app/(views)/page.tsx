@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 
@@ -17,6 +18,16 @@ export default function Page() {
   const hasGithubAccessToken = !isServer()
     ? Boolean(localStorage.getItem(ELocalStorageKey.AUTH_GITHUB_ACCESS_TOKEN))
     : false
+  const [urlRefresh, setUrlRefresh] = useState<string>('')
+
+  useEffect(() => {
+    console.log(window.history.length)
+    setUrlRefresh(
+      hasGithubAccessToken
+        ? urlService.github.pulls()
+        : urlService.github.signIn()
+    )
+  }, [hasGithubAccessToken])
 
   return (
     <div className="mt-5 flex flex-col gap-12">
@@ -27,13 +38,7 @@ export default function Page() {
         <h4>{translate('ROOT_PAGE.PLAYGROUND_LIST_TITLE')}</h4>
 
         <div className="flex flex-row gap-4">
-          <Link
-            href={
-              hasGithubAccessToken
-                ? urlService.github.pulls()
-                : urlService.github.signIn()
-            }
-          >
+          <Link href={urlRefresh}>
             <Button
               label={translate(
                 'ROOT_PAGE.PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW'

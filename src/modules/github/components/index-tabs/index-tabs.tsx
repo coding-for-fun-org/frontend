@@ -41,6 +41,7 @@ export const IndexTabs: FC = () => {
   ]
 
   const handleValueChange = (value: string) => {
+    console.log(value)
     setValue(value as ETabValue)
     if (value === 'CONNECTIONS') {
       router.replace(urlService.github.connections())
