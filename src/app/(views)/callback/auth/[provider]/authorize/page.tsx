@@ -34,7 +34,7 @@ export default function Page({ params }: { params: { provider: EProviders } }) {
               accessToken
             )
 
-            router.push(urlService.github.index())
+            router.push(urlService.github.pulls())
           })
           .catch(console.error)
 
