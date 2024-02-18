@@ -9,7 +9,10 @@ export const urlService = {
   },
   github: {
     index() {
-      return '/github'
+      return '/github/pulls'
+    },
+    connections() {
+      return '/github/connections'
     },
     signIn() {
       return '/github/sign-in'
