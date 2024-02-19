@@ -1,15 +1,13 @@
 import Link from 'next/link'
-import { memo, useState } from 'react'
-import Markdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
+import { useState } from 'react'
 
-import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 import { Dialog } from '@/elements/root/dialog/dialog'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { PullBody } from '@/components/github/root/pull-body/pull-body'
 import { PullListItemStatus } from '@/components/github/root/pull-list-item-status/pull-list-item-status'
 
 import type { TPull } from '@/types/github/root/index'
@@ -21,27 +19,6 @@ interface IPullListItemProps {
   pull: TPull
   handlePullCheckChange: (pullNumber: number) => void
 }
-
-export const PullBody = memo(
-  ({ description }: { description: string | null }) => {
-    const { translate } = useDictionary()
-
-    if (description) {
-      return (
-        <div className="markdown">
-          <Markdown rehypePlugins={[rehypeRaw]}>{description}</Markdown>
-        </div>
-      )
-    }
-    return (
-      <Alert
-        variant="info"
-        title={translate('COMMON.ALERT_NO_DATA_TITLE')}
-        description={translate('COMMON.ALERT_NO_DATA_DESCRIPTION')}
-      />
-    )
-  }
-)
 
 export const PullListItem = ({
   installationId,
