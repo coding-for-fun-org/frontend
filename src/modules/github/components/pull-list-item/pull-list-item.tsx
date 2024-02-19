@@ -126,22 +126,16 @@ export const PullListItem = ({
             <PullBody description={pull.body} />
           </div>
         }
-        // footer={
-        //   <>
-        //     <Button variant="outline" onClick={handleCancelClick}>
-        //       {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
-        //     </Button>
-        //     <Link
-        //       href={pull.url}
-        //       target="_blank"
-        //       className="underline-offset-4 hover:underline flex-1"
-        //     >
-        //       <Button variant="primary">
-        //         {translate('COMMON.DIALOG_LINK_TO_PULL_REQUEST_BUTTON')}
-        //       </Button>
-        //     </Link>
-        //   </>
-        // }
+        footer={
+          <>
+            <Button variant="outline" onClick={handleCancelClick}>
+              {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
+            </Button>
+            <Button variant="primary">
+              {translate('COMMON.DIALOG_REVIEW_BUTTON')}
+            </Button>
+          </>
+        }
       />
 
       <div className="w-6 h-6 flex items-center flex-none">
