@@ -100,11 +100,7 @@ export const PullListItem = ({
                   clipRule="evenodd"
                 ></path>
               </svg>
-              <Link
-                href={pull.url}
-                target="_blank"
-                className="underline-offset-4 hover:underline flex-1"
-              >
+              <Link href={pull.url} target="_blank">
                 <svg
                   onClick={() => console.log('link to pull request')}
                   className="float-right hover:underline cursor-pointer m-2"
