@@ -9,13 +9,13 @@ export const urlService = {
   },
   github: {
     signIn() {
-      return '/github/sign-in'
+      return '/github/auth/sign-in'
     },
     connections() {
-      return '/github/connections'
+      return '/github/t/connections'
     },
     pulls() {
-      return '/github/pulls'
+      return '/github/t/pulls'
     }
   }
 }
