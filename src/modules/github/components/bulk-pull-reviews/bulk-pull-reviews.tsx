@@ -8,10 +8,7 @@ import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-
 import { PullReviewDialog } from '@/components/github/root/pull-review-dialog/pull-review-dialog'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 
-import {
-  SelectedPullsProvider,
-  useRepos
-} from '@/contexts/github/root/selected-pulls-provider'
+import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import { useFetchRepositories } from './hooks'
 
@@ -27,16 +24,14 @@ const BulkPullReviewsLayout = ({
   pullReviewDialog
 }: IBulkPullReviewsLayoutProps) => {
   return (
-    <SelectedPullsProvider>
-      <div className="flex w-full h-full gap-5">
-        <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-          {repositories}
-        </ul>
+    <div className="flex w-full h-full gap-5">
+      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+        {repositories}
+      </ul>
 
-        <div>{pullReviewDialog}</div>
-        <div className="flex-1">{pullReviewForm}</div>
-      </div>
-    </SelectedPullsProvider>
+      <div>{pullReviewDialog}</div>
+      <div className="flex-1">{pullReviewForm}</div>
+    </div>
   )
 }
 
