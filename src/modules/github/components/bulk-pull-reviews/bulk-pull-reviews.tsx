@@ -5,8 +5,8 @@ import { type ReactNode } from 'react'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
-import { PullReviewDialog } from '@/components/github/root/pull-review-dialog/pull-review-dialog'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
+import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
@@ -15,13 +15,13 @@ import { useFetchRepositories } from './hooks'
 interface IBulkPullReviewsLayoutProps {
   repositories: ReactNode
   pullReviewForm: ReactNode
-  pullReviewDialog: ReactNode
+  pullsReviewDialog: ReactNode
 }
 
 const BulkPullReviewsLayout = ({
   repositories,
   pullReviewForm,
-  pullReviewDialog
+  pullsReviewDialog
 }: IBulkPullReviewsLayoutProps) => {
   return (
     <div className="flex w-full h-full gap-5">
@@ -29,7 +29,7 @@ const BulkPullReviewsLayout = ({
         {repositories}
       </ul>
 
-      <div>{pullReviewDialog}</div>
+      <div>{pullsReviewDialog}</div>
       <div className="flex-1">{pullReviewForm}</div>
     </div>
   )
@@ -70,7 +70,7 @@ export const BulkPullReviews = () => {
     <BulkPullReviewsLayout
       repositories={<Repositories />}
       pullReviewForm={<PullReviewForm />}
-      pullReviewDialog={<PullReviewDialog />}
+      pullsReviewDialog={<PullsReviewDialog />}
     />
   )
 }

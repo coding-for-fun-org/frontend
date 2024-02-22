@@ -6,7 +6,7 @@ import { Alert } from '@/elements/root/alert/alert'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-export const PullBody = memo(
+export const PullReviewDialogBody = memo(
   ({ description }: { description: string | null }) => {
     const { translate } = useDictionary()
 
