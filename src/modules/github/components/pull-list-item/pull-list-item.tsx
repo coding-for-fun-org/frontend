@@ -7,8 +7,8 @@ import { Dialog } from '@/elements/root/dialog/dialog'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-import { PullBody } from '@/components/github/root/pull-body/pull-body'
 import { PullListItemStatus } from '@/components/github/root/pull-list-item-status/pull-list-item-status'
+import { PullReviewDialogBody } from '@/components/github/root/pull-review-dialog-body/pull-review-dialog-body'
 
 import type { TPull } from '@/types/github/root/index'
 
@@ -119,7 +119,7 @@ export const PullListItem = ({
                 </svg>
               </Link>
             </div>
-            <PullBody description={pull.body} />
+            <PullReviewDialogBody description={pull.body} />
           </div>
         }
         footer={

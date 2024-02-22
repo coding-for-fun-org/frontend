@@ -5,7 +5,7 @@ import { Dialog } from '@/elements/root/dialog/dialog'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
-export const PullReviewDialog = () => {
+export const PullsReviewDialog = () => {
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
