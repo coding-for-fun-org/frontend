@@ -10,11 +10,19 @@ import { Dialog } from '@/elements/root/dialog/dialog'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { getFlattenCheckedPulls } from '@/components/github/root/pull-review-form/utils'
+
+import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
+
 export const PullsReviewDialog = () => {
-  const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const { repos } = useRepos()
+  const { translate } = useDictionary()
+  const flattenCheckedPulls = getFlattenCheckedPulls(repos)
+  const hasChecked = flattenCheckedPulls.length > 0
 
   const handleOpenDialog = () => {
+    console.log(flattenCheckedPulls)
     setIsDialogOpen(true)
   }
 
@@ -33,6 +41,7 @@ export const PullsReviewDialog = () => {
         <Button
           type="button"
           label={'Start Review'}
+          disabled={!hasChecked}
           onClick={handleOpenDialog}
         ></Button>
       </div>
