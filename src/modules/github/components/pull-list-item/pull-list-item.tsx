@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 import { Dialog } from '@/elements/root/dialog/dialog'
+import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -81,12 +82,14 @@ export const PullListItem = ({
                 onClick={() => console.log('previous pull')}
                 className="float-right hover:underline cursor-pointer m-2"
               />
-              <Link href={pull.url} target="_blank">
-                <ExternalLinkIcon
-                  onClick={() => console.log('link to pull request')}
-                  className="float-right hover:underline cursor-pointer m-2"
-                />
-              </Link>
+              <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
+                <Link href={pull.url} target="_blank">
+                  <ExternalLinkIcon
+                    onClick={() => console.log('link to pull request')}
+                    className="float-right hover:underline cursor-pointer m-2"
+                  />
+                </Link>
+              </Tooltip>
             </div>
             <PullReviewDialogBody description={pull.body} />
           </div>

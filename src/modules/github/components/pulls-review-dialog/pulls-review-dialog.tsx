@@ -8,6 +8,7 @@ import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Dialog } from '@/elements/root/dialog/dialog'
+import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -86,12 +87,14 @@ export const PullsReviewDialog = () => {
                 onClick={handleLeftClick}
                 className="float-right hover:underline cursor-pointer m-2"
               />
-              <Link
-                href={flattenCheckedPulls[focusIndex]?.url ?? '#'}
-                target="_blank"
-              >
-                <ExternalLinkIcon className="float-right hover:underline cursor-pointer m-2" />
-              </Link>
+              <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
+                <Link
+                  href={flattenCheckedPulls[focusIndex]?.url ?? '#'}
+                  target="_blank"
+                >
+                  <ExternalLinkIcon className="float-right hover:underline cursor-pointer m-2" />
+                </Link>
+              </Tooltip>
             </div>
             <PullReviewDialogBody
               description={flattenCheckedPulls[focusIndex]?.body ?? '#'}
