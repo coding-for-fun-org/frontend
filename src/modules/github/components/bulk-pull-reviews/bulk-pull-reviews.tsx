@@ -12,29 +12,6 @@ import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import { useFetchRepositories } from './hooks'
 
-interface IBulkPullReviewsLayoutProps {
-  repositories: ReactNode
-  pullReviewForm: ReactNode
-  pullsReviewDialog: ReactNode
-}
-
-const BulkPullReviewsLayout = ({
-  repositories,
-  pullReviewForm,
-  pullsReviewDialog
-}: IBulkPullReviewsLayoutProps) => {
-  return (
-    <div className="flex w-full h-full gap-5">
-      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        {repositories}
-      </ul>
-
-      <div>{pullsReviewDialog}</div>
-      <div className="flex-1">{pullReviewForm}</div>
-    </div>
-  )
-}
-
 const Repositories = () => {
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
@@ -67,10 +44,16 @@ const Repositories = () => {
 
 export const BulkPullReviews = () => {
   return (
-    <BulkPullReviewsLayout
-      repositories={<Repositories />}
-      pullReviewForm={<PullReviewForm />}
-      pullsReviewDialog={<PullsReviewDialog />}
-    />
+    <div className="flex w-full h-full gap-5">
+      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+        <Repositories />
+      </ul>
+      <div>
+        <PullsReviewDialog />
+      </div>
+      <div className="flex-1">
+        <PullReviewForm />
+      </div>
+    </div>
   )
 }
