@@ -1,7 +1,5 @@
 'use client'
 
-import { type ReactNode } from 'react'
-
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
