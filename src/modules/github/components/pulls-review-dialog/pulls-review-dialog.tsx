@@ -105,7 +105,7 @@ export const PullsReviewDialog = () => {
               />
               <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
                 <Link
-                  href={flattenCheckedPulls[focusIndex]?.url ?? '#'}
+                  href={flattenCheckedPulls[focusIndex]?.url ?? ''}
                   target="_blank"
                 >
                   <ExternalLinkIcon className="float-right hover:underline cursor-pointer m-2" />
@@ -113,7 +113,7 @@ export const PullsReviewDialog = () => {
               </Tooltip>
             </div>
             <PullReviewDialogBody
-              description={flattenCheckedPulls[focusIndex]?.body ?? '#'}
+              description={flattenCheckedPulls[focusIndex]?.body ?? ''}
             />
           </div>
         }
