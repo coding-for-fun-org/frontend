@@ -41,9 +41,7 @@ export const PullListItem = ({
   }
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      setIsDialogOpen(open)
-    }
+    setIsDialogOpen(open)
   }
 
   const handleCancelClick = () => {

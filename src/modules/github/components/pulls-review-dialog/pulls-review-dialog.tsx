@@ -19,8 +19,16 @@ import { getFlattenCheckedPulls } from '@/components/github/root/pull-review-for
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
-export const PullsReviewDialog = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+interface IPullsReviewDialogProps {
+  isDialogOpen: boolean
+  handleOpenDialog: (open: boolean) => void
+}
+
+export const PullsReviewDialog = ({
+  isDialogOpen,
+  handleOpenDialog
+}: IPullsReviewDialogProps) => {
+  // const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const [radioButtonValue, setRadioButtonValue] = useState('1')
   const radioButtonValues = [
     {
@@ -42,21 +50,19 @@ export const PullsReviewDialog = () => {
   const hasChecked = flattenCheckedPulls.length > 0
   const [focusIndex, setFocusIndex] = useState<number>(0)
 
-  const handleOpenDialog = () => {
-    console.log('flattenCheckedPulls', flattenCheckedPulls)
-    setIsDialogOpen(true)
-    setFocusIndex(0)
-  }
+  // const handleOpenDialog = () => {
+  //   console.log('flattenCheckedPulls', flattenCheckedPulls)
+  //   setIsDialogOpen(true)
+  //   setFocusIndex(0)
+  // }
 
   const handleOpenChange = (open: boolean) => {
     setFocusIndex(0)
-    if (!open) {
-      setIsDialogOpen(open)
-    }
+    handleOpenDialog(open)
   }
 
   const handleCancelClick = () => {
-    setIsDialogOpen(false)
+    handleOpenDialog(false)
     setFocusIndex(0)
   }
 
@@ -80,14 +86,6 @@ export const PullsReviewDialog = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full">
-        <Button
-          type="button"
-          label={'Start Review'}
-          disabled={!hasChecked}
-          onClick={handleOpenDialog}
-        ></Button>
-      </div>
       <Dialog
         open={isDialogOpen}
         onOpenChange={handleOpenChange}
