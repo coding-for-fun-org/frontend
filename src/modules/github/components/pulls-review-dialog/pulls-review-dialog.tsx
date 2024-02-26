@@ -8,17 +8,34 @@ import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Dialog } from '@/elements/root/dialog/dialog'
+import { RadioGroup } from '@/elements/root/radio-group/radio-group'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { PullReviewDialogBody } from '@/components/github/root/pull-review-dialog-body/pull-review-dialog-body'
+import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 import { getFlattenCheckedPulls } from '@/components/github/root/pull-review-form/utils'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 export const PullsReviewDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [radioButtonValue, setRadioButtonValue] = useState('1')
+  const radioButtonValues = [
+    {
+      value: '1',
+      label: 'Comment'
+    },
+    {
+      value: '2',
+      label: 'Approve'
+    },
+    {
+      value: '3',
+      label: 'Request Changes'
+    }
+  ]
   const { repos } = useRepos()
   const { translate } = useDictionary()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
@@ -44,8 +61,6 @@ export const PullsReviewDialog = () => {
   }
 
   const handleLeftClick = () => {
-    console.log('previous pull')
-
     if (focusIndex === 0) {
       return
     }
@@ -53,13 +68,14 @@ export const PullsReviewDialog = () => {
   }
 
   const handleRightClick = () => {
-    console.log('next pull')
-
     if (focusIndex === flattenCheckedPulls.length - 1) {
       return
     }
 
     setFocusIndex((prev) => prev + 1)
+  }
+  const handleReviewDialog = (radioButtonValue: string) => {
+    console.log(`handleReviewDialog = ${radioButtonValue}`)
   }
 
   return (
@@ -103,10 +119,21 @@ export const PullsReviewDialog = () => {
         }
         footer={
           <>
+            <RadioGroup
+              className="cursor-pointer flex-col"
+              value={radioButtonValue}
+              onValueChange={setRadioButtonValue}
+              values={radioButtonValues}
+            />
+
             <Button variant="outline" onClick={handleCancelClick}>
               {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
             </Button>
-            <Button variant="primary">
+
+            <Button
+              variant="primary"
+              onClick={() => handleReviewDialog(radioButtonValue)}
+            >
               {translate('COMMON.DIALOG_REVIEW_BUTTON')}
             </Button>
           </>
