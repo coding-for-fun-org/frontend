@@ -118,7 +118,7 @@ export const PullsReviewDialog = ({
         footer={
           <>
             <RadioGroup
-              className="cursor-pointer flex-col"
+              className="flex-col"
               value={radioButtonValue}
               onValueChange={setRadioButtonValue}
               values={radioButtonValues}
