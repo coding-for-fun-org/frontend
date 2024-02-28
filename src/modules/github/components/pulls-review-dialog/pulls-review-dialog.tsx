@@ -40,11 +40,11 @@ export const PullsReviewDialog = ({
       label: 'Comment'
     },
     {
-      value: '2',
+      value: EPullRequestType.APPROVE,
       label: 'Approve'
     },
     {
-      value: '3',
+      value: EPullRequestType.REQUEST_CHANGES,
       label: 'Request Changes'
     }
   ]
@@ -52,7 +52,8 @@ export const PullsReviewDialog = ({
   const { translate } = useDictionary()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const [focusIndex, setFocusIndex] = useState<number>(0)
-  const focusedPull = flattenCheckedPulls[focusIndex]
+  const focusedPull =
+    flattenCheckedPulls.length > 0 ? flattenCheckedPulls[focusIndex] : undefined
 
   const handleRadioButtonClick = (value: string) => {
     setRadioButtonValue(value as EPullRequestType)
@@ -98,7 +99,7 @@ export const PullsReviewDialog = ({
 
   // This is not gonna happen.
   if (!focusedPull) {
-    throw new Error('fuck you')
+    return <></>
   }
 
   return (
@@ -141,7 +142,7 @@ export const PullsReviewDialog = ({
             </div>
             <div>
               <RadioGroup
-                className="cursor-pointer flex-col"
+                className="flex-col"
                 value={radioButtonValue}
                 onValueChange={handleRadioButtonClick}
                 values={radioButtonValues}
