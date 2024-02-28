@@ -4,20 +4,22 @@ import {
   ExternalLinkIcon
 } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { useState } from 'react'
+import { type ChangeEvent, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Dialog } from '@/elements/root/dialog/dialog'
 import { RadioGroup } from '@/elements/root/radio-group/radio-group'
+import { Textarea } from '@/elements/root/textarea/textarea'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { PullReviewDialogBody } from '@/components/github/root/pull-review-dialog-body/pull-review-dialog-body'
-import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 import { getFlattenCheckedPulls } from '@/components/github/root/pull-review-form/utils'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
+
+import { EPullRequestType } from '@/types/github/root/index'
 
 interface IPullsReviewDialogProps {
   isDialogOpen: boolean
@@ -28,11 +30,13 @@ export const PullsReviewDialog = ({
   isDialogOpen,
   handleOpenDialog
 }: IPullsReviewDialogProps) => {
-  // const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const [radioButtonValue, setRadioButtonValue] = useState('1')
+  const [commentInput, setCommentInput] = useState<string>('')
+  const [radioButtonValue, setRadioButtonValue] = useState(
+    EPullRequestType.COMMENT
+  )
   const radioButtonValues = [
     {
-      value: '1',
+      value: EPullRequestType.COMMENT,
       label: 'Comment'
     },
     {
@@ -47,15 +51,15 @@ export const PullsReviewDialog = ({
   const { repos } = useRepos()
   const { translate } = useDictionary()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
-  const hasChecked = flattenCheckedPulls.length > 0
   const [focusIndex, setFocusIndex] = useState<number>(0)
 
-  // const handleOpenDialog = () => {
-  //   console.log('flattenCheckedPulls', flattenCheckedPulls)
-  //   setIsDialogOpen(true)
-  //   setFocusIndex(0)
-  // }
+  const handleRadioButtonClick = (value: string) => {
+    setRadioButtonValue(value as EPullRequestType)
+  }
 
+  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentInput(event.target.value)
+  }
   const handleOpenChange = (open: boolean) => {
     setFocusIndex(0)
     handleOpenDialog(open)
@@ -82,6 +86,10 @@ export const PullsReviewDialog = ({
   }
   const handleReviewDialog = (radioButtonValue: string) => {
     console.log(`handleReviewDialog = ${radioButtonValue}`)
+    if (radioButtonValue === '1') {
+    } else if (radioButtonValue === '1') {
+    } else if (radioButtonValue === '3') {
+    }
   }
 
   return (
@@ -117,23 +125,35 @@ export const PullsReviewDialog = ({
         }
         footer={
           <>
-            <RadioGroup
-              className="cursor-pointer flex-col"
-              value={radioButtonValue}
-              onValueChange={setRadioButtonValue}
-              values={radioButtonValues}
-            />
+            <div>
+              <Textarea
+                className="resize-none flex-grow max-h-96"
+                placeholder={translate(
+                  'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
+                )}
+                value={commentInput}
+                onChange={handleCommentChange}
+              />
+            </div>
+            <div>
+              <RadioGroup
+                className="cursor-pointer flex-col"
+                value={radioButtonValue}
+                onValueChange={handleRadioButtonClick}
+                values={radioButtonValues}
+              />
 
-            <Button variant="outline" onClick={handleCancelClick}>
-              {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
-            </Button>
+              <Button variant="outline" onClick={handleCancelClick}>
+                {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
+              </Button>
 
-            <Button
-              variant="primary"
-              onClick={() => handleReviewDialog(radioButtonValue)}
-            >
-              {translate('COMMON.DIALOG_REVIEW_BUTTON')}
-            </Button>
+              <Button
+                variant="primary"
+                onClick={() => handleReviewDialog(radioButtonValue)}
+              >
+                {translate('COMMON.DIALOG_REVIEW_BUTTON')}
+              </Button>
+            </div>
           </>
         }
       />
