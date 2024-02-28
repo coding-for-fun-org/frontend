@@ -31,7 +31,7 @@ export const PullsReviewDialog = ({
   handleOpenDialog
 }: IPullsReviewDialogProps) => {
   const [commentInput, setCommentInput] = useState<string>('')
-  const [radioButtonValue, setRadioButtonValue] = useState(
+  const [radioButtonValue, setRadioButtonValue] = useState<EPullRequestType>(
     EPullRequestType.COMMENT
   )
   const radioButtonValues = [
@@ -52,6 +52,7 @@ export const PullsReviewDialog = ({
   const { translate } = useDictionary()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const [focusIndex, setFocusIndex] = useState<number>(0)
+  const focusedPull = flattenCheckedPulls[focusIndex]
 
   const handleRadioButtonClick = (value: string) => {
     setRadioButtonValue(value as EPullRequestType)
@@ -84,12 +85,20 @@ export const PullsReviewDialog = ({
 
     setFocusIndex((prev) => prev + 1)
   }
-  const handleReviewDialog = (radioButtonValue: string) => {
-    console.log(`handleReviewDialog = ${radioButtonValue}`)
-    if (radioButtonValue === '1') {
-    } else if (radioButtonValue === '1') {
-    } else if (radioButtonValue === '3') {
+  const handleReviewDialog = () => {
+    switch (radioButtonValue) {
+      case EPullRequestType.COMMENT:
+        break
+      case EPullRequestType.APPROVE:
+        break
+      case EPullRequestType.REQUEST_CHANGES:
+        break
     }
+  }
+
+  // This is not gonna happen.
+  if (!focusedPull) {
+    throw new Error('fuck you')
   }
 
   return (
@@ -97,7 +106,7 @@ export const PullsReviewDialog = ({
       <Dialog
         open={isDialogOpen}
         onOpenChange={handleOpenChange}
-        title={flattenCheckedPulls[focusIndex]?.pullTitle}
+        title={focusedPull.pullTitle}
         children={
           <div>
             <div>
@@ -110,17 +119,12 @@ export const PullsReviewDialog = ({
                 className="float-right hover:underline cursor-pointer m-2"
               />
               <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
-                <Link
-                  href={flattenCheckedPulls[focusIndex]?.url ?? ''}
-                  target="_blank"
-                >
+                <Link href={focusedPull.url} target="_blank">
                   <ExternalLinkIcon className="float-right hover:underline cursor-pointer m-2" />
                 </Link>
               </Tooltip>
             </div>
-            <PullReviewDialogBody
-              description={flattenCheckedPulls[focusIndex]?.body ?? ''}
-            />
+            <PullReviewDialogBody description={focusedPull.body} />
           </div>
         }
         footer={
@@ -147,10 +151,7 @@ export const PullsReviewDialog = ({
                 {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
               </Button>
 
-              <Button
-                variant="primary"
-                onClick={() => handleReviewDialog(radioButtonValue)}
-              >
+              <Button variant="primary" onClick={() => handleReviewDialog()}>
                 {translate('COMMON.DIALOG_REVIEW_BUTTON')}
               </Button>
             </div>
