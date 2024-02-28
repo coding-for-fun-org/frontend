@@ -4,10 +4,12 @@ import {
   ExternalLinkIcon
 } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { type ChangeEvent, useState } from 'react'
+import { type ChangeEvent, useEffect, useState } from 'react'
 
+import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Dialog } from '@/elements/root/dialog/dialog'
+import { Progress } from '@/elements/root/progress/progress'
 import { RadioGroup } from '@/elements/root/radio-group/radio-group'
 import { Textarea } from '@/elements/root/textarea/textarea'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
@@ -21,41 +23,52 @@ import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import { EPullRequestType } from '@/types/github/root/index'
 
+import { useSubmitForm } from './hooks'
+
 interface IPullsReviewDialogProps {
   isDialogOpen: boolean
-  handleOpenDialog: (open: boolean) => void
+  handleSetIsOpenDialog: (open: boolean) => void
+  handleSetHasChecked: (value: boolean) => void
 }
 
 export const PullsReviewDialog = ({
   isDialogOpen,
-  handleOpenDialog
+  handleSetIsOpenDialog,
+  handleSetHasChecked
 }: IPullsReviewDialogProps) => {
   const [commentInput, setCommentInput] = useState<string>('')
+  const [focusIndex, setFocusIndex] = useState<number>(0)
   const [radioButtonValue, setRadioButtonValue] = useState<EPullRequestType>(
     EPullRequestType.COMMENT
   )
+  const { repos } = useRepos()
+  const { translate } = useDictionary()
+  const {
+    progressData,
+    submit,
+    isLoading,
+    error: errors,
+    reset
+  } = useSubmitForm()
   const radioButtonValues = [
     {
       value: EPullRequestType.COMMENT,
-      label: 'Comment'
+      label: translate('GITHUB.PULL_REVIEW_FORM_COMMENT_BUTTON')
     },
     {
       value: EPullRequestType.APPROVE,
-      label: 'Approve'
+      label: translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON')
     },
     {
       value: EPullRequestType.REQUEST_CHANGES,
-      label: 'Request Changes'
+      label: translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON')
     }
   ]
-  const { repos } = useRepos()
-  const { translate } = useDictionary()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
-  const [focusIndex, setFocusIndex] = useState<number>(0)
   const focusedPull =
     flattenCheckedPulls.length > 0 ? flattenCheckedPulls[focusIndex] : undefined
 
-  const handleRadioButtonClick = (value: string) => {
+  const handleRadioButtonChange = (value: string) => {
     setRadioButtonValue(value as EPullRequestType)
   }
 
@@ -64,11 +77,11 @@ export const PullsReviewDialog = ({
   }
   const handleOpenChange = (open: boolean) => {
     setFocusIndex(0)
-    handleOpenDialog(open)
+    handleSetIsOpenDialog(open)
   }
 
   const handleCancelClick = () => {
-    handleOpenDialog(false)
+    handleSetIsOpenDialog(false)
     setFocusIndex(0)
   }
 
@@ -86,16 +99,32 @@ export const PullsReviewDialog = ({
 
     setFocusIndex((prev) => prev + 1)
   }
-  const handleReviewDialog = () => {
-    switch (radioButtonValue) {
-      case EPullRequestType.COMMENT:
-        break
-      case EPullRequestType.APPROVE:
-        break
-      case EPullRequestType.REQUEST_CHANGES:
-        break
-    }
+
+  const handleSubmit = () => {
+    submit({
+      checkedPulls: flattenCheckedPulls,
+      reviewType: radioButtonValue,
+      comment: commentInput
+    })
+      .then(() => {
+        handleSetIsOpenDialog(false)
+      })
+      .catch(console.error)
   }
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      reset()
+    }
+  }, [isDialogOpen])
+
+  useEffect(() => {
+    if (flattenCheckedPulls.length > 0) {
+      handleSetHasChecked(true)
+    } else {
+      handleSetHasChecked(false)
+    }
+  }, [flattenCheckedPulls.length])
 
   // This is not gonna happen.
   if (!focusedPull) {
@@ -125,6 +154,7 @@ export const PullsReviewDialog = ({
                 </Link>
               </Tooltip>
             </div>
+
             <PullReviewDialogBody description={focusedPull.body} />
           </div>
         }
@@ -140,11 +170,46 @@ export const PullsReviewDialog = ({
                 onChange={handleCommentChange}
               />
             </div>
+
             <div>
+              <>
+                {progressData.isRunning && (
+                  <Progress value={progressData.value} max={100} />
+                )}
+              </>
+              {errors ? (
+                <Alert
+                  title={translate('COMMON.DIALOG_DEFAULT_ERROR_TITLE')}
+                  description={
+                    <div>
+                      {errors.map((error, index) => (
+                        <div key={index}>
+                          <span>
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                              { repoName: error.repo }
+                            )}
+                          </span>
+                          <div></div>
+                          <span>
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                              { pullTitle: error.pullTitle }
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                  variant="error"
+                  className="w-full"
+                />
+              ) : null}
+
               <RadioGroup
                 className="flex-col"
                 value={radioButtonValue}
-                onValueChange={handleRadioButtonClick}
+                onValueChange={handleRadioButtonChange}
                 values={radioButtonValues}
               />
 
@@ -152,7 +217,11 @@ export const PullsReviewDialog = ({
                 {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
               </Button>
 
-              <Button variant="primary" onClick={() => handleReviewDialog()}>
+              <Button
+                variant="primary"
+                disabled={isLoading}
+                onClick={() => handleSubmit()}
+              >
                 {translate('COMMON.DIALOG_REVIEW_BUTTON')}
               </Button>
             </div>

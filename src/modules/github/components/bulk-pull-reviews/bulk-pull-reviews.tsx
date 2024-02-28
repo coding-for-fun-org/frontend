@@ -45,8 +45,12 @@ const Repositories = () => {
 
 export const BulkPullReviews = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const handleOpenDialog = (open: boolean) => {
+  const [hasChecked, setHasChecked] = useState<boolean>(false)
+  const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
+  }
+  const handleSetHasChecked = (value: boolean) => {
+    setHasChecked(value)
   }
   return (
     <div className="flex w-full h-full gap-5">
@@ -57,14 +61,15 @@ export const BulkPullReviews = () => {
         <Button
           type="button"
           label={'Start Review'}
-          // disabled={!hasChecked}
+          disabled={!hasChecked}
           onClick={() => setIsDialogOpen(true)}
         ></Button>
       </div>
       <div>
         <PullsReviewDialog
           isDialogOpen={isDialogOpen}
-          handleOpenDialog={handleOpenDialog}
+          handleSetIsOpenDialog={handleSetIsOpenDialog}
+          handleSetHasChecked={handleSetHasChecked}
         />
       </div>
       <div className="flex-1">
