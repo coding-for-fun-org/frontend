@@ -6,7 +6,6 @@ import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
-import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
@@ -71,9 +70,6 @@ export const BulkPullReviews = () => {
           handleSetIsOpenDialog={handleSetIsOpenDialog}
           handleSetHasChecked={handleSetHasChecked}
         />
-      </div>
-      <div className="flex-1">
-        <PullReviewForm />
       </div>
     </div>
   )
