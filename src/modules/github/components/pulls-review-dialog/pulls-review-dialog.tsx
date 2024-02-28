@@ -139,21 +139,38 @@ export const PullsReviewDialog = ({
         title={focusedPull.pullTitle}
         children={
           <div>
-            <div>
-              <ChevronRightIcon
-                onClick={handleRightClick}
-                className="float-right hover:underline cursor-pointer m-2"
-              />
-              <ChevronLeftIcon
-                onClick={handleLeftClick}
-                className="float-right hover:underline cursor-pointer m-2"
-              />
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+            >
               <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
                 <Link href={focusedPull.url} target="_blank">
-                  <ExternalLinkIcon className="float-right hover:underline cursor-pointer m-2" />
+                  <ExternalLinkIcon />
                 </Link>
               </Tooltip>
-            </div>
+            </Button>
+
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+              onClick={handleLeftClick}
+            >
+              <ChevronLeftIcon />
+            </Button>
+
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+              onClick={handleRightClick}
+            >
+              <ChevronRightIcon />
+            </Button>
 
             <PullReviewDialogBody description={focusedPull.body} />
           </div>
