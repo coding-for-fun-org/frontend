@@ -179,7 +179,7 @@ export const PullsReviewDialog = ({
           </div>
         }
         footer={
-          <div>
+          <div className="w-full h-full">
             <div className="flex w-full h-full flex-col gap-2">
               <div>
                 {progressData.isRunning && (
@@ -228,25 +228,29 @@ export const PullsReviewDialog = ({
               </div>
             </div>
 
-            <div className="flex w-full h-full flex-row gap-2">
-              <RadioGroup
-                className="flex-col"
-                value={radioButtonValue}
-                onValueChange={handleRadioButtonChange}
-                values={radioButtonValues}
-              />
+            <div className="flex w-full h-full flex-row gap-2 my-2">
+              <div className="flex">
+                <RadioGroup
+                  className="flex-col "
+                  value={radioButtonValue}
+                  onValueChange={handleRadioButtonChange}
+                  values={radioButtonValues}
+                />
+              </div>
 
-              <Button variant="outline" onClick={handleCancelClick}>
-                {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={handleCancelClick}>
+                  {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
+                </Button>
 
-              <Button
-                variant="primary"
-                disabled={isLoading}
-                onClick={() => handleSubmit()}
-              >
-                {translate('COMMON.DIALOG_REVIEW_BUTTON')}
-              </Button>
+                <Button
+                  variant="primary"
+                  disabled={isLoading}
+                  onClick={() => handleSubmit()}
+                >
+                  {translate('COMMON.DIALOG_REVIEW_BUTTON')}
+                </Button>
+              </div>
             </div>
           </div>
         }
