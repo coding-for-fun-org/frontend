@@ -138,91 +138,97 @@ export const PullsReviewDialog = ({
         onOpenChange={handleOpenChange}
         title={focusedPull.pullTitle}
         children={
-          <div>
-            <Button
-              role="button"
-              variant="ghost"
-              size="icon"
-              className="!w-4 !h-4 hover:!bg-transparent"
-            >
-              <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
-                <Link href={focusedPull.url} target="_blank">
-                  <ExternalLinkIcon />
-                </Link>
-              </Tooltip>
-            </Button>
+          <div className="flex-row w-full h-full">
+            <div className="flex justify-end items-center gap-2 m-2">
+              <Button
+                role="button"
+                variant="ghost"
+                size="icon"
+                className="!w-4 !h-4 hover:!bg-transparent"
+              >
+                <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
+                  <Link href={focusedPull.url} target="_blank">
+                    <ExternalLinkIcon />
+                  </Link>
+                </Tooltip>
+              </Button>
 
-            <Button
-              role="button"
-              variant="ghost"
-              size="icon"
-              className="!w-4 !h-4 hover:!bg-transparent"
-              onClick={handleLeftClick}
-            >
-              <ChevronLeftIcon />
-            </Button>
+              <Button
+                role="button"
+                variant="ghost"
+                size="icon"
+                className="!w-4 !h-4 hover:!bg-transparent"
+                onClick={handleLeftClick}
+              >
+                <ChevronLeftIcon />
+              </Button>
 
-            <Button
-              role="button"
-              variant="ghost"
-              size="icon"
-              className="!w-4 !h-4 hover:!bg-transparent"
-              onClick={handleRightClick}
-            >
-              <ChevronRightIcon />
-            </Button>
-
-            <PullReviewDialogBody description={focusedPull.body} />
+              <Button
+                role="button"
+                variant="ghost"
+                size="icon"
+                className="!w-4 !h-4 hover:!bg-transparent"
+                onClick={handleRightClick}
+              >
+                <ChevronRightIcon />
+              </Button>
+            </div>
+            <div>
+              <PullReviewDialogBody description={focusedPull.body} />
+            </div>
           </div>
         }
         footer={
-          <>
-            <div>
-              <Textarea
-                className="resize-none flex-grow max-h-96"
-                placeholder={translate(
-                  'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
-                )}
-                value={commentInput}
-                onChange={handleCommentChange}
-              />
-            </div>
-
-            <div>
-              <>
+          <div>
+            <div className="flex w-full h-full flex-col gap-2">
+              <div>
                 {progressData.isRunning && (
                   <Progress value={progressData.value} max={100} />
                 )}
-              </>
-              {errors ? (
-                <Alert
-                  title={translate('COMMON.DIALOG_DEFAULT_ERROR_TITLE')}
-                  description={
-                    <div>
-                      {errors.map((error, index) => (
-                        <div key={index}>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-                              { repoName: error.repo }
-                            )}
-                          </span>
-                          <div></div>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-                              { pullTitle: error.pullTitle }
-                            )}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  }
-                  variant="error"
-                  className="w-full"
+              </div>
+              <div>
+                {errors ? (
+                  <Alert
+                    title={translate('COMMON.DIALOG_DEFAULT_ERROR_TITLE')}
+                    description={
+                      <div>
+                        {errors.map((error, index) => (
+                          <div key={index}>
+                            <span>
+                              {translate(
+                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                                { repoName: error.repo }
+                              )}
+                            </span>
+                            <div></div>
+                            <span>
+                              {translate(
+                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                                { pullTitle: error.pullTitle }
+                              )}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    }
+                    variant="error"
+                    className="w-full"
+                  />
+                ) : null}
+              </div>
+              <div>
+                <Textarea
+                  className="resize-none"
+                  placeholder={translate(
+                    'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
+                  )}
+                  value={commentInput}
+                  onChange={handleCommentChange}
                 />
-              ) : null}
+              </div>
+            </div>
 
+            <div className="flex w-full h-full flex-row gap-2">
               <RadioGroup
                 className="flex-col"
                 value={radioButtonValue}
@@ -242,7 +248,7 @@ export const PullsReviewDialog = ({
                 {translate('COMMON.DIALOG_REVIEW_BUTTON')}
               </Button>
             </div>
-          </>
+          </div>
         }
       />
     </>

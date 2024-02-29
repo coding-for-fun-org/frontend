@@ -56,21 +56,19 @@ export const BulkPullReviews = () => {
       <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
         <Repositories />
       </ul>
-      <div className="flex flex-col h-full">
+      <ul>
         <Button
           type="button"
           label={'Start Review'}
           disabled={!hasChecked}
           onClick={() => setIsDialogOpen(true)}
         ></Button>
-      </div>
-      <div>
-        <PullsReviewDialog
-          isDialogOpen={isDialogOpen}
-          handleSetIsOpenDialog={handleSetIsOpenDialog}
-          handleSetHasChecked={handleSetHasChecked}
-        />
-      </div>
+      </ul>
+      <PullsReviewDialog
+        isDialogOpen={isDialogOpen}
+        handleSetIsOpenDialog={handleSetIsOpenDialog}
+        handleSetHasChecked={handleSetHasChecked}
+      />
     </div>
   )
 }
