@@ -228,10 +228,10 @@ export const PullsReviewDialog = ({
               </div>
             </div>
 
-            <div className="flex w-full h-full flex-row gap-2 my-2">
+            <div className="flex w-full h-full flex-row justify-between gap-2 my-2">
               <div className="flex">
                 <RadioGroup
-                  className="flex-col "
+                  className="flex-col"
                   value={radioButtonValue}
                   onValueChange={handleRadioButtonChange}
                   values={radioButtonValues}
