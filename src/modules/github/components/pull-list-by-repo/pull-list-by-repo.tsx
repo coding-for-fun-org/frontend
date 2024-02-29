@@ -23,6 +23,8 @@ interface PullListByRepoProps {
   repo: string
   repoUrl: string
   pulls: TPull[] | undefined
+  isRepoAllOpen: boolean
+  handleExpandAllClick: (value: boolean) => void
 }
 
 export const PullListByRepo = ({
@@ -30,7 +32,9 @@ export const PullListByRepo = ({
   owner,
   repo,
   repoUrl,
-  pulls
+  pulls,
+  isRepoAllOpen,
+  handleExpandAllClick
 }: PullListByRepoProps) => {
   const { translate } = useDictionary()
   const [isRepoOpen, setIsRepoOpen] = useState<boolean>(false)

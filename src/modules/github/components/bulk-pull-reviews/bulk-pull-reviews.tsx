@@ -37,8 +37,13 @@ const BulkPullReviewsLayout = ({
 }
 
 const Repositories = () => {
+  const [isRepoAllOpen, setIsRepoAllOpen] = useState<boolean>(false)
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
+  const handleExpandAllClick = (value: boolean) => {
+    console.log('value', value)
+    setIsRepoAllOpen(!value)
+  }
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -54,16 +59,29 @@ const Repositories = () => {
     return null
   }
 
-  return repos.map((repo) => (
-    <PullListByRepo
-      key={`${repo.owner}-${repo.name}`}
-      installationId={repo.installationId}
-      owner={repo.owner}
-      repo={repo.name}
-      repoUrl={repo.url}
-      pulls={repo.pulls}
-    />
-  ))
+  return (
+    <>
+      <div>
+        <Button
+          type="button"
+          label={'Expand All'}
+          onClick={() => handleExpandAllClick(isRepoAllOpen)}
+        ></Button>
+      </div>
+      {repos.map((repo) => (
+        <PullListByRepo
+          key={`${repo.owner}-${repo.name}`}
+          installationId={repo.installationId}
+          owner={repo.owner}
+          repo={repo.name}
+          repoUrl={repo.url}
+          pulls={repo.pulls}
+          isRepoAllOpen={isRepoAllOpen}
+          handleExpandAllClick={handleExpandAllClick}
+        />
+      ))}
+    </>
+  )
 }
 
 export const BulkPullReviews = () => {
