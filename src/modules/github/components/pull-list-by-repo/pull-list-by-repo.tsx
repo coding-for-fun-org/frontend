@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
@@ -24,7 +24,6 @@ interface PullListByRepoProps {
   repoUrl: string
   pulls: TPull[] | undefined
   isRepoAllOpen: boolean
-  handleExpandAllClick: (value: boolean) => void
 }
 
 export const PullListByRepo = ({
@@ -33,8 +32,7 @@ export const PullListByRepo = ({
   repo,
   repoUrl,
   pulls,
-  isRepoAllOpen,
-  handleExpandAllClick
+  isRepoAllOpen
 }: PullListByRepoProps) => {
   const { translate } = useDictionary()
   const [isRepoOpen, setIsRepoOpen] = useState<boolean>(false)
@@ -49,6 +47,14 @@ export const PullListByRepo = ({
   const handleRepoClick = () => {
     setIsRepoOpen((prev) => !prev)
   }
+
+  useEffect(() => {
+    if (isRepoAllOpen) {
+      setIsRepoOpen(true)
+    } else {
+      setIsRepoOpen(false)
+    }
+  }, [isRepoAllOpen])
 
   return (
     <li className="list-none">

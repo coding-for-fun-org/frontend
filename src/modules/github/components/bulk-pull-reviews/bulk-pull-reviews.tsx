@@ -42,7 +42,7 @@ const Repositories = () => {
   const { repos } = useRepos()
   const handleExpandAllClick = (value: boolean) => {
     console.log('value', value)
-    setIsRepoAllOpen(!value)
+    setIsRepoAllOpen((value) => !value)
   }
 
   if (isLoading) {
@@ -64,7 +64,7 @@ const Repositories = () => {
       <div>
         <Button
           type="button"
-          label={'Expand All'}
+          label={isRepoAllOpen ? 'Expand Close' : 'Expand Open'}
           onClick={() => handleExpandAllClick(isRepoAllOpen)}
         ></Button>
       </div>
@@ -77,7 +77,6 @@ const Repositories = () => {
           repoUrl={repo.url}
           pulls={repo.pulls}
           isRepoAllOpen={isRepoAllOpen}
-          handleExpandAllClick={handleExpandAllClick}
         />
       ))}
     </>
