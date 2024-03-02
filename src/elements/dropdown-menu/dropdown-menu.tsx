@@ -17,8 +17,8 @@ import {
   SubTrigger,
   Trigger
 } from '@radix-ui/react-dropdown-menu'
-import { CheckIcon, ChevronRightIcon, CircleIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import { Check, ChevronRightIcon, CircleIcon } from 'lucide-react'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
@@ -125,7 +125,7 @@ const DropdownMenuCheckboxItem = forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ItemIndicator>
-        <CheckIcon className="h-4 w-4" />
+        <Check className="h-4 w-4" />
       </ItemIndicator>
     </span>
     {children}

@@ -1,10 +1,5 @@
-import {
-  CheckCircledIcon,
-  CrossCircledIcon,
-  DrawingPinIcon,
-  InfoCircledIcon
-} from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import { CheckCircle, Info, Pin, XCircle } from 'lucide-react'
 import { type HTMLAttributes, type ReactNode, forwardRef } from 'react'
 
 export interface IVariantProps {
@@ -73,17 +68,11 @@ export const Alert = ({
     <AlertRoot variant={variant} {...props}>
       <div className="flex items-center gap-2">
         {(variant === undefined || variant === 'primary') && (
-          <DrawingPinIcon data-testid="pin-icon" />
+          <Pin data-testid="pin-icon" />
         )}
-        {variant === 'success' && (
-          <CheckCircledIcon data-testid="circle-icon" />
-        )}
-        {variant === 'info' && (
-          <InfoCircledIcon data-testid="info-circled-icon" />
-        )}
-        {variant === 'error' && (
-          <CrossCircledIcon data-testid="cross-circled-icon" />
-        )}
+        {variant === 'success' && <CheckCircle data-testid="circle-icon" />}
+        {variant === 'info' && <Info data-testid="info-circled-icon" />}
+        {variant === 'error' && <XCircle data-testid="cross-circled-icon" />}
         <AlertTitle>{title}</AlertTitle>
       </div>
       {!!description && (

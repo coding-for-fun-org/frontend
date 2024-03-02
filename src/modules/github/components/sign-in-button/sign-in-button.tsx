@@ -1,6 +1,6 @@
 'use client'
 
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { Github } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { type FC, useState } from 'react'
 
@@ -44,7 +44,7 @@ export const SignInButton: FC = () => {
         type="button"
         variant="outline"
         label={translate('AUTH.SIGN_IN_WITH_GITHUB')}
-        icon={<GitHubLogoIcon className="w-full h-full" />}
+        icon={<Github className="w-full h-full" />}
         isLoading={isSigningIn}
         onClick={() => {
           signIn().catch(console.error)

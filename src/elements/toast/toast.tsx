@@ -1,4 +1,3 @@
-import { Cross2Icon } from '@radix-ui/react-icons'
 import {
   Action,
   Close,
@@ -9,6 +8,7 @@ import {
   Viewport
 } from '@radix-ui/react-toast'
 import clsx from 'clsx'
+import { X } from 'lucide-react'
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
@@ -83,7 +83,7 @@ const ToastClose = forwardRef<
     toast-close=""
     {...props}
   >
-    <Cross2Icon className="w-full h-full" />
+    <X className="w-full h-full" />
   </Close>
 ))
 ToastClose.displayName = Close.displayName
