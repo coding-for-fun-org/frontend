@@ -1,8 +1,11 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 
+import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
@@ -40,9 +43,10 @@ const Repositories = () => {
   const [isRepoAllOpen, setIsRepoAllOpen] = useState<boolean>(false)
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
+  const { translate } = useDictionary()
 
-  const handleExpandAllClick = (value: boolean) => {
-    setIsRepoAllOpen(!value)
+  const handleExpandAllClick = () => {
+    setIsRepoAllOpen(true)
   }
 
   if (isLoading) {
@@ -64,8 +68,8 @@ const Repositories = () => {
       <div>
         <Button
           type="button"
-          label={isRepoAllOpen ? 'Expand Close' : 'Expand Open'}
-          onClick={() => handleExpandAllClick(isRepoAllOpen)}
+          label={translate('COMMON.EXPAND_ALL_BUTTON')}
+          onClick={() => handleExpandAllClick()}
         ></Button>
       </div>
       {repos.map((repo) => (
