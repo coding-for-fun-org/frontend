@@ -36,10 +36,6 @@ export const PullListItem = ({
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true)
-  }
-
   const handleOpenChange = (open: boolean) => {
     setIsDialogOpen(open)
   }
@@ -58,12 +54,13 @@ export const PullListItem = ({
           handlePullCheckChange(pull.number)
         }}
       />
-      <span
-        className="underline-offset-4 hover:underline cursor-pointer"
-        onClick={handleOpenDialog}
+      <Link
+        href={pull.url}
+        target="_blank"
+        className="underline-offset-4 hover:underline"
       >
-        {pull.title}
-      </span>
+        <span>{pull.title}</span>
+      </Link>
 
       <Dialog
         open={isDialogOpen}
