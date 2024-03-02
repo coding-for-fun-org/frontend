@@ -17,13 +17,13 @@ import { Tooltip } from '@/elements/root/tooltip/tooltip'
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { PullReviewDialogBody } from '@/components/github/root/pull-review-dialog-body/pull-review-dialog-body'
-import { getFlattenCheckedPulls } from '@/components/github/root/pull-review-form/utils'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import { EPullRequestType } from '@/types/github/root/index'
 
 import { useSubmitForm } from './hooks'
+import { getFlattenCheckedPulls } from './utils'
 
 interface IPullsReviewDialogProps {
   isDialogOpen: boolean
