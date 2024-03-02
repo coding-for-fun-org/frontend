@@ -40,9 +40,9 @@ const Repositories = () => {
   const [isRepoAllOpen, setIsRepoAllOpen] = useState<boolean>(false)
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
+
   const handleExpandAllClick = (value: boolean) => {
-    console.log('value', value)
-    setIsRepoAllOpen((value) => !value)
+    setIsRepoAllOpen(!value)
   }
 
   if (isLoading) {
