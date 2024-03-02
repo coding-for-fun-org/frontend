@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 
@@ -43,14 +45,18 @@ const Repositories = () => {
 }
 
 export const BulkPullReviews = () => {
+  const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const [hasChecked, setHasChecked] = useState<boolean>(false)
+
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
   }
+
   const handleSetHasChecked = (value: boolean) => {
     setHasChecked(value)
   }
+
   return (
     <div className="flex w-full h-full gap-5">
       <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
@@ -59,7 +65,7 @@ export const BulkPullReviews = () => {
       <ul>
         <Button
           type="button"
-          label={'Start Review'}
+          label={translate('GITHUB.PULL_REVIEW_FORM_START_REVIEW')}
           disabled={!hasChecked}
           onClick={() => setIsDialogOpen(true)}
         ></Button>

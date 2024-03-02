@@ -19,8 +19,7 @@ export const dictionary = {
     ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
     ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit',
     ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: 'Confirm',
-    DIALOG_REVIEW_BUTTON: 'Review',
-    DIALOG_DEFAULT_ERROR_TITLE: 'Error'
+    DIALOG_REVIEW_BUTTON: 'Review'
   },
   GITHUB: {
     CONNECTION_TABLE_HEADER_CONNECTION: 'Connections',
@@ -31,6 +30,7 @@ export const dictionary = {
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
+    PULL_REVIEW_FORM_START_REVIEW: 'Start Review',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
     TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:
       'Delete connection successfully.',

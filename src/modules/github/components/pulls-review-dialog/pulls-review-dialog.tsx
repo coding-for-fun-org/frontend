@@ -75,6 +75,7 @@ export const PullsReviewDialog = ({
   const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentInput(event.target.value)
   }
+
   const handleOpenChange = (open: boolean) => {
     setFocusIndex(0)
     handleSetIsOpenDialog(open)
@@ -132,129 +133,127 @@ export const PullsReviewDialog = ({
   }
 
   return (
-    <>
-      <Dialog
-        open={isDialogOpen}
-        onOpenChange={handleOpenChange}
-        title={focusedPull.pullTitle}
-        children={
-          <div className="flex-row w-full h-full">
-            <div className="flex justify-end items-center gap-2 m-2">
-              <Button
-                role="button"
-                variant="ghost"
-                size="icon"
-                className="!w-4 !h-4 hover:!bg-transparent"
-              >
-                <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
-                  <Link href={focusedPull.url} target="_blank">
-                    <ExternalLinkIcon />
-                  </Link>
-                </Tooltip>
-              </Button>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={handleOpenChange}
+      title={focusedPull.pullTitle}
+      children={
+        <div className="flex-row w-full h-full">
+          <div className="flex justify-end items-center gap-2 m-2">
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+            >
+              <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
+                <Link href={focusedPull.url} target="_blank">
+                  <ExternalLinkIcon />
+                </Link>
+              </Tooltip>
+            </Button>
 
-              <Button
-                role="button"
-                variant="ghost"
-                size="icon"
-                className="!w-4 !h-4 hover:!bg-transparent"
-                onClick={handleLeftClick}
-              >
-                <ChevronLeftIcon />
-              </Button>
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+              onClick={handleLeftClick}
+            >
+              <ChevronLeftIcon />
+            </Button>
 
-              <Button
-                role="button"
-                variant="ghost"
-                size="icon"
-                className="!w-4 !h-4 hover:!bg-transparent"
-                onClick={handleRightClick}
-              >
-                <ChevronRightIcon />
-              </Button>
+            <Button
+              role="button"
+              variant="ghost"
+              size="icon"
+              className="!w-4 !h-4 hover:!bg-transparent"
+              onClick={handleRightClick}
+            >
+              <ChevronRightIcon />
+            </Button>
+          </div>
+          <div>
+            <PullReviewDialogBody description={focusedPull.body} />
+          </div>
+        </div>
+      }
+      footer={
+        <div className="w-full h-full">
+          <div className="flex w-full h-full flex-col gap-2">
+            <div>
+              {progressData.isRunning && (
+                <Progress value={progressData.value} max={100} />
+              )}
             </div>
             <div>
-              <PullReviewDialogBody description={focusedPull.body} />
+              {errors ? (
+                <Alert
+                  title={translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')}
+                  description={
+                    <div>
+                      {errors.map((error, index) => (
+                        <div key={index}>
+                          <span>
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                              { repoName: error.repo }
+                            )}
+                          </span>
+                          <div></div>
+                          <span>
+                            {translate(
+                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                              { pullTitle: error.pullTitle }
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                  variant="error"
+                  className="w-full"
+                />
+              ) : null}
             </div>
-          </div>
-        }
-        footer={
-          <div className="w-full h-full">
-            <div className="flex w-full h-full flex-col gap-2">
-              <div>
-                {progressData.isRunning && (
-                  <Progress value={progressData.value} max={100} />
+            <div>
+              <Textarea
+                className="resize-none"
+                placeholder={translate(
+                  'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
                 )}
-              </div>
-              <div>
-                {errors ? (
-                  <Alert
-                    title={translate('COMMON.DIALOG_DEFAULT_ERROR_TITLE')}
-                    description={
-                      <div>
-                        {errors.map((error, index) => (
-                          <div key={index}>
-                            <span>
-                              {translate(
-                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-                                { repoName: error.repo }
-                              )}
-                            </span>
-                            <div></div>
-                            <span>
-                              {translate(
-                                'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-                                { pullTitle: error.pullTitle }
-                              )}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    }
-                    variant="error"
-                    className="w-full"
-                  />
-                ) : null}
-              </div>
-              <div>
-                <Textarea
-                  className="resize-none"
-                  placeholder={translate(
-                    'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
-                  )}
-                  value={commentInput}
-                  onChange={handleCommentChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full h-full flex-row justify-between gap-2 my-2">
-              <div className="flex">
-                <RadioGroup
-                  className="flex-col"
-                  value={radioButtonValue}
-                  onValueChange={handleRadioButtonChange}
-                  values={radioButtonValues}
-                />
-              </div>
-
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={handleCancelClick}>
-                  {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
-                </Button>
-
-                <Button
-                  variant="primary"
-                  disabled={isLoading}
-                  onClick={() => handleSubmit()}
-                >
-                  {translate('COMMON.DIALOG_REVIEW_BUTTON')}
-                </Button>
-              </div>
+                value={commentInput}
+                onChange={handleCommentChange}
+              />
             </div>
           </div>
-        }
-      />
-    </>
+
+          <div className="flex w-full h-full flex-row justify-between gap-2 my-2">
+            <div className="flex">
+              <RadioGroup
+                className="flex-col"
+                value={radioButtonValue}
+                onValueChange={handleRadioButtonChange}
+                values={radioButtonValues}
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleCancelClick}>
+                {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
+              </Button>
+
+              <Button
+                variant="primary"
+                disabled={isLoading}
+                onClick={() => handleSubmit()}
+              >
+                {translate('COMMON.DIALOG_REVIEW_BUTTON')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      }
+    />
   )
 }
