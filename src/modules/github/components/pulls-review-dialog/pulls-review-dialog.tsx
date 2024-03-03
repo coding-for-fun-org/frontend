@@ -231,7 +231,7 @@ export const PullsReviewDialog = ({
             </div>
           </div>
 
-          <div className="flex w-full h-full flex-row justify-between gap-2 my-2">
+          <div className="flex w-full h-full flex-row justify-between mt-5">
             <div className="flex">
               <RadioGroup
                 className="flex-col"
