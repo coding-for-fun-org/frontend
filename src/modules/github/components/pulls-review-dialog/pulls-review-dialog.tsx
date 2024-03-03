@@ -158,6 +158,7 @@ export const PullsReviewDialog = ({
               variant="ghost"
               size="icon"
               className="!w-4 !h-4 hover:!bg-transparent"
+              disabled={focusIndex === 0}
               onClick={handleLeftClick}
             >
               <ChevronLeftIcon />
@@ -169,6 +170,7 @@ export const PullsReviewDialog = ({
               size="icon"
               className="!w-4 !h-4 hover:!bg-transparent"
               onClick={handleRightClick}
+              disabled={focusIndex === flattenCheckedPulls.length - 1}
             >
               <ChevronRightIcon />
             </Button>
