@@ -2,7 +2,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ExternalLinkIcon
-} from '@radix-ui/react-icons'
+} from 'lucide-react'
 import Link from 'next/link'
 import { type ChangeEvent, useEffect, useState } from 'react'
 
@@ -149,7 +149,7 @@ export const PullsReviewDialog = ({
             >
               <Tooltip tooltip={translate('HEADER.LINK_GITHUB_TOOLTIP')}>
                 <Link href={focusedPull.url} target="_blank">
-                  <ExternalLinkIcon />
+                  <ExternalLinkIcon width="17" height="17" />
                 </Link>
               </Tooltip>
             </Button>
