@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 

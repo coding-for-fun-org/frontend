@@ -1,6 +1,6 @@
 'use client'
 
-import { PlusIcon, TrashIcon } from '@radix-ui/react-icons'
+import { PlusIcon, Trash2Icon } from 'lucide-react'
 import Link from 'next/link'
 import { type FC, useState } from 'react'
 
@@ -143,7 +143,7 @@ export const Connections: FC = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        icon={<TrashIcon className="w-full h-full" />}
+                        icon={<Trash2Icon className="w-full h-full" />}
                         onClick={() => {
                           handleOpenDialog(installation.id, installation.owner)
                         }}

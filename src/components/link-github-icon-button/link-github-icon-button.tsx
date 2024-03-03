@@ -1,6 +1,6 @@
 'use client'
 
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { Github } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/elements/root/button/button'
@@ -20,7 +20,7 @@ export const LinkGithubIconButton = () => {
           variant="ghost"
           size="icon"
           role="button"
-          icon={<GitHubLogoIcon className="w-full h-full" />}
+          icon={<Github className="w-full h-full" />}
         />
       </Link>
     </Tooltip>

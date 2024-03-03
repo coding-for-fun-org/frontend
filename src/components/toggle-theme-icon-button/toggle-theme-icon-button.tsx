@@ -1,6 +1,6 @@
 'use client'
 
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { MoonStarIcon, SunIcon } from 'lucide-react'
 
 import { Button } from '@/elements/root/button/button'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
@@ -19,7 +19,7 @@ export const ToggleThemeIconButton = () => {
         size="icon"
         icon={
           <>
-            <MoonIcon className="hidden dark:block w-full h-full" />
+            <MoonStarIcon className="hidden dark:block w-full h-full" />
             <SunIcon className="block dark:hidden w-full h-full" />
           </>
         }

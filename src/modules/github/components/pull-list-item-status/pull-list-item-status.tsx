@@ -1,9 +1,4 @@
-import {
-  CheckIcon,
-  Cross2Icon,
-  DotFilledIcon,
-  ExclamationTriangleIcon
-} from '@radix-ui/react-icons'
+import { AlertTriangle, CheckIcon, Dot, X } from 'lucide-react'
 
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
@@ -40,7 +35,7 @@ export const PullListItemStatus = ({
   if (error) {
     return (
       <Tooltip tooltip={error.message} side="left">
-        <ExclamationTriangleIcon className="w-full h-full text-error" />
+        <AlertTriangle className="w-full h-full text-error" />
       </Tooltip>
     )
   }
@@ -56,14 +51,14 @@ export const PullListItemStatus = ({
   if (checkStatus === ECheckStatus.RUNNING) {
     return (
       <Tooltip tooltip={checkStatusText} side="left">
-        <DotFilledIcon className="w-full h-full text-info" />
+        <Dot className="w-full h-full text-info" />
       </Tooltip>
     )
   }
 
   return (
     <Tooltip tooltip={checkStatusText} side="left">
-      <Cross2Icon className="w-full h-full text-error" />
+      <X className="w-full h-full text-error" />
     </Tooltip>
   )
 }

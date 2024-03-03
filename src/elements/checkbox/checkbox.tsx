@@ -1,8 +1,8 @@
 'use client'
 
 import { Indicator, Root } from '@radix-ui/react-checkbox'
-import { CheckIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import { CheckIcon } from 'lucide-react'
 import type { ButtonHTMLAttributes } from 'react'
 
 type TCheckboxProps = ButtonHTMLAttributes<HTMLButtonElement> & {
