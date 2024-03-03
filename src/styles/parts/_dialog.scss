@@ -18,6 +18,10 @@
       @apply text-sm text-muted-foreground;
     }
 
+    .dialog__body {
+      @apply flex-grow;
+    }
+
     .dialog__footer {
       @apply flex flex-shrink flex-col-reverse gap-2 sm:flex-row sm:justify-end;
     }
