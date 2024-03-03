@@ -152,6 +152,47 @@ describe('Dialog', () => {
     expect(onOpenChangeFn).toHaveBeenLastCalledWith(false)
   })
 
+  describe('widthType prop', () => {
+    const onOpenChangeFn = jest.fn()
+    const createTestComponent =
+      (widthType?: 'narrow' | 'default' | 'wide' | 'full') => () => {
+        const handleOpenChange = (open: boolean) => {
+          onOpenChangeFn(open)
+        }
+
+        return (
+          <Dialog
+            widthType={widthType}
+            open={true}
+            onOpenChange={handleOpenChange}
+            title={DIALOG_TITLE_TEXT}
+          >
+            <div>{DIALOG_CHILDREN_TEXT}</div>
+          </Dialog>
+        )
+      }
+
+    it('should have width--default class by default', () => {
+      const TestComponent = createTestComponent()
+
+      render(<TestComponent />)
+
+      expect(screen.getByRole('dialog')).toHaveClass('width--default')
+    })
+
+    it('should have width--xxx class depending on widthType prop', () => {
+      const widthTypes = ['narrow', 'default', 'wide', 'full'] as const
+
+      widthTypes.forEach((widthType) => {
+        const TestComponent = createTestComponent(widthType)
+
+        render(<TestComponent />)
+
+        expect(screen.getByRole('dialog')).toHaveClass(`width--${widthType}`)
+      })
+    })
+  })
+
   it('should set className', () => {
     const TEST_CLASS = 'TEST-CLASS'
     const onOpenChangeFn = jest.fn()
