@@ -78,9 +78,12 @@ export const RadioGroup = ({
           <RadioGroupItem
             data-testid={`radio-group-item-${v.value}`}
             id={`${radioId}-${v.value}`}
+            className="cursor-pointer"
             value={v.value}
           />
-          <Label htmlFor={`${radioId}-${v.value}`}>{v.label}</Label>
+          <Label htmlFor={`${radioId}-${v.value}`} className="cursor-pointer">
+            {v.label}
+          </Label>
         </div>
       ))}
     </RadioGroupRoot>

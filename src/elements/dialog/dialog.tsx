@@ -7,8 +7,7 @@ import {
   Overlay,
   Portal,
   Root,
-  Title,
-  Trigger
+  Title
 } from '@radix-ui/react-dialog'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
@@ -18,12 +17,13 @@ import {
   type FormHTMLAttributes,
   type HTMLAttributes,
   type ReactNode,
-  forwardRef
+  forwardRef,
+  memo
 } from 'react'
 
-const DialogRoot = Root
+type TWidthType = 'narrow' | 'default' | 'wide' | 'full'
 
-const DialogTrigger = Trigger
+const DialogRoot = Root
 
 const DialogPortal = Portal
 
@@ -46,21 +46,27 @@ DialogOverlay.displayName = Overlay.displayName
 
 const DialogContent = forwardRef<
   ElementRef<typeof Content>,
-  ComponentPropsWithoutRef<typeof Content>
->(({ className, children, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof Content> & { widthType: TWidthType }
+>(({ className, children, widthType, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <div className="fixed z-50 w-full h-full flex justify-center items-center top-0 left-0 px-3">
       <Content
         ref={ref}
         className={clsx(
-          'relative flex flex-col max-h-[95%] w-fit max-w-3xl gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg',
+          'dialog',
+          {
+            'width--narrow': widthType === 'narrow',
+            'width--default': widthType === 'default',
+            'width--wide': widthType === 'wide',
+            'width--full': widthType === 'full'
+          },
           className
         )}
         {...props}
       >
         {children}
-        <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <DialogClose className="dialog__close">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </DialogClose>
@@ -74,13 +80,7 @@ const DialogHeader = ({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={clsx(
-      'flex flex-col space-y-1.5 text-center sm:text-left',
-      className
-    )}
-    {...props}
-  />
+  <div className={clsx('dialog__header', className)} {...props} />
 )
 DialogHeader.displayName = 'DialogHeader'
 
@@ -88,13 +88,7 @@ const DialogFooter = ({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={clsx(
-      'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-      className
-    )}
-    {...props}
-  />
+  <div className={clsx('dialog__footer', className)} {...props} />
 )
 DialogFooter.displayName = 'DialogFooter'
 
@@ -102,14 +96,7 @@ const DialogTitle = forwardRef<
   ElementRef<typeof Title>,
   ComponentPropsWithoutRef<typeof Title>
 >(({ className, ...props }, ref) => (
-  <Title
-    ref={ref}
-    className={clsx(
-      'text-lg font-semibold leading-none tracking-tight',
-      className
-    )}
-    {...props}
-  />
+  <Title ref={ref} className={clsx('dialog__title', className)} {...props} />
 ))
 DialogTitle.displayName = Title.displayName
 
@@ -119,7 +106,7 @@ const DialogDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <Description
     ref={ref}
-    className={clsx('text-sm text-muted-foreground', className)}
+    className={clsx('dialog__description', className)}
     {...props}
   />
 ))
@@ -130,6 +117,7 @@ type TCustomProps = {
   open: boolean
   onOpenChange(open: boolean): void
   children: ReactNode
+  widthType?: TWidthType
   contentOverflow?: 'auto' | 'hidden'
   footer?: ReactNode
   formProps?: FormHTMLAttributes<HTMLFormElement>
@@ -138,50 +126,69 @@ type TCustomProps = {
 type TDialogProps = Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
   TCustomProps
 
-export const Dialog = ({
-  title,
-  open,
-  onOpenChange,
-  children,
-  contentOverflow = 'auto',
-  footer,
-  formProps,
-  ...props
-}: TDialogProps) => {
-  const ContentBody = () => {
+type TDialogContentProps = Pick<
+  TDialogProps,
+  'title' | 'children' | 'contentOverflow' | 'footer'
+>
+
+const ContentBody = memo(
+  ({
+    title,
+    children,
+    contentOverflow = 'auto',
+    footer
+  }: TDialogContentProps) => {
     return (
       <>
-        <DialogHeader className="flex-shrink">
+        <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-
         <div
-          className={clsx('flex-grow', {
+          className={clsx('dialog__body', {
             'overflow-hidden': contentOverflow === 'hidden',
             'overflow-auto': contentOverflow === 'auto'
           })}
         >
           {children}
         </div>
-
-        {footer !== undefined && (
-          <DialogFooter className="flex-shrink">{footer}</DialogFooter>
-        )}
+        {footer !== undefined && <DialogFooter>{footer}</DialogFooter>}
       </>
     )
   }
+)
 
+export const Dialog = ({
+  title,
+  open,
+  onOpenChange,
+  children,
+  widthType = 'default',
+  contentOverflow = 'auto',
+  footer,
+  formProps,
+  ...props
+}: TDialogProps) => {
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger>Open</DialogTrigger>
-      <DialogContent {...props}>
+      <DialogContent widthType={widthType} {...props}>
         {!!formProps && (
           <form {...formProps}>
-            <ContentBody />
+            <ContentBody
+              title={title}
+              children={children}
+              contentOverflow={contentOverflow}
+              footer={footer}
+            />
           </form>
         )}
-
-        {!formProps && <ContentBody />}
+        {!formProps && (
+          <ContentBody
+            title={title}
+            children={children}
+            contentOverflow={contentOverflow}
+            footer={footer}
+          />
+        )}
       </DialogContent>
     </DialogRoot>
   )
