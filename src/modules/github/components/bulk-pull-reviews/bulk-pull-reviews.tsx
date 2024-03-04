@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, useState } from 'react'
+import { type ReactNode } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
@@ -12,7 +12,8 @@ import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-r
 
 import {
   SelectedPullsProvider,
-  useRepos
+  useRepos,
+  useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
 
 import { useFetchRepositories } from './hooks'
@@ -40,13 +41,19 @@ const BulkPullReviewsLayout = ({
 }
 
 const Repositories = () => {
-  const [isRepoAllOpen, setIsRepoAllOpen] = useState<boolean>(false)
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
   const { translate } = useDictionary()
+  const { setRepoOpenStatusTrue } = useUpdateRepoOrPull()
 
   const handleExpandAllClick = () => {
-    setIsRepoAllOpen(true)
+    if (!repos) {
+      return
+    }
+
+    repos.map((repo) => {
+      setRepoOpenStatusTrue(repo.owner, repo.name)
+    })
   }
 
   if (isLoading) {
@@ -69,7 +76,7 @@ const Repositories = () => {
         <Button
           type="button"
           label={translate('COMMON.EXPAND_ALL_BUTTON')}
-          onClick={() => handleExpandAllClick()}
+          onClick={handleExpandAllClick}
         ></Button>
       </div>
       {repos.map((repo) => (
@@ -80,7 +87,7 @@ const Repositories = () => {
           repo={repo.name}
           repoUrl={repo.url}
           pulls={repo.pulls}
-          isRepoAllOpen={isRepoAllOpen}
+          isRepoOpen={repo.isRepoOpen}
         />
       ))}
     </>

@@ -1,6 +1,5 @@
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
@@ -23,7 +22,7 @@ interface PullListByRepoProps {
   repo: string
   repoUrl: string
   pulls: TPull[] | undefined
-  isRepoAllOpen: boolean
+  isRepoOpen: boolean
 }
 
 export const PullListByRepo = ({
@@ -32,11 +31,11 @@ export const PullListByRepo = ({
   repo,
   repoUrl,
   pulls,
-  isRepoAllOpen
+  isRepoOpen
 }: PullListByRepoProps) => {
   const { translate } = useDictionary()
-  const [isRepoOpen, setIsRepoOpen] = useState<boolean>(false)
-  const { toggleRepoCheckStatus, togglePullCheckStatus } = useUpdateRepoOrPull()
+  const { toggleRepoCheckStatus, togglePullCheckStatus, toggleRepoOpenStatus } =
+    useUpdateRepoOrPull()
   // TODO: handle error case
   const { isPending, isLoading } = useFetchPulls(owner, repo, isRepoOpen)
   const hasChild = !!pulls && pulls.length > 0
@@ -45,16 +44,8 @@ export const PullListByRepo = ({
     : false
 
   const handleRepoClick = () => {
-    setIsRepoOpen((prev) => !prev)
+    toggleRepoOpenStatus(owner, repo)
   }
-
-  useEffect(() => {
-    if (isRepoAllOpen) {
-      setIsRepoOpen(true)
-    } else {
-      setIsRepoOpen(false)
-    }
-  }, [isRepoAllOpen])
 
   return (
     <li className="list-none">
