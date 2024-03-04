@@ -25,7 +25,9 @@ type TWidthType = 'narrow' | 'default' | 'wide' | 'full'
 
 const DialogRoot = Root
 const DialogPortal = Portal
+
 const DialogClose = Close
+
 const DialogOverlay = forwardRef<
   ElementRef<typeof Overlay>,
   ComponentPropsWithoutRef<typeof Overlay>
@@ -40,6 +42,7 @@ const DialogOverlay = forwardRef<
   />
 ))
 DialogOverlay.displayName = Overlay.displayName
+
 const DialogContent = forwardRef<
   ElementRef<typeof Content>,
   ComponentPropsWithoutRef<typeof Content> & { widthType: TWidthType }
@@ -71,6 +74,7 @@ const DialogContent = forwardRef<
   </DialogPortal>
 ))
 DialogContent.displayName = Content.displayName
+
 const DialogHeader = ({
   className,
   ...props
@@ -78,6 +82,7 @@ const DialogHeader = ({
   <div className={clsx('dialog__header', className)} {...props} />
 )
 DialogHeader.displayName = 'DialogHeader'
+
 const DialogFooter = ({
   className,
   ...props
@@ -85,6 +90,7 @@ const DialogFooter = ({
   <div className={clsx('dialog__footer', className)} {...props} />
 )
 DialogFooter.displayName = 'DialogFooter'
+
 const DialogTitle = forwardRef<
   ElementRef<typeof Title>,
   ComponentPropsWithoutRef<typeof Title>
@@ -92,6 +98,7 @@ const DialogTitle = forwardRef<
   <Title ref={ref} className={clsx('dialog__title', className)} {...props} />
 ))
 DialogTitle.displayName = Title.displayName
+
 const DialogDescription = forwardRef<
   ElementRef<typeof Description>,
   ComponentPropsWithoutRef<typeof Description>
@@ -103,6 +110,7 @@ const DialogDescription = forwardRef<
   />
 ))
 DialogDescription.displayName = Description.displayName
+
 type TCustomProps = {
   title: ReactNode
   open: boolean
@@ -113,6 +121,7 @@ type TCustomProps = {
   footer?: ReactNode
   formProps?: FormHTMLAttributes<HTMLFormElement>
 }
+
 type TDialogProps = Omit<HTMLAttributes<HTMLDivElement>, keyof TCustomProps> &
   TCustomProps
 
@@ -120,6 +129,7 @@ type TDialogContentProps = Pick<
   TDialogProps,
   'title' | 'children' | 'contentOverflow' | 'footer'
 >
+
 const ContentBody = memo(
   ({
     title,
@@ -145,6 +155,7 @@ const ContentBody = memo(
     )
   }
 )
+
 export const Dialog = ({
   title,
   open,
