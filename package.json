@@ -51,7 +51,7 @@
     "@types/eslint": "^8.56.5",
     "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.12",
-    "@types/node": "^18.11.9",
+    "@types/node": "^20.11.24",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
