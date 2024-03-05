@@ -87,7 +87,7 @@ const Repositories = () => {
           repo={repo.name}
           repoUrl={repo.url}
           pulls={repo.pulls}
-          isRepoOpen={repo.isRepoOpen}
+          isRepoOpen={repo.isOpen}
         />
       ))}
     </>

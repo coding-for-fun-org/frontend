@@ -95,7 +95,7 @@ const selectedPullsReducer = (
                     name: repo.name,
                     url: repo.html_url,
                     pulls: existRepo.pulls,
-                    isRepoOpen: false
+                    isOpen: false
                   }
                 }
 
@@ -105,7 +105,7 @@ const selectedPullsReducer = (
                   name: repo.name,
                   url: repo.html_url,
                   pulls: undefined,
-                  isRepoOpen: false
+                  isOpen: false
                 }
               })
             }
@@ -123,7 +123,7 @@ const selectedPullsReducer = (
               name: repo.name,
               url: repo.html_url,
               pulls: undefined,
-              isRepoOpen: false
+              isOpen: false
             }))
         )
       }
@@ -300,7 +300,7 @@ const selectedPullsReducer = (
           if (isTargetRepo(repo)) {
             return {
               ...repo,
-              isRepoOpen: !repo.isRepoOpen
+              isOpen: !repo.isOpen
             }
           }
 
@@ -328,7 +328,7 @@ const selectedPullsReducer = (
           if (isTargetRepo(repo)) {
             return {
               ...repo,
-              isRepoOpen: true
+              isOpen: true
             }
           }
 
