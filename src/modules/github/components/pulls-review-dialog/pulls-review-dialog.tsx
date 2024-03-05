@@ -185,50 +185,46 @@ export const PullsReviewDialog = ({
         <div className="w-full h-full flex flex-col gap-4">
           <div className="flex w-full h-full flex-col gap-3">
             {progressData.isRunning && (
-              <div>
-                <Progress value={progressData.value} max={100} />
-              </div>
+              <Progress value={progressData.value} max={100} />
             )}
+
             {errors ? (
-              <div>
-                <Alert
-                  title={translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')}
-                  description={
-                    <div>
-                      {errors.map((error, index) => (
-                        <div key={index}>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-                              { repoName: error.repo }
-                            )}
-                          </span>
-                          <div></div>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-                              { pullTitle: error.pullTitle }
-                            )}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  }
-                  variant="error"
-                  className="w-full"
-                />
-              </div>
-            ) : null}
-            <div>
-              <Textarea
-                className="resize-none"
-                placeholder={translate(
-                  'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
-                )}
-                value={commentInput}
-                onChange={handleCommentChange}
+              <Alert
+                title={translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')}
+                description={
+                  <div>
+                    {errors.map((error, index) => (
+                      <div key={index}>
+                        <span>
+                          {translate(
+                            'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                            { repoName: error.repo }
+                          )}
+                        </span>
+                        <div></div>
+                        <span>
+                          {translate(
+                            'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                            { pullTitle: error.pullTitle }
+                          )}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                }
+                variant="error"
+                className="w-full"
               />
-            </div>
+            ) : null}
+
+            <Textarea
+              className="resize-none"
+              placeholder={translate(
+                'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
+              )}
+              value={commentInput}
+              onChange={handleCommentChange}
+            />
           </div>
 
           <div className="flex w-full h-full flex-row justify-between">
