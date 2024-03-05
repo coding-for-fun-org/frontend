@@ -44,16 +44,14 @@ const Repositories = () => {
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
   const { translate } = useDictionary()
-  const { setRepoOpenStatusTrue } = useUpdateRepoOrPull()
+  const { openAllRepo } = useUpdateRepoOrPull()
 
   const handleExpandAllClick = () => {
     if (!repos) {
       return
     }
 
-    repos.map((repo) => {
-      setRepoOpenStatusTrue(repo.owner, repo.name)
-    })
+    openAllRepo(true)
   }
 
   if (isLoading) {

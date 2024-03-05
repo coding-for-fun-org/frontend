@@ -61,10 +61,9 @@ type TSelectedPullActionType =
       }
     }
   | {
-      type: 'set-repo-open-status-true'
+      type: 'open-all-repo'
       payload: {
-        owner: string
-        repo: string
+        isOpen: boolean
       }
     }
 
@@ -309,31 +308,17 @@ const selectedPullsReducer = (
       }
     }
 
-    case 'set-repo-open-status-true': {
+    case 'open-all-repo': {
       if (!state.repos) {
         throw new Error('There is no repos. This should not happen.')
       }
 
-      const isTargetRepo = (repo: TRepo) =>
-        repo.owner === payload.owner && repo.name === payload.repo
-      const hasTargetRepo = state.repos.some((repo) => isTargetRepo(repo))
-
-      if (!hasTargetRepo) {
-        return state
-      }
-
       return {
         ...state,
-        repos: state.repos.map((repo) => {
-          if (isTargetRepo(repo)) {
-            return {
-              ...repo,
-              isOpen: true
-            }
-          }
-
-          return repo
-        })
+        repos: state.repos.map((repo) => ({
+          ...repo,
+          isOpen: true
+        }))
       }
     }
 
@@ -461,8 +446,8 @@ export const useUpdateRepoOrPull = () => {
       dispatch({ type: 'toggle-repo-open-status', payload: { owner, repo } })
     },
 
-    setRepoOpenStatusTrue: (owner: string, repo: string) => {
-      dispatch({ type: 'set-repo-open-status-true', payload: { owner, repo } })
+    openAllRepo: (isOpen: boolean) => {
+      dispatch({ type: 'open-all-repo', payload: { isOpen } })
     }
   }
 }
