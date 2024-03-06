@@ -136,8 +136,8 @@ export const PullsReviewDialog = ({
       title={focusedPull.pullTitle}
       widthType="default"
       children={
-        <div className="flex-row w-full h-full">
-          <div className="flex justify-end items-center gap-2 m-2">
+        <div className="flex flex-col w-full h-full gap-4">
+          <div className="flex justify-end items-center gap-3">
             <Button
               role="button"
               variant="ghost"
@@ -179,56 +179,52 @@ export const PullsReviewDialog = ({
         </div>
       }
       footer={
-        <div className="w-full h-full">
-          <div className="flex w-full h-full flex-col gap-2">
-            <div>
-              {progressData.isRunning && (
-                <Progress value={progressData.value} max={100} />
-              )}
-            </div>
-            <div>
-              {errors ? (
-                <Alert
-                  title={translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')}
-                  description={
-                    <div>
-                      {errors.map((error, index) => (
-                        <div key={index}>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
-                              { repoName: error.repo }
-                            )}
-                          </span>
-                          <div></div>
-                          <span>
-                            {translate(
-                              'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
-                              { pullTitle: error.pullTitle }
-                            )}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  }
-                  variant="error"
-                  className="w-full"
-                />
-              ) : null}
-            </div>
-            <div>
-              <Textarea
-                className="resize-none"
-                placeholder={translate(
-                  'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
-                )}
-                value={commentInput}
-                onChange={handleCommentChange}
+        <div className="w-full h-full flex flex-col gap-4">
+          <div className="flex w-full h-full flex-col gap-3">
+            {progressData.isRunning && (
+              <Progress value={progressData.value} max={100} />
+            )}
+
+            {errors ? (
+              <Alert
+                title={translate('COMMON.ALERT_DEFAULT_ERROR_TITLE')}
+                description={
+                  <div>
+                    {errors.map((error, index) => (
+                      <div key={index}>
+                        <span>
+                          {translate(
+                            'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO',
+                            { repoName: error.repo }
+                          )}
+                        </span>
+                        <div></div>
+                        <span>
+                          {translate(
+                            'GITHUB.PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL',
+                            { pullTitle: error.pullTitle }
+                          )}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                }
+                variant="error"
+                className="w-full"
               />
-            </div>
+            ) : null}
+
+            <Textarea
+              className="resize-none"
+              placeholder={translate(
+                'GITHUB.PULL_REVIEW_FORM_COMMENT_PLACEHOLDER'
+              )}
+              value={commentInput}
+              onChange={handleCommentChange}
+            />
           </div>
 
-          <div className="flex w-full h-full flex-row justify-between mt-5">
+          <div className="flex w-full h-full flex-row justify-between">
             <div className="flex">
               <RadioGroup
                 className="flex-col"
@@ -238,7 +234,7 @@ export const PullsReviewDialog = ({
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Button variant="outline" onClick={handleCancelClick}>
                 {translate('COMMON.ALERT_DIALOG_DEFAULT_CANCEL_BUTTON')}
               </Button>
