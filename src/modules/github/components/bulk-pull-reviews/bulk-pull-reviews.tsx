@@ -50,8 +50,7 @@ const Repositories = () => {
     if (!repos) {
       return
     }
-
-    openAllRepo(true)
+    openAllRepo()
   }
 
   if (isLoading) {

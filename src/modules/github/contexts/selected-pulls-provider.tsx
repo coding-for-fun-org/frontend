@@ -62,9 +62,7 @@ type TSelectedPullActionType =
     }
   | {
       type: 'open-all-repo'
-      payload: {
-        isOpen: boolean
-      }
+      payload?: never
     }
 
 const selectedPullsReducer = (
@@ -441,13 +439,11 @@ export const useUpdateRepoOrPull = () => {
     toggleRepoCheckStatus: (owner: string, repo: string) => {
       dispatch({ type: 'toggle-repo-check-status', payload: { owner, repo } })
     },
-
     toggleRepoOpenStatus: (owner: string, repo: string) => {
       dispatch({ type: 'toggle-repo-open-status', payload: { owner, repo } })
     },
-
-    openAllRepo: (isOpen: boolean) => {
-      dispatch({ type: 'open-all-repo', payload: { isOpen } })
+    openAllRepo: () => {
+      dispatch({ type: 'open-all-repo' })
     }
   }
 }
