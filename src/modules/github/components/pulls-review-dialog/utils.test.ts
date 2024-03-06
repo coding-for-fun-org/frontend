@@ -6,6 +6,7 @@ describe('getFlattenCheckedPulls', () => {
   it('should return checked pulls information', () => {
     const repos: TRepo[] = [
       {
+        installationId: 1,
         owner: 'owner1',
         name: 'repo1',
         url: '',
@@ -17,7 +18,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user1' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull2',
@@ -26,7 +28,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user2' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull3',
@@ -35,11 +38,13 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user3' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           }
         ]
       },
       {
+        installationId: 2,
         owner: 'owner1',
         name: 'repo2',
         url: '',
@@ -51,7 +56,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user1' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull2',
@@ -60,11 +66,13 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user2' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           }
         ]
       },
       {
+        installationId: 3,
         owner: 'owner1',
         name: 'repo3',
         url: '',
@@ -76,7 +84,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user3' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull4',
@@ -85,7 +94,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user4' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           }
         ]
       }
@@ -99,28 +109,36 @@ describe('getFlattenCheckedPulls', () => {
         pullNumber: 1,
         pullTitle: 'pull1',
         repo: 'repo1',
-        user: { login: 'user1' }
+        user: { login: 'user1' },
+        url: '',
+        body: ''
       },
       {
         owner: 'owner1',
         pullNumber: 3,
         pullTitle: 'pull3',
         repo: 'repo1',
-        user: { login: 'user3' }
+        user: { login: 'user3' },
+        url: '',
+        body: ''
       },
       {
         owner: 'owner1',
         pullNumber: 1,
         pullTitle: 'pull1',
         repo: 'repo2',
-        user: { login: 'user1' }
+        user: { login: 'user1' },
+        url: '',
+        body: ''
       },
       {
         owner: 'owner1',
         pullNumber: 3,
         pullTitle: 'pull3',
         repo: 'repo3',
-        user: { login: 'user3' }
+        user: { login: 'user3' },
+        url: '',
+        body: ''
       }
     ])
   })
@@ -128,6 +146,7 @@ describe('getFlattenCheckedPulls', () => {
   it('should return empty array if there no checked pull', () => {
     const repos: TRepo[] = [
       {
+        installationId: 1,
         owner: 'owner1',
         name: 'repo1',
         url: '',
@@ -139,7 +158,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user1' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull2',
@@ -148,11 +168,13 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user2' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           }
         ]
       },
       {
+        installationId: 2,
         owner: 'owner1',
         name: 'repo2',
         url: '',
@@ -164,7 +186,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user3' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           },
           {
             title: 'pull4',
@@ -173,7 +196,8 @@ describe('getFlattenCheckedPulls', () => {
             user: { login: 'user4' },
             url: '',
             baseRef: '',
-            headRef: ''
+            headRef: '',
+            body: ''
           }
         ]
       }
