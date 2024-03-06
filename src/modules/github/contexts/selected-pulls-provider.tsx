@@ -53,6 +53,17 @@ type TSelectedPullActionType =
         repo: string
       }
     }
+  | {
+      type: 'toggle-repo-open-status'
+      payload: {
+        owner: string
+        repo: string
+      }
+    }
+  | {
+      type: 'open-all-repo'
+      payload?: never
+    }
 
 const selectedPullsReducer = (
   state: TState,
@@ -80,7 +91,8 @@ const selectedPullsReducer = (
                     owner: repo.owner.login,
                     name: repo.name,
                     url: repo.html_url,
-                    pulls: existRepo.pulls
+                    pulls: existRepo.pulls,
+                    isOpen: false
                   }
                 }
 
@@ -89,7 +101,8 @@ const selectedPullsReducer = (
                   owner: repo.owner.login,
                   name: repo.name,
                   url: repo.html_url,
-                  pulls: undefined
+                  pulls: undefined,
+                  isOpen: false
                 }
               })
             }
@@ -106,7 +119,8 @@ const selectedPullsReducer = (
               owner: repo.owner.login,
               name: repo.name,
               url: repo.html_url,
-              pulls: undefined
+              pulls: undefined,
+              isOpen: false
             }))
         )
       }
@@ -264,6 +278,52 @@ const selectedPullsReducer = (
       }
     }
 
+    case 'toggle-repo-open-status': {
+      if (!state.repos) {
+        throw new Error('There is no repos. This should not happen.')
+      }
+
+      const isTargetRepo = (repo: TRepo) =>
+        repo.owner === payload.owner && repo.name === payload.repo
+      const hasTargetRepo = state.repos.some((repo) => isTargetRepo(repo))
+
+      if (!hasTargetRepo) {
+        return state
+      }
+
+      return {
+        ...state,
+        repos: state.repos.map((repo) => {
+          if (isTargetRepo(repo)) {
+            return {
+              ...repo,
+              isOpen: !repo.isOpen
+            }
+          }
+
+          return repo
+        })
+      }
+    }
+
+    case 'open-all-repo': {
+      if (!state.repos) {
+        throw new Error('There is no repos. This should not happen.')
+      }
+
+      if (state.repos.every((repo) => repo.isOpen === true)) {
+        return state
+      }
+
+      return {
+        ...state,
+        repos: state.repos.map((repo) => ({
+          ...repo,
+          isOpen: true
+        }))
+      }
+    }
+
     default:
       throw new Error('Invalid action type')
   }
@@ -382,6 +442,12 @@ export const useUpdateRepoOrPull = () => {
     },
     toggleRepoCheckStatus: (owner: string, repo: string) => {
       dispatch({ type: 'toggle-repo-check-status', payload: { owner, repo } })
+    },
+    toggleRepoOpenStatus: (owner: string, repo: string) => {
+      dispatch({ type: 'toggle-repo-open-status', payload: { owner, repo } })
+    },
+    openAllRepo: () => {
+      dispatch({ type: 'open-all-repo' })
     }
   }
 }

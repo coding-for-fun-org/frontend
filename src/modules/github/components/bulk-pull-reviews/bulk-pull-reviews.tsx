@@ -2,14 +2,18 @@
 
 import { type ReactNode } from 'react'
 
+import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
 
 import {
   SelectedPullsProvider,
-  useRepos
+  useRepos,
+  useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
 
 import { useFetchRepositories } from './hooks'
@@ -39,6 +43,15 @@ const BulkPullReviewsLayout = ({
 const Repositories = () => {
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
+  const { translate } = useDictionary()
+  const { openAllRepo } = useUpdateRepoOrPull()
+
+  const handleExpandAllClick = () => {
+    if (!repos) {
+      return
+    }
+    openAllRepo()
+  }
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -50,20 +63,30 @@ const Repositories = () => {
 
   // TODO: handle error case
 
-  if (!repos) {
-    return null
-  }
-
-  return repos.map((repo) => (
-    <PullListByRepo
-      key={`${repo.owner}-${repo.name}`}
-      installationId={repo.installationId}
-      owner={repo.owner}
-      repo={repo.name}
-      repoUrl={repo.url}
-      pulls={repo.pulls}
-    />
-  ))
+  return (
+    <>
+      <div>
+        <Button
+          type="button"
+          label={translate('COMMON.EXPAND_ALL_BUTTON')}
+          onClick={handleExpandAllClick}
+        />
+      </div>
+      {repos
+        ? repos.map((repo) => (
+            <PullListByRepo
+              key={`${repo.owner}-${repo.name}`}
+              installationId={repo.installationId}
+              owner={repo.owner}
+              repo={repo.name}
+              repoUrl={repo.url}
+              pulls={repo.pulls}
+              isRepoOpen={repo.isOpen}
+            />
+          ))
+        : null}
+    </>
+  )
 }
 
 export const BulkPullReviews = () => {

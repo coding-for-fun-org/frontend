@@ -34,4 +34,5 @@ export type TRepo = {
   name: string
   url: string
   pulls: TPull[] | undefined
+  isOpen: boolean
 }
