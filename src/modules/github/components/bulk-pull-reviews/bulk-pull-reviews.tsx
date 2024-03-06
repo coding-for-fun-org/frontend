@@ -1,44 +1,21 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { useFetchRepositories } from '@/components/github/root/bulk-pull-reviews/hooks'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
-import { PullReviewForm } from '@/components/github/root/pull-review-form/pull-review-form'
+import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
+import { getFlattenCheckedPulls } from '@/components/github/root/pulls-review-dialog/utils'
 
 import {
-  SelectedPullsProvider,
   useRepos,
   useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
-
-import { useFetchRepositories } from './hooks'
-
-interface IBulkPullReviewsLayoutProps {
-  repositories: ReactNode
-  pullReviewForm: ReactNode
-}
-
-const BulkPullReviewsLayout = ({
-  repositories,
-  pullReviewForm
-}: IBulkPullReviewsLayoutProps) => {
-  return (
-    <SelectedPullsProvider>
-      <div className="flex w-full h-full gap-5">
-        <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-          {repositories}
-        </ul>
-
-        <div className="flex-1">{pullReviewForm}</div>
-      </div>
-    </SelectedPullsProvider>
-  )
-}
 
 const Repositories = () => {
   const { isLoading } = useFetchRepositories()
@@ -90,10 +67,33 @@ const Repositories = () => {
 }
 
 export const BulkPullReviews = () => {
+  const { repos } = useRepos()
+  const flattenCheckedPulls = getFlattenCheckedPulls(repos)
+  const { translate } = useDictionary()
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+  const handleSetIsOpenDialog = (open: boolean) => {
+    setIsDialogOpen(open)
+  }
+
   return (
-    <BulkPullReviewsLayout
-      repositories={<Repositories />}
-      pullReviewForm={<PullReviewForm />}
-    />
+    <div className="flex w-full h-full gap-5">
+      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+        <Repositories />
+      </ul>
+      <ul>
+        <Button
+          type="button"
+          label={translate('GITHUB.PULL_REVIEW_FORM_START_REVIEW')}
+          disabled={flattenCheckedPulls.length <= 0}
+          onClick={() => setIsDialogOpen(true)}
+        ></Button>
+      </ul>
+      <PullsReviewDialog
+        flattenCheckedPulls={flattenCheckedPulls}
+        isDialogOpen={isDialogOpen}
+        handleSetIsOpenDialog={handleSetIsOpenDialog}
+      />
+    </div>
   )
 }

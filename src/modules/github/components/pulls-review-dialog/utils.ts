@@ -28,7 +28,9 @@ export const getFlattenCheckedPulls = (
         repo: repo.name,
         pullTitle: pull.title,
         pullNumber: pull.number,
-        user: pull.user
+        user: pull.user,
+        body: pull.body,
+        url: pull.url
       }))
     )
   }, [])
