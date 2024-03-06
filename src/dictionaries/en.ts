@@ -19,7 +19,8 @@ export const dictionary = {
     ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
     ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit',
     ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: 'Confirm',
-    EXPAND_ALL_BUTTON: 'Expand All'
+    EXPAND_ALL_BUTTON: 'Expand All',
+    DIALOG_LINK_TO_PULL_REQUEST_BUTTON: 'Link to Pull Request'
   },
   GITHUB: {
     CONNECTION_TABLE_HEADER_CONNECTION: 'Connections',
