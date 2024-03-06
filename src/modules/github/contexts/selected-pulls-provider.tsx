@@ -311,6 +311,10 @@ const selectedPullsReducer = (
         throw new Error('There is no repos. This should not happen.')
       }
 
+      if (state.repos.every((repo) => repo.isOpen === true)) {
+        return state
+      }
+
       return {
         ...state,
         repos: state.repos.map((repo) => ({

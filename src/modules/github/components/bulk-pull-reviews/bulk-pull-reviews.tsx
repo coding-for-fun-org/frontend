@@ -63,10 +63,6 @@ const Repositories = () => {
 
   // TODO: handle error case
 
-  if (!repos) {
-    return null
-  }
-
   return (
     <>
       <div>
@@ -74,19 +70,21 @@ const Repositories = () => {
           type="button"
           label={translate('COMMON.EXPAND_ALL_BUTTON')}
           onClick={handleExpandAllClick}
-        ></Button>
-      </div>
-      {repos.map((repo) => (
-        <PullListByRepo
-          key={`${repo.owner}-${repo.name}`}
-          installationId={repo.installationId}
-          owner={repo.owner}
-          repo={repo.name}
-          repoUrl={repo.url}
-          pulls={repo.pulls}
-          isRepoOpen={repo.isOpen}
         />
-      ))}
+      </div>
+      {repos
+        ? repos.map((repo) => (
+            <PullListByRepo
+              key={`${repo.owner}-${repo.name}`}
+              installationId={repo.installationId}
+              owner={repo.owner}
+              repo={repo.name}
+              repoUrl={repo.url}
+              pulls={repo.pulls}
+              isRepoOpen={repo.isOpen}
+            />
+          ))
+        : null}
     </>
   )
 }
