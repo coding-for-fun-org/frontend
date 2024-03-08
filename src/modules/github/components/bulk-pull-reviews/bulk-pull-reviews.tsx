@@ -17,9 +17,10 @@ import {
   useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
 
-const Repositories = () => {
+import type { TRepo } from '@/types/github/root/index'
+
+const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   const { isLoading } = useFetchRepositories()
-  const { repos } = useRepos()
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -62,37 +63,40 @@ export const BulkPullReviews = () => {
   }
 
   const handleExpandAllClick = () => {
-    if (!repos) {
-      return
-    }
     openAllRepo()
   }
 
   return (
-    <div className="flex w-full h-full gap-5">
-      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        <Repositories />
-      </ul>
-      <ul>
-        <Button
-          type="button"
-          label={translate('COMMON.EXPAND_ALL_BUTTON')}
-          onClick={handleExpandAllClick}
-        />
-      </ul>
-      <ul>
-        <Button
-          type="button"
-          label={translate('GITHUB.PULL_REVIEW_FORM_START_REVIEW')}
-          disabled={flattenCheckedPulls.length <= 0}
-          onClick={() => setIsDialogOpen(true)}
-        ></Button>
-      </ul>
+    <>
+      <div className="flex w-full gap-5">
+        <div className="flex-grow">
+          <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+            <Repositories repos={repos} />
+          </ul>
+        </div>
+
+        <div className="flex gap-4 h-fit">
+          <Button
+            type="button"
+            label={translate('GITHUB.EXPAND_ALL_BUTTON')}
+            onClick={handleExpandAllClick}
+          />
+          <Button
+            type="button"
+            label={translate('GITHUB.START_REVIEW_BUTTON')}
+            disabled={flattenCheckedPulls.length <= 0}
+            onClick={() => {
+              setIsDialogOpen(true)
+            }}
+          />
+        </div>
+      </div>
+
       <PullsReviewDialog
         flattenCheckedPulls={flattenCheckedPulls}
         isDialogOpen={isDialogOpen}
         handleSetIsOpenDialog={handleSetIsOpenDialog}
       />
-    </div>
+    </>
   )
 }
