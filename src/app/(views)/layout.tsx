@@ -16,7 +16,8 @@ import { getLanguage } from '@/utils/root/language'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
-  weight: '400'
+  weight: '400',
+  display: 'swap'
 })
 
 export const metadata = {
