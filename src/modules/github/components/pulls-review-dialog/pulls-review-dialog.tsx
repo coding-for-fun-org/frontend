@@ -50,8 +50,7 @@ export const PullsReviewDialog = ({
     error: errors,
     reset
   } = useSubmitForm()
-  // we need to hasMyPull in radioButton Values so I declerate on the radioButtonValues
-  const hasMyPull = flattenCheckedPulls.some(
+  const hasSelfPull = flattenCheckedPulls.some(
     (data) => data.user.login === currentUser!.login
   )
   const radioButtonValues = [
@@ -62,12 +61,12 @@ export const PullsReviewDialog = ({
     {
       value: EPullRequestType.APPROVE,
       label: translate('GITHUB.PULL_REVIEW_FORM_APPROVE_BUTTON'),
-      disabled: hasMyPull
+      disabled: hasSelfPull
     },
     {
       value: EPullRequestType.REQUEST_CHANGES,
       label: translate('GITHUB.PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON'),
-      disabled: hasMyPull
+      disabled: hasSelfPull
     }
   ]
   const focusedPull =
