@@ -20,15 +20,6 @@ import {
 const Repositories = () => {
   const { isLoading } = useFetchRepositories()
   const { repos } = useRepos()
-  const { translate } = useDictionary()
-  const { openAllRepo } = useUpdateRepoOrPull()
-
-  const handleExpandAllClick = () => {
-    if (!repos) {
-      return
-    }
-    openAllRepo()
-  }
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -42,13 +33,6 @@ const Repositories = () => {
 
   return (
     <>
-      <div>
-        <Button
-          type="button"
-          label={translate('COMMON.EXPAND_ALL_BUTTON')}
-          onClick={handleExpandAllClick}
-        />
-      </div>
       {repos
         ? repos.map((repo) => (
             <PullListByRepo
@@ -71,15 +55,30 @@ export const BulkPullReviews = () => {
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const { openAllRepo } = useUpdateRepoOrPull()
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
+  }
+
+  const handleExpandAllClick = () => {
+    if (!repos) {
+      return
+    }
+    openAllRepo()
   }
 
   return (
     <div className="flex w-full h-full gap-5">
       <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
         <Repositories />
+      </ul>
+      <ul>
+        <Button
+          type="button"
+          label={translate('COMMON.EXPAND_ALL_BUTTON')}
+          onClick={handleExpandAllClick}
+        />
       </ul>
       <ul>
         <Button
