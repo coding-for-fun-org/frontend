@@ -6,4 +6,6 @@ export interface ICheckedPull {
   user: {
     login: string | undefined
   }
+  body: string | null
+  url: string
 }

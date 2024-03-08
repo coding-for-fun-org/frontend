@@ -34,10 +34,11 @@ export const PullListItem = ({
       <Link
         href={pull.url}
         target="_blank"
-        className="underline-offset-4 hover:underline flex-1"
+        className="underline-offset-4 hover:underline"
       >
         <span>{pull.title}</span>
       </Link>
+
       <div className="w-6 h-6 flex items-center flex-none">
         <PullListItemStatus
           installationId={installationId}

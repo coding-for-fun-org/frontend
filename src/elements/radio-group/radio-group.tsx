@@ -45,6 +45,7 @@ RadioGroupItem.displayName = Item.displayName
 type TRadioValue = {
   label: string
   value: string
+  disabled?: boolean
 }
 
 type TCustomProps = {
@@ -78,10 +79,14 @@ export const RadioGroup = ({
           <RadioGroupItem
             data-testid={`radio-group-item-${v.value}`}
             id={`${radioId}-${v.value}`}
-            className="cursor-pointer"
+            className={v.disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
             value={v.value}
+            disabled={v.disabled}
           />
-          <Label htmlFor={`${radioId}-${v.value}`} className="cursor-pointer">
+          <Label
+            htmlFor={`${radioId}-${v.value}`}
+            className={v.disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+          >
             {v.label}
           </Label>
         </div>
