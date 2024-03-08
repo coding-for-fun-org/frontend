@@ -19,7 +19,6 @@ export const dictionary = {
     ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
     ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit',
     ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: 'Confirm',
-    EXPAND_ALL_BUTTON: 'Expand All',
     DIALOG_LINK_TO_PULL_REQUEST_BUTTON: 'Link to Pull Request',
     DIALOG_REVIEW_BUTTON: 'Review'
   },
@@ -30,9 +29,10 @@ export const dictionary = {
       'Fail to delete {{connection}} connection.',
     PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
+    START_REVIEW_BUTTON: 'Start Review',
+    EXPAND_ALL_BUTTON: 'Expand All',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
-    PULL_REVIEW_FORM_START_REVIEW: 'Start Review',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
     TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:
       'Delete connection successfully.',

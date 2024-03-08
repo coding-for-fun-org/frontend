@@ -17,18 +17,10 @@ import {
   useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
 
-const Repositories = () => {
-  const { isLoading } = useFetchRepositories()
-  const { repos } = useRepos()
-  const { translate } = useDictionary()
-  const { openAllRepo } = useUpdateRepoOrPull()
+import type { TRepo } from '@/types/github/root/index'
 
-  const handleExpandAllClick = () => {
-    if (!repos) {
-      return
-    }
-    openAllRepo()
-  }
+const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
+  const { isLoading } = useFetchRepositories()
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -42,13 +34,6 @@ const Repositories = () => {
 
   return (
     <>
-      <div>
-        <Button
-          type="button"
-          label={translate('COMMON.EXPAND_ALL_BUTTON')}
-          onClick={handleExpandAllClick}
-        />
-      </div>
       {repos
         ? repos.map((repo) => (
             <PullListByRepo
@@ -71,29 +56,47 @@ export const BulkPullReviews = () => {
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const { openAllRepo } = useUpdateRepoOrPull()
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
   }
 
+  const handleExpandAllClick = () => {
+    openAllRepo()
+  }
+
   return (
-    <div className="flex w-full h-full gap-5">
-      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        <Repositories />
-      </ul>
-      <ul>
-        <Button
-          type="button"
-          label={translate('GITHUB.PULL_REVIEW_FORM_START_REVIEW')}
-          disabled={flattenCheckedPulls.length <= 0}
-          onClick={() => setIsDialogOpen(true)}
-        ></Button>
-      </ul>
+    <>
+      <div className="flex w-full gap-5">
+        <div className="flex-grow">
+          <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+            <Repositories repos={repos} />
+          </ul>
+        </div>
+
+        <div className="flex gap-4 h-fit">
+          <Button
+            type="button"
+            label={translate('GITHUB.EXPAND_ALL_BUTTON')}
+            onClick={handleExpandAllClick}
+          />
+          <Button
+            type="button"
+            label={translate('GITHUB.START_REVIEW_BUTTON')}
+            disabled={flattenCheckedPulls.length <= 0}
+            onClick={() => {
+              setIsDialogOpen(true)
+            }}
+          />
+        </div>
+      </div>
+
       <PullsReviewDialog
         flattenCheckedPulls={flattenCheckedPulls}
         isDialogOpen={isDialogOpen}
         handleSetIsOpenDialog={handleSetIsOpenDialog}
       />
-    </div>
+    </>
   )
 }
