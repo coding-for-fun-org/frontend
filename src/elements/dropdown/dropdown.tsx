@@ -23,6 +23,7 @@ import {
   type ComponentPropsWithoutRef,
   type ElementRef,
   type HTMLAttributes,
+  type ReactNode,
   forwardRef
 } from 'react'
 
@@ -198,20 +199,153 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
-export {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup
+type TDropdownCheckboxValue = {
+  label: string
+  value: string
+  checked: boolean
+  onCheckedChange(checked: boolean): void
+  disabled?: boolean
 }
+
+type TDropdownCheckboxGroup = {
+  label: string
+  items: TDropdownCheckboxValue[]
+}
+
+type TDropdownCheckboxData = {
+  groups: TDropdownCheckboxGroup[]
+}
+
+type TDropdownRadioValue = {
+  label: string
+  value: string
+  disabled?: boolean
+}
+
+type TDropdownRadioGroup = {
+  label: string
+  items: TDropdownRadioValue[]
+}
+
+type TDropdownRadioData = {
+  groups: TDropdownRadioGroup[]
+  value: string
+  onValueChange(value: string): void
+}
+
+type TDropdownType = 'checkbox' | 'radio' // | 'default'
+
+type TDropdowData<T extends TDropdownType> = T extends 'checkbox'
+  ? TDropdownCheckboxData
+  : T extends 'radio'
+    ? TDropdownRadioData
+    : never
+
+type TCustomProps<T extends TDropdownType> = {
+  type: T
+  data: TDropdowData<T>
+  trigger: ReactNode
+  contentClassName?: string
+}
+
+type TDropdownCheckboxGroupsProps = TDropdownCheckboxData
+
+const DropdownCheckboxGroups = ({ groups }: TDropdownCheckboxGroupsProps) => {
+  return (
+    <>
+      {groups.map(({ label: groupLabel, items }, index) => {
+        return (
+          <div key={groupLabel}>
+            {groupLabel && <DropdownMenuLabel>{groupLabel}</DropdownMenuLabel>}
+            {(index > 0 || (groupLabel && index === 0)) && (
+              <DropdownMenuSeparator />
+            )}
+            {items.map(
+              ({ label: itemLabel, checked, onCheckedChange, disabled }) => (
+                <DropdownMenuCheckboxItem
+                  key={itemLabel}
+                  checked={checked}
+                  onCheckedChange={onCheckedChange}
+                  disabled={disabled}
+                  onSelect={(event) => {
+                    event.preventDefault()
+                  }}
+                >
+                  {itemLabel}
+                </DropdownMenuCheckboxItem>
+              )
+            )}
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
+type TDropdownRadioGroupsProps = TDropdownRadioData
+
+const DropdownRadioGroups = ({
+  groups,
+  value: selectedValue,
+  onValueChange
+}: TDropdownRadioGroupsProps) => {
+  return (
+    <>
+      {groups.map(({ label: groupLabel, items }, index) => {
+        return (
+          <div key={groupLabel}>
+            {groupLabel && <DropdownMenuLabel>{groupLabel}</DropdownMenuLabel>}
+            {(index > 0 || (groupLabel && index === 0)) && (
+              <DropdownMenuSeparator />
+            )}
+            <DropdownMenuRadioGroup
+              value={selectedValue}
+              onValueChange={onValueChange}
+            >
+              {items.map(({ label: itemLabel, value, disabled }) => (
+                <DropdownMenuRadioItem
+                  key={itemLabel}
+                  value={value}
+                  disabled={disabled}
+                  onSelect={(event) => {
+                    event.preventDefault()
+                  }}
+                >
+                  {itemLabel}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
+type TDropdownProps<T extends TDropdownType> = TCustomProps<T>
+
+export const Dropdown = <T extends TDropdownType>({
+  type,
+  data,
+  trigger,
+  contentClassName
+}: TDropdownProps<T>) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+
+      <DropdownMenuPortal>
+        <DropdownMenuContent className={contentClassName}>
+          {type === 'checkbox' ? (
+            <DropdownCheckboxGroups {...(data as TDropdownCheckboxData)} />
+          ) : null}
+
+          {type === 'radio' ? (
+            <DropdownRadioGroups {...(data as TDropdownRadioData)} />
+          ) : null}
+        </DropdownMenuContent>
+      </DropdownMenuPortal>
+    </DropdownMenu>
+  )
+}
+Dropdown.displayName = 'Dropdown'
