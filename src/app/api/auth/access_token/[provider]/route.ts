@@ -21,9 +21,9 @@ export async function GET(
   { params }: { params: { provider: EProviders } }
 ): Promise<TErrorResponse | NextResponse<TAccessTokenResponse>> {
   const { provider } = params
-  const oneDay = 24 * 60 * 60 * 1000
+  const oneMonth = 24 * 60 * 60 * 1000 * 30
   const setCookie = cookies().set
-  const expires = Date.now() + oneDay
+  const expires = Date.now() + oneMonth
 
   try {
     let accessToken: string | null = null
