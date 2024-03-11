@@ -6,6 +6,8 @@ import { githubService } from '@/services/root/github'
 
 import { queryKey } from '@/utils/root/index'
 
+import { ECheckStatus } from '@/components/github/root/pull-list-item-status/types'
+
 import type { TPull } from '@/types/github/root/index'
 import type {
   RepoCheckRunsForRefResponse,
@@ -87,6 +89,10 @@ export const useCheckStatus = (
           totalCount: requiredChecksName?.length ?? 0
         })
       : null
+
+  if (checkStatus === ECheckStatus.RUNNING) {
+    console.log('check it again every 30 seconds')
+  }
 
   return {
     checkStatus,
