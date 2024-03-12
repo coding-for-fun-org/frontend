@@ -27,15 +27,21 @@ export const PullListItemStatus = ({
     repo,
     pull
   )
+  console.log(pull)
 
   if (isLoading) {
-    return <Skeleton variant="rect" className="!h-full" />
+    return (
+      <Skeleton variant="rect" className="!h-full" data-testid="skeleton" />
+    )
   }
 
   if (error) {
     return (
       <Tooltip tooltip={error.message} side="left">
-        <AlertTriangle className="w-full h-full text-error" />
+        <AlertTriangle
+          className="w-full h-full text-error"
+          data-testid="alert-triangle"
+        />
       </Tooltip>
     )
   }
