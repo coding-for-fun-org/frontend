@@ -92,7 +92,7 @@ const selectedPullsReducer = (
                     name: repo.name,
                     url: repo.html_url,
                     pulls: existRepo.pulls,
-                    isOpen: false
+                    isOpen: existRepo.isOpen
                   }
                 }
 
