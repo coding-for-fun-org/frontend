@@ -51,7 +51,7 @@ export const PullListItemStatus = ({
   if (checkStatus === ECheckStatus.RUNNING) {
     return (
       <Tooltip tooltip={checkStatusText} side="left">
-        <Dot className="w-full h-full text-info" />
+        <Dot className="w-full h-full text-info" strokeWidth={5} />
       </Tooltip>
     )
   }
