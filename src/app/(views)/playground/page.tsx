@@ -2,10 +2,13 @@
 
 import { useState } from 'react'
 
+import { Button } from '@/elements/root/button/button'
+import { Dropdown } from '@/elements/root/dropdown/dropdown'
 import { RadioGroup } from '@/elements/root/radio-group/radio-group'
 
 export default function Page() {
-  const [value, setValue] = useState('3')
+  const [radioValue, setRadioValue] = useState('3')
+  const [dropdownRadioValue, setDropdownRadioValue] = useState('3')
   const values = [
     {
       value: '1',
@@ -24,15 +27,26 @@ export default function Page() {
   return (
     <div>
       <h4>radio group example</h4>
-
       <div className="mt-3"></div>
-
       <RadioGroup
         className="flex-col"
-        value={value}
-        onValueChange={setValue}
+        value={radioValue}
+        onValueChange={setRadioValue}
         values={values}
       />
+
+      <h4>dropdown example</h4>
+      <div className="mt-3"></div>
+      <Dropdown
+        type="radio"
+        data={{
+          groups: [{ label: 'test', items: values }],
+          value: dropdownRadioValue,
+          onValueChange: setDropdownRadioValue
+        }}
+      >
+        <Button>Dropdown</Button>
+      </Dropdown>
     </div>
   )
 }
