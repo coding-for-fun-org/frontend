@@ -214,6 +214,7 @@ type TDropdownCheckboxGroup = {
 
 type TDropdownCheckboxData = {
   groups: TDropdownCheckboxGroup[]
+  closeOnSelect?: boolean
 }
 
 type TDropdownRadioValue = {
@@ -231,6 +232,7 @@ type TDropdownRadioData = {
   groups: TDropdownRadioGroup[]
   value: string
   onValueChange(value: string): void
+  closeOnSelect?: boolean
 }
 
 type TDropdownType = 'checkbox' | 'radio' // | 'default'
@@ -244,13 +246,17 @@ type TDropdowData<T extends TDropdownType> = T extends 'checkbox'
 type TCustomProps<T extends TDropdownType> = {
   type: T
   data: TDropdowData<T>
-  trigger: ReactNode
+  children: ReactNode
   contentClassName?: string
+  closeOnSelect?: boolean
 }
 
 type TDropdownCheckboxGroupsProps = TDropdownCheckboxData
 
-const DropdownCheckboxGroups = ({ groups }: TDropdownCheckboxGroupsProps) => {
+const DropdownCheckboxGroups = ({
+  groups,
+  closeOnSelect
+}: TDropdownCheckboxGroupsProps) => {
   return (
     <>
       {groups.map(({ label: groupLabel, items }, index) => {
@@ -268,7 +274,9 @@ const DropdownCheckboxGroups = ({ groups }: TDropdownCheckboxGroupsProps) => {
                   onCheckedChange={onCheckedChange}
                   disabled={disabled}
                   onSelect={(event) => {
-                    event.preventDefault()
+                    if (!closeOnSelect) {
+                      event.preventDefault()
+                    }
                   }}
                 >
                   {itemLabel}
@@ -287,7 +295,8 @@ type TDropdownRadioGroupsProps = TDropdownRadioData
 const DropdownRadioGroups = ({
   groups,
   value: selectedValue,
-  onValueChange
+  onValueChange,
+  closeOnSelect
 }: TDropdownRadioGroupsProps) => {
   return (
     <>
@@ -308,7 +317,9 @@ const DropdownRadioGroups = ({
                   value={value}
                   disabled={disabled}
                   onSelect={(event) => {
-                    event.preventDefault()
+                    if (!closeOnSelect) {
+                      event.preventDefault()
+                    }
                   }}
                 >
                   {itemLabel}
@@ -327,21 +338,28 @@ type TDropdownProps<T extends TDropdownType> = TCustomProps<T>
 export const Dropdown = <T extends TDropdownType>({
   type,
   data,
-  trigger,
-  contentClassName
+  children,
+  contentClassName,
+  closeOnSelect = true
 }: TDropdownProps<T>) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 
       <DropdownMenuPortal>
         <DropdownMenuContent className={contentClassName}>
           {type === 'checkbox' ? (
-            <DropdownCheckboxGroups {...(data as TDropdownCheckboxData)} />
+            <DropdownCheckboxGroups
+              {...(data as TDropdownCheckboxData)}
+              closeOnSelect={closeOnSelect}
+            />
           ) : null}
 
           {type === 'radio' ? (
-            <DropdownRadioGroups {...(data as TDropdownRadioData)} />
+            <DropdownRadioGroups
+              {...(data as TDropdownRadioData)}
+              closeOnSelect={closeOnSelect}
+            />
           ) : null}
         </DropdownMenuContent>
       </DropdownMenuPortal>
