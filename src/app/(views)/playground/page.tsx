@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { Button } from '@/elements/root/button/button'
 import { RadioGroup } from '@/elements/root/radio-group/radio-group'
 
 export default function Page() {
@@ -23,6 +24,9 @@ export default function Page() {
 
   return (
     <div>
+      {/* <Button variant="contained" /> */}
+      {/* <Button variant="outlined" /> */}
+
       <h4>radio group example</h4>
 
       <div className="mt-3"></div>
