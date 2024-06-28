@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
 import { githubService } from '@/services/root/github'
 
 import { queryKey } from '@/utils/root/index'
+
+import { ECheckStatus } from '@/components/github/root/pull-list-item-status/types'
 
 import type { TPull } from '@/types/github/root/index'
 import type {
@@ -88,6 +91,25 @@ export const useCheckStatus = (
         })
       : null
 
+  const checkStatusAgain = () => {
+    console.log('checkStatus', checkStatus)
+    console.log('start checkStatusAgain')
+    getCheckStatus(requiredChecksName, checkRuns)
+    if (checkStatus === ECheckStatus.SUCCESS) {
+      console.log('finished')
+      return
+    }
+    setTimeout(() => {
+      console.log('run!')
+      checkStatusAgain()
+    }, 3000)
+  }
+
+  useEffect(() => {
+    if (checkStatus === ECheckStatus.RUNNING) {
+      checkStatusAgain()
+    }
+  }, [checkStatus])
   return {
     checkStatus,
     checkStatusText,
