@@ -22,7 +22,8 @@ My personal playground for coding and learning.
         2. Give it a homepage url
             1. Example: `http://localhost:3000`
         3. Give it a callback url
-            1. Example: `http://localhost:3000/api/auth/callback/github`
+            1. Example: `http://localhost:3000/callback/auth/github/authorize`
+            2. Example: `http://localhost:3000/api/auth/callback/github`
         4. Check `Expire user authorization tokens`
         5. Give it a setup url
             1. Example: `http://localhost:3000/github/callback/application-install`
