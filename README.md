@@ -40,6 +40,16 @@ My personal playground for coding and learning.
             1. If you don't see the `Client secrets` click on `Generate a new client secret` button
         14. Copy the `App ID` and paste it in the `GITHUB_APP_ID` field in the `.env` file
 
+4. For the permissions & events
+    - Repository permissions
+        - Administration : Read-only
+        - Checks : Read and write
+        - Contents : Read-only
+        - Metadata : Read-only
+        - Pull requests : Read and write
+    - Organization permissions
+        - Plan : Read-only
+
 ### For the newbie for programming
 
 1. You need terminal to run the following commands. Open the `spotlight` by pressing `cmd + space` and type `terminal` and press `enter`.
