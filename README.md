@@ -26,12 +26,13 @@ My personal playground for coding and learning.
             2. Example: `http://localhost:3000/api/auth/callback/github`
         4. Check `Expire user authorization tokens`
         5. Give it a setup url
-            1. Example: `http://localhost:3000/github/callback/application-install`
+            1. Example: `http://localhost:3000/callback/auth/github/application-install`
         6. Check `Redirect on update`
         7. Uncheck `Active` checkbox from `Webhook` section
-        8. Click on `Create a Github App` button
-        9. Click on `Generate a private key`
-        10. Run the following command to convert the private key to pkcs8 format
+        8. Don't forget to check `Any account` for the `Where can this Github App be installed?` field
+        9. Click on `Create a Github App` button
+        10. Click on `Generate a private key`
+        11. Run the following command to convert the private key to pkcs8 format
             1. `openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in DOWNLOADED_PRIVATE_KEY_PATH -out private-key-pkcs8.key`
             2. Open the `private-key-pkcs8.key` file and copy the content
             3. Paste the content in the `GITHUB_PRIVATE_KEY` field in the `.env` file
@@ -39,6 +40,16 @@ My personal playground for coding and learning.
         13. Copy the `Client secrets` and paste it in the `GITHUB_SECRET` field in the `.env` file
             1. If you don't see the `Client secrets` click on `Generate a new client secret` button
         14. Copy the `App ID` and paste it in the `GITHUB_APP_ID` field in the `.env` file
+
+4. For the permissions & events
+    - Repository permissions
+        - Administration : Read-only
+        - Checks : Read and write
+        - Contents : Read-only
+        - Metadata : Read-only
+        - Pull requests : Read and write
+    - Organization permissions
+        - Plan : Read-only
 
 ### For the newbie for programming
 
