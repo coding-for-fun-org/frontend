@@ -26,7 +26,7 @@ My personal playground for coding and learning.
             2. Example: `http://localhost:3000/api/auth/callback/github`
         4. Check `Expire user authorization tokens`
         5. Give it a setup url
-            1. Example: `http://localhost:3000/github/callback/application-install`
+            1. Example: `http://localhost:3000/callback/auth/github/application-install`
         6. Check `Redirect on update`
         7. Uncheck `Active` checkbox from `Webhook` section
         8. Click on `Create a Github App` button
