@@ -29,9 +29,10 @@ My personal playground for coding and learning.
             1. Example: `http://localhost:3000/callback/auth/github/application-install`
         6. Check `Redirect on update`
         7. Uncheck `Active` checkbox from `Webhook` section
-        8. Click on `Create a Github App` button
-        9. Click on `Generate a private key`
-        10. Run the following command to convert the private key to pkcs8 format
+        8. Don't forget to check `Any account` for the `Where can this Github App be installed?` field
+        9. Click on `Create a Github App` button
+        10. Click on `Generate a private key`
+        11. Run the following command to convert the private key to pkcs8 format
             1. `openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in DOWNLOADED_PRIVATE_KEY_PATH -out private-key-pkcs8.key`
             2. Open the `private-key-pkcs8.key` file and copy the content
             3. Paste the content in the `GITHUB_PRIVATE_KEY` field in the `.env` file
