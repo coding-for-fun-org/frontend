@@ -2,6 +2,7 @@ import type { FC } from 'react'
 
 import { HeaderTitleButton } from '@/components/root/header-title-button/header-title-button'
 import { LinkGithubIconButton } from '@/components/root/link-github-icon-button/link-github-icon-button'
+import { ToggleLanguageIconButton } from '@/components/root/toggle-language-icon-button/toggle-language-icon-button'
 import { ToggleThemeIconButton } from '@/components/root/toggle-theme-icon-button/toggle-theme-icon-button'
 
 export const Header: FC = () => {
@@ -13,8 +14,8 @@ export const Header: FC = () => {
         </div>
         <div className="flex flex-1 justify-end items-center space-x-2">
           <LinkGithubIconButton />
-
           <ToggleThemeIconButton />
+          <ToggleLanguageIconButton />
         </div>
       </div>
     </header>

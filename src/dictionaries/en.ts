@@ -48,7 +48,10 @@ export const dictionary = {
   },
   HEADER: {
     LINK_GITHUB_TOOLTIP: 'View source code on GitHub',
-    TOGGLE_THEME_TOOLTIP: 'Toggle theme'
+    TOGGLE_THEME_TOOLTIP: 'Toggle theme',
+    TOGGLE_LANGUAGE_TOOLTIP: 'Languages',
+    TOGGLE_LANGUAGE_ENG: 'English',
+    TOGGLE_LANGUAGE_KOR: 'Korean (한국어),'
   },
   ROOT_PAGE: {
     APP_DESCRIPTION: 'This is my personal playground for coding and learning.',
