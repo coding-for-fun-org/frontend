@@ -78,10 +78,7 @@ export const useSubmitForm = () => {
             variant: 'success'
           })
 
-          return results.map(
-            (result) =>
-              (result as PromiseFulfilledResult<PullReviewResponse>).value
-          )
+          return results.map((result) => result.value)
         }
 
         const errors = results.reduce<IError[]>((accu, item, index) => {
