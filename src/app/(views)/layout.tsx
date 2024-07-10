@@ -49,7 +49,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
           <ClientProvider>
             <DictionaryProvider dictionary={dictionary}>
               <Header />
-
               <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
                 {children}
               </main>

@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import Cookies from 'universal-cookie'
 
 import { ECookieKey, EIsoLanguageCode } from '@/types/root/index'
 
@@ -7,17 +7,20 @@ import { ECookieKey, EIsoLanguageCode } from '@/types/root/index'
  * Get the language of the user from the cookie.
  * If the cookie is not set or invalid, return the default language.
  */
-export const getLanguage = (): EIsoLanguageCode => {
-  const lang = cookies().get(ECookieKey.ISO_LANGUAGE_CODE)?.value
 
+const cookies = new Cookies()
+
+export const getLanguage = (): EIsoLanguageCode => {
+  const lang = cookies.get(ECookieKey.ISO_LANGUAGE_CODE) as EIsoLanguageCode
+  //
   if (
     // @ts-expect-error - We know that lang is a string
     !Object.values(EIsoLanguageCode).includes(lang)
   ) {
     return EIsoLanguageCode.ENGLISH
   }
-
-  return lang as EIsoLanguageCode
+  //
+  return lang
 }
 
 /**
@@ -26,11 +29,12 @@ export const getLanguage = (): EIsoLanguageCode => {
  * Then reload the page to apply the new language.
  */
 export const setLanguage = (lang: EIsoLanguageCode): void => {
-  cookies().set(ECookieKey.ISO_LANGUAGE_CODE, lang, {
-    expires: Date.now() + 365 * 24 * 60 * 60 * 1000,
+  cookies.set(ECookieKey.ISO_LANGUAGE_CODE, lang, {
+    expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     httpOnly: false,
     sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production'
+    secure: process.env.NODE_ENV === 'production',
+    path: '/'
   })
 
   location.reload()

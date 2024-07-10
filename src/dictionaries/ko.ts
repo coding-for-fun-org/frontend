@@ -1,7 +1,7 @@
 export const dictionary = {
   AUTH: {
-    SIGN_IN_WITH_GITHUB: 'Sign In with Github',
-    SESSION_EXPIRED_ALERT_TITLE: 'Session Expired',
+    SIGN_IN_WITH_GITHUB: 'GitHub에 로그인',
+    SESSION_EXPIRED_ALERT_TITLE: '세션 만료',
     SESSION_EXPIRED_ALERT_DESCRIPTION:
       'Your session has expired, please sign in again.'
   },
@@ -29,8 +29,8 @@ export const dictionary = {
       'Fail to delete {{connection}} connection.',
     PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
     PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
-    START_REVIEW_BUTTON: 'Start Review',
-    EXPAND_ALL_BUTTON: 'Expand All',
+    START_REVIEW_BUTTON: '리뷰 시작',
+    EXPAND_ALL_BUTTON: '목록 펼치기',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
