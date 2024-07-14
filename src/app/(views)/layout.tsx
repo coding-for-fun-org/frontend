@@ -4,13 +4,15 @@ import type { ReactNode } from 'react'
 
 import '@/styles/root/index.scss'
 
+import { getDictionary } from '@/dictionaries/root/index'
+
 import { Header } from '@/components/root/header/header'
 
 import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
 import { ThemeProvider } from '@/contexts/root/theme-provider/theme-provider'
 
-import { getLanguage } from '@/utils/root/language'
+import { getLanguage } from '@/utils/root/language.server'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -32,10 +34,12 @@ export const viewport: Viewport = {
 }
 
 export default async function Layout({ children }: { children: ReactNode }) {
-  const lang = getLanguage()
+  const language = await getLanguage()
+  const dictionary = await getDictionary(language)
+  console.log('dictionary', dictionary)
 
   return (
-    <html lang={lang}>
+    <html lang={language}>
       <body
         className={`flex flex-col min-h-screen ${notoSans.className}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
@@ -44,8 +48,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
       >
         <ThemeProvider>
           <ClientProvider>
-            <DictionaryProvider>
-              <Header />
+            <DictionaryProvider dictionary={dictionary}>
+              <Header language={language} />
               <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
                 {children}
               </main>

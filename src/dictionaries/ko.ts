@@ -54,9 +54,9 @@ export const dictionary = {
     TOGGLE_LANGUAGE_KOR: 'Korean (한국어)'
   },
   ROOT_PAGE: {
-    APP_DESCRIPTION: 'This is my personal playground for coding and learning.',
-    PLAYGROUND_LIST_TITLE: 'Playground',
+    APP_DESCRIPTION: '여기는 개인적인 코딩과 학습을 위한 놀이터입니다.',
+    PLAYGROUND_LIST_TITLE: '놀이터',
     PLAYGROUND_LIST_ITEM_GITHUB_BULK_PULL_REVIEW:
-      'GitHub Bulk Pull Request Reviewer'
+      'GitHub 대량 Pull Request 리뷰어'
   }
 } as const
