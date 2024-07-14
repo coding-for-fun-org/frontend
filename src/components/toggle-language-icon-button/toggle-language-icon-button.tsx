@@ -32,11 +32,13 @@ export const ToggleLanguageIconButton = () => {
       case String(EIsoLanguageCode.ENGLISH):
         setDropdownRadioValue(EIsoLanguageCode.ENGLISH)
         setLanguage(EIsoLanguageCode.ENGLISH)
+        document.documentElement.lang = EIsoLanguageCode.ENGLISH
         break
 
       case String(EIsoLanguageCode.KOREAN):
         setDropdownRadioValue(EIsoLanguageCode.KOREAN)
         setLanguage(EIsoLanguageCode.KOREAN)
+        document.documentElement.lang = EIsoLanguageCode.KOREAN
         break
     }
   }
