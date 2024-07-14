@@ -55,9 +55,10 @@ export const translate = <
   const targetDictionaryValue = findTargetDictionaryValue(key, dictionary)
 
   if (targetDictionaryValue === undefined) {
-    throw new Error(
-      `Cannot find dictionary value for key: ${key}. You must've ignored typescript error.`
-    )
+    return ''
+    // throw new Error(
+    //   `Cannot find dictionary value for key: ${key}. You must've ignored typescript error.`
+    // )
   }
 
   return params

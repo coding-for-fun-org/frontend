@@ -9,6 +9,8 @@ import {
   useState
 } from 'react'
 
+import { getDictionary } from '@/dictionaries/root/index'
+
 import { getLanguage } from '@/utils/root/language'
 
 import { EIsoLanguageCode } from '@/types/root/index'
@@ -21,14 +23,18 @@ const DictionaryContext = createContext<TDictionary>({})
 
 interface DictionaryProviderProps {
   children: ReactNode
-  dictionary: TDictionary
 }
 
 export const DictionaryProvider: FC<DictionaryProviderProps> = ({
-  children,
-  dictionary
+  children
 }) => {
   const [lang, setLang] = useState(getLanguage()) // cookie
+  const [dictionary, setDictionary] = useState({})
+
+  const handleLanguage = async () => {
+    const dic = await getDictionary(lang)
+    setDictionary(dic)
+  }
 
   useEffect(() => {
     switch (lang) {
@@ -39,6 +45,7 @@ export const DictionaryProvider: FC<DictionaryProviderProps> = ({
         document.documentElement.lang = EIsoLanguageCode.KOREAN
         break
     }
+    handleLanguage()
   }, [lang])
 
   return (
@@ -49,12 +56,12 @@ export const DictionaryProvider: FC<DictionaryProviderProps> = ({
 }
 
 export const useDictionary = () => {
-  const dictionary = useContext(DictionaryContext)
+  const xxx = useContext(DictionaryContext)
 
   return {
     translate: <K extends TTranslateKeys, P extends TTranslateParams<K>>(
       key: K,
       params?: P
-    ) => translate(dictionary, key, params)
+    ) => translate(xxx, key, params)
   }
 }

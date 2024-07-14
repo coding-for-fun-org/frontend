@@ -4,8 +4,6 @@ import type { ReactNode } from 'react'
 
 import '@/styles/root/index.scss'
 
-import { getDictionary } from '@/dictionaries/root/index'
-
 import { Header } from '@/components/root/header/header'
 
 import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
@@ -35,7 +33,6 @@ export const viewport: Viewport = {
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const lang = getLanguage()
-  const dictionary = await getDictionary(lang)
 
   return (
     <html lang={lang}>
@@ -47,7 +44,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
       >
         <ThemeProvider>
           <ClientProvider>
-            <DictionaryProvider dictionary={dictionary}>
+            <DictionaryProvider>
               <Header />
               <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
                 {children}
