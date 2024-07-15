@@ -3,53 +3,53 @@ export const dictionary = {
     SIGN_IN_WITH_GITHUB: 'GitHub에 로그인',
     SESSION_EXPIRED_ALERT_TITLE: '세션 만료',
     SESSION_EXPIRED_ALERT_DESCRIPTION:
-      'Your session has expired, please sign in again.'
+      '세션이 만료되었습니다, 다시 로그인 하세요'
   },
   COMMON: {
     APP_NAME: 'Coding For Fun',
-    ALERT_NO_DATA_TITLE: 'No Data',
-    ALERT_NO_DATA_DESCRIPTION: 'There are no data to display',
-    ALERT_DEFAULT_SUCCESS_TITLE: 'Success',
-    ALERT_DEFAULT_ERROR_TITLE: 'Error',
-    TOAST_DEFAULT_SUCCESS_TITLE: 'Success',
-    TOAST_DEFAULT_ERROR_TITLE: 'Error',
+    ALERT_NO_DATA_TITLE: '데이터 없음',
+    ALERT_NO_DATA_DESCRIPTION: '표시할 데이터가 없습니다',
+    ALERT_DEFAULT_SUCCESS_TITLE: '성공',
+    ALERT_DEFAULT_ERROR_TITLE: '에러',
+    TOAST_DEFAULT_SUCCESS_TITLE: '성공',
+    TOAST_DEFAULT_ERROR_TITLE: '에러',
     TOAST_DEFAULT_ERROR_DESCRIPTION:
-      'Something went wrong. Please try again later.',
-    ALERT_DIALOG_DEFAULT_CANCEL_BUTTON: 'Cancel',
-    ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: 'Continue',
-    ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: 'Submit',
-    ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: 'Confirm',
-    DIALOG_LINK_TO_PULL_REQUEST_BUTTON: 'Link to Pull Request',
-    DIALOG_REVIEW_BUTTON: 'Review'
+      '문제가 발생했습니다, 나중에 다시 시도해 주세요.',
+    ALERT_DIALOG_DEFAULT_CANCEL_BUTTON: '취소',
+    ALERT_DIALOG_DEFAULT_CONTINUE_BUTTON: '계속',
+    ALERT_DIALOG_DEFAULT_SUBMIT_BUTTON: '완료',
+    ALERT_DIALOG_DEFAULT_CONFIRM_BUTTON: '확인',
+    DIALOG_LINK_TO_PULL_REQUEST_BUTTON: '풀 리퀘스트로 이동',
+    DIALOG_REVIEW_BUTTON: '리뷰'
   },
   GITHUB: {
-    CONNECTION_TABLE_HEADER_CONNECTION: 'Connections',
-    CONNECTION_DELETE_CONNECTION_TITLE: 'Delete Connection',
+    CONNECTION_TABLE_HEADER_CONNECTION: '연결',
+    CONNECTION_DELETE_CONNECTION_TITLE: '연결 끊기',
     CONNECTION_DELETE_CONNECTION_ERROR:
-      'Fail to delete {{connection}} connection.',
-    PULL_REVIEW_FORM_COMMENT_BUTTON: 'Comment',
-    PULL_REVIEW_FORM_APPROVE_BUTTON: 'Approve',
+      '{{connection}}  연결 끊기에 실패했습니다.',
+    PULL_REVIEW_FORM_COMMENT_BUTTON: '리뷰 작성',
+    PULL_REVIEW_FORM_APPROVE_BUTTON: '승인',
     START_REVIEW_BUTTON: '리뷰 시작',
     EXPAND_ALL_BUTTON: '목록 펼치기',
-    PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
-    PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
-    TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
-    TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:
-      'Delete connection successfully.',
-    PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO: '- Repository Name: {{repoName}}',
+    PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: '변경 요청',
+    PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: '리뷰 작성',
+    TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: '연결 추가 성공',
+    TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION: '연결 삭제 성공',
+    PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_REPO: '- 저장소명: {{repoName}}',
     PULL_REVIEW_FORM_SUBMIT_DESCRIPTION_PULL:
-      '- Pull Request Title: {{pullTitle}}',
+      '- Pull Request 명: {{pullTitle}}',
     CONNECTION_DELETE_CONNECTION_DESCRIPTION_1:
-      'Are you sure you want to delete this {{installationOwner}} connection?',
-    CONNECTION_DELETE_CONNECTION_DESCRIPTION_2: 'You can not undo this action.',
-    TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
-    TAB_CONNECTIONS_LABEL: 'Connections',
+      '{{installationOwner}}의 연결을 끊겠습니까?',
+    CONNECTION_DELETE_CONNECTION_DESCRIPTION_2:
+      '확인시 이전으로 돌아갈 수 없습니다',
+    TAB_BULK_PULL_REVIEWS_LABEL: '대량 Pull Request 리뷰',
+    TAB_CONNECTIONS_LABEL: '연결',
     PULL_CHECK_STATUS_TEXT: '{{successCount}} / {{totalCount}} checks OK'
   },
   HEADER: {
-    LINK_GITHUB_TOOLTIP: 'View source code on GitHub',
-    TOGGLE_THEME_TOOLTIP: 'Toggle theme',
-    TOGGLE_LANGUAGE_TOOLTIP: 'Languages',
+    LINK_GITHUB_TOOLTIP: 'GitHub에서 소스코드 확인',
+    TOGGLE_THEME_TOOLTIP: '테마 변경',
+    TOGGLE_LANGUAGE_TOOLTIP: '언어 변경',
     TOGGLE_LANGUAGE_ENG: 'English',
     TOGGLE_LANGUAGE_KOR: 'Korean (한국어)'
   },
