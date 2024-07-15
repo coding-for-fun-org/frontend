@@ -1,7 +1,6 @@
 'use client'
 
 import { LanguagesIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 
 import { Button } from '@/elements/root/button/button'
 import { Dropdown } from '@/elements/root/dropdown/dropdown'
@@ -20,8 +19,6 @@ export const ToggleLanguageIconButton = ({
   language,
   setLanguage
 }: TToggleLanguageIconButtonProps) => {
-  console.log('language', language)
-  const router = useRouter()
   const { translate } = useDictionary()
   const values = [
     {
@@ -38,15 +35,11 @@ export const ToggleLanguageIconButton = ({
     switch (value as EIsoLanguageCode) {
       case EIsoLanguageCode.ENGLISH: {
         setLanguage(EIsoLanguageCode.ENGLISH).catch(console.error)
-        router.refresh()
-
         break
       }
 
       case EIsoLanguageCode.KOREAN: {
         setLanguage(EIsoLanguageCode.KOREAN).catch(console.error)
-        router.refresh()
-
         break
       }
     }

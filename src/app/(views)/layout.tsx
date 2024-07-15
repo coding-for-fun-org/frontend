@@ -36,7 +36,6 @@ export const viewport: Viewport = {
 export default async function Layout({ children }: { children: ReactNode }) {
   const language = await getLanguage()
   const dictionary = await getDictionary(language)
-  console.log('dictionary', dictionary)
 
   return (
     <html lang={language}>
