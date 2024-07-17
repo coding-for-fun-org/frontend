@@ -41,8 +41,7 @@
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
     "sass": "^1.77.6",
-    "tailwindcss-animate": "^1.0.7",
-    "universal-cookie": "^7.1.4"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.3",

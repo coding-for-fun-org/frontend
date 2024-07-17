@@ -2,8 +2,6 @@
 
 import { type FC, type ReactNode, createContext, useContext } from 'react'
 
-//
-// import { EIsoLanguageCode } from '@/types/root/index'
 import type { TDictionary, TTranslateKeys, TTranslateParams } from './types'
 import { translate } from './utils'
 
@@ -27,12 +25,12 @@ export const DictionaryProvider: FC<DictionaryProviderProps> = ({
 }
 
 export const useDictionary = () => {
-  const xxx = useContext(DictionaryContext)
+  const dictionary = useContext(DictionaryContext)
 
   return {
     translate: <K extends TTranslateKeys, P extends TTranslateParams<K>>(
       key: K,
       params?: P
-    ) => translate(xxx, key, params)
+    ) => translate(dictionary, key, params)
   }
 }
