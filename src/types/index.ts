@@ -8,8 +8,8 @@ export enum EAuthErrorReason {
 }
 
 export enum EIsoLanguageCode {
-  ENGLISH = 'en'
-  // KOREAN = 'ko',
+  ENGLISH = 'en',
+  KOREAN = 'ko'
   // SPANISH = 'es'
 }
 

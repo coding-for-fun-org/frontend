@@ -9,13 +9,13 @@ import { translate } from './utils'
 const DictionaryContext = createContext<TDictionary>({})
 
 interface DictionaryProviderProps {
-  children: ReactNode
   dictionary: TDictionary
+  children: ReactNode
 }
 
 export const DictionaryProvider: FC<DictionaryProviderProps> = ({
-  children,
-  dictionary
+  dictionary,
+  children
 }) => {
   return (
     <DictionaryContext.Provider value={dictionary}>

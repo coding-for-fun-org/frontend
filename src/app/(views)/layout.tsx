@@ -12,7 +12,7 @@ import { ClientProvider } from '@/contexts/root/client-provider/client-provider'
 import { DictionaryProvider } from '@/contexts/root/dictionary-provider/dictionary-provider'
 import { ThemeProvider } from '@/contexts/root/theme-provider/theme-provider'
 
-import { getLanguage } from '@/utils/root/language'
+import { getLanguage } from '@/utils/root/language.server'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -34,11 +34,11 @@ export const viewport: Viewport = {
 }
 
 export default async function Layout({ children }: { children: ReactNode }) {
-  const lang = getLanguage()
-  const dictionary = await getDictionary(lang)
+  const language = await getLanguage()
+  const dictionary = await getDictionary(language)
 
   return (
-    <html lang={lang}>
+    <html lang={language}>
       <body
         className={`flex flex-col min-h-screen ${notoSans.className}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
@@ -48,8 +48,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <ClientProvider>
             <DictionaryProvider dictionary={dictionary}>
-              <Header />
-
+              <Header language={language} />
               <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
                 {children}
               </main>
