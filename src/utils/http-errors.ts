@@ -3,20 +3,12 @@ import { NextResponse } from 'next/server'
 
 import type { TErrorResponse } from '@/types/root/server'
 
-export const createHttpError = (statusCode: number, message?: string) => {
-  if (message === undefined) {
+export const createHttpError = (statusCode: number, error?: unknown) => {
+  if (error === undefined) {
     return httpErrors(statusCode ?? 400)
   }
 
-  return httpErrors(statusCode ?? 400, message)
-}
-
-export const createHttpErrorCustom = (error: unknown) => {
-  if (error) {
-    const statusCode = error.response.data.status
-
-    return httpErrors(statusCode, error)
-  }
+  return httpErrors(error.response.data.status ?? 400, error ?? 'Not Found')
 }
 
 export const handleHttpErrorResponse = (error: unknown): TErrorResponse => {
