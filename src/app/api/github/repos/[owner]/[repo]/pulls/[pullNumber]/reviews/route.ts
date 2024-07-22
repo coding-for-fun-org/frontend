@@ -5,6 +5,7 @@ import { getOctokitWithAccessToken } from '@/server/root/github'
 
 import {
   createHttpError,
+  createHttpErrorCustom,
   handleHttpErrorResponse
 } from '@/utils/root/http-errors'
 
@@ -55,13 +56,11 @@ export async function POST(
       })
       .then((response) => response.data)
       .catch((error: RequestError) => {
-        console.error('error', error)
-        throw createHttpError(error?.status)
+        throw createHttpErrorCustom(error)
       })
 
     return NextResponse.json(review, { status: 201 })
   } catch (error) {
-    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }

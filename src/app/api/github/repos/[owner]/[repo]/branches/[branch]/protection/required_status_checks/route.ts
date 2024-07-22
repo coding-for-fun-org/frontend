@@ -5,6 +5,7 @@ import { getOctokitWithInstallationId } from '@/server/root/github'
 
 import {
   createHttpError,
+  createHttpErrorCustom,
   handleHttpErrorResponse
 } from '@/utils/root/http-errors'
 
@@ -43,13 +44,11 @@ export async function GET(
       )
       .then((response) => response.data)
       .catch((error: RequestError) => {
-        console.error('error', error)
-        throw createHttpError(error?.status)
+        throw createHttpErrorCustom(error)
       })
 
     return NextResponse.json(pulls, { status: 200 })
   } catch (error) {
-    console.error('error', error)
     return handleHttpErrorResponse(error)
   }
 }
