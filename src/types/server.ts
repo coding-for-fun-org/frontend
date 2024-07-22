@@ -2,8 +2,8 @@ import type { NextResponse } from 'next/server'
 
 export type TErrorResponse = NextResponse<{
   error: {
-    title?: string
+    title: string
     descriptions?: string
-    statusCode?: number
+    statusCode: number
   }
 }>
