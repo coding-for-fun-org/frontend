@@ -55,7 +55,7 @@ export async function POST(
       })
       .then((response) => response.data)
       .catch((error: RequestError) => {
-        throw createHttpError(error)
+        throw createHttpError(error.status, error)
       })
 
     return NextResponse.json(review, { status: 201 })

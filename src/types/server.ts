@@ -4,6 +4,5 @@ export type TErrorResponse = NextResponse<{
   error: {
     title: string
     descriptions?: string
-    statusCode: number
   }
 }>

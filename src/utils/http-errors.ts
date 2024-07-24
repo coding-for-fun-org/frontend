@@ -4,31 +4,20 @@ import { NextResponse } from 'next/server'
 import type { TErrorResponse } from '@/types/root/server'
 
 export const createHttpError = (statusCode: number, error?: unknown) => {
-  if (error === undefined) {
-    return httpErrors(statusCode ?? 400)
+  const parsedError = {
+    title: error.response.data.message,
+    descriptions: error.response.data.documentation_url
   }
 
-  return httpErrors(error.response.data.status ?? 400, error ?? 'Not Found')
+  return httpErrors(statusCode ?? 400, parsedError ?? 'Not Found')
 }
 
 export const handleHttpErrorResponse = (error: unknown): TErrorResponse => {
   if (httpErrors.isHttpError(error)) {
-    return NextResponse.json(
-      {
-        error: {
-          title: error.response.data.message,
-          descriptions: error.response.data.documentation_url,
-          statusCode: error.response.data.status
-        }
-      },
-      { status: error.response.data.status }
-    )
+    return NextResponse.json({ error: error }, { status: error.status })
   }
 
   const error400 = createHttpError(400)
 
-  return NextResponse.json(
-    { error: { descriptions: error400.message } },
-    { status: error400.status }
-  )
+  return NextResponse.json({ error: error }, { status: error400.status })
 }
