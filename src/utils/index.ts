@@ -34,6 +34,35 @@ export const createRandomString = (size: number): string => {
   )
 }
 
+export const isString = (value: unknown): value is string => {
+  return typeof value === 'string'
+}
+
+export const isObjectLike = (value: unknown): boolean => {
+  return typeof value === 'object' && value !== null
+}
+
+export const isPlainObject = (value: unknown): value is object => {
+  if (!isObjectLike(value)) {
+    return false
+  }
+
+  if (Object.prototype.toString.call(value) !== '[object Object]') {
+    return false
+  }
+
+  if (Object.getPrototypeOf(value) === null) {
+    return true
+  }
+
+  let proto = value
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto)
+  }
+
+  return Object.getPrototypeOf(value) === proto
+}
+
 export const queryKey = {
   github: {
     _base() {

@@ -67,6 +67,7 @@ type TTabValue = {
   label: string
   value: string
   children: ReactNode
+  actions?: ReactNode
 }
 
 type TCustomProps = {
@@ -88,15 +89,21 @@ export const Tabs = ({
   onValueChange,
   ...props
 }: TTabsProps) => {
+  const currentActions = values.find(
+    (tabValue) => tabValue.value === value
+  )?.actions
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-      <TabsList data-testid="tabs-list">
-        {values.map(({ label, value }) => (
-          <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
-            {label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      <div className="flex justify-between">
+        <TabsList data-testid="tabs-list">
+          {values.map(({ label, value }) => (
+            <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {currentActions && <div>{currentActions}</div>}
+      </div>
       {values.map(({ value, children }) => (
         <TabsContent data-testid="tabs-content" key={value} value={value}>
           {children}
