@@ -1,4 +1,3 @@
-import type { RequestError } from '@octokit/types'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { getOctokitWithAccessToken } from '@/server/root/github'
@@ -8,7 +7,7 @@ import {
   handleHttpErrorResponse
 } from '@/utils/root/http-errors'
 
-import type { TErrorResponse } from '@/types/root/server'
+import type { TErrorResponse, TOctokitRequestError } from '@/types/root/server'
 
 import { EPullRequestType } from '@/types/github/root/index'
 import type { PullReviewResponse } from '@/types/github/root/server'
@@ -54,8 +53,8 @@ export async function POST(
         event
       })
       .then((response) => response.data)
-      .catch((error: RequestError) => {
-        throw createHttpError(error.status, error)
+      .catch((error: TOctokitRequestError) => {
+        throw createHttpError(undefined, error)
       })
 
     return NextResponse.json(review, { status: 201 })

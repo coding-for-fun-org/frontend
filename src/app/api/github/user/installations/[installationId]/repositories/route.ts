@@ -1,4 +1,3 @@
-import type { RequestError } from '@octokit/types'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { getOctokitWithAccessToken } from '@/server/root/github'
@@ -8,7 +7,7 @@ import {
   handleHttpErrorResponse
 } from '@/utils/root/http-errors'
 
-import type { TErrorResponse } from '@/types/root/server'
+import type { TErrorResponse, TOctokitRequestError } from '@/types/root/server'
 
 import type { InstallationRepositoriesResponse } from '@/types/github/root/server'
 
@@ -39,9 +38,8 @@ export async function GET(
         ...(perPage && { per_page: Number(perPage) })
       })
       .then((response) => response.data)
-      .catch((error: RequestError) => {
-        console.error('error', error)
-        throw createHttpError(error?.status)
+      .catch((error: TOctokitRequestError) => {
+        throw createHttpError(undefined, error)
       })
 
     return NextResponse.json(repos, { status: 200 })

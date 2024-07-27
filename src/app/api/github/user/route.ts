@@ -2,7 +2,9 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { getOctokitWithAccessToken } from '@/server/root/github'
 
-import type { TErrorResponse } from '@/types/root/server'
+import { createHttpError } from '@/utils/root/http-errors'
+
+import type { TErrorResponse, TOctokitRequestError } from '@/types/root/server'
 
 import type { UserResponse } from '@/types/github/root/server'
 
@@ -27,6 +29,9 @@ export async function GET(
     const user = await octokit
       .request('GET /user')
       .then((response) => response.data)
+      .catch((error: TOctokitRequestError) => {
+        throw createHttpError(undefined, error)
+      })
 
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
