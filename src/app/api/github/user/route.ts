@@ -2,7 +2,10 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { getOctokitWithAccessToken } from '@/server/root/github'
 
-import { createHttpError } from '@/utils/root/http-errors'
+import {
+  createHttpError,
+  handleHttpErrorResponse
+} from '@/utils/root/http-errors'
 
 import type { TErrorResponse, TOctokitRequestError } from '@/types/root/server'
 
@@ -15,10 +18,7 @@ export async function GET(
     const accessToken = req.headers.get('authorization')
 
     if (!accessToken) {
-      return NextResponse.json(
-        { error: { message: 'Unauthorized' } },
-        { status: 401 }
-      )
+      throw createHttpError(401)
     }
 
     const octokit = getOctokitWithAccessToken(accessToken)
@@ -36,9 +36,6 @@ export async function GET(
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
     console.error('error', error)
-    return NextResponse.json(
-      { error: { message: 'Internal Server Error' } },
-      { status: 500 }
-    )
+    return handleHttpErrorResponse(error)
   }
 }
