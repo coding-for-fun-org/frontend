@@ -46,7 +46,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.5",
     "@octokit/types": "^13.5.0",
-    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^15.0.7",
     "@testing-library/user-event": "^14.5.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
