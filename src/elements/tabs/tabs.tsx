@@ -10,6 +10,10 @@ import {
   forwardRef
 } from 'react'
 
+import { Button } from '@/elements/root/button/button'
+
+import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+
 const TabsRoot = forwardRef<
   ElementRef<typeof Root>,
   ComponentPropsWithoutRef<typeof Root>
@@ -88,6 +92,7 @@ export const Tabs = ({
   onValueChange,
   ...props
 }: TTabsProps) => {
+  const { translate } = useDictionary()
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
       <TabsList data-testid="tabs-list">
@@ -97,6 +102,8 @@ export const Tabs = ({
           </TabsTrigger>
         ))}
       </TabsList>
+      <Button type="button" label={translate('GITHUB.EXPAND_ALL_BUTTON')} />
+      <Button type="button" label={translate('GITHUB.START_REVIEW_BUTTON')} />
       {values.map(({ value, children }) => (
         <TabsContent data-testid="tabs-content" key={value} value={value}>
           {children}
