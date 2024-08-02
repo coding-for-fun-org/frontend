@@ -1,13 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
 import { useFetchRepositories } from '@/components/github/root/bulk-pull-reviews/hooks'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
-import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
-import { getFlattenCheckedPulls } from '@/components/github/root/pulls-review-dialog/utils'
 
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
@@ -47,26 +43,12 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
 
 export const BulkPullReviews = () => {
   const { repos } = useRepos()
-  const flattenCheckedPulls = getFlattenCheckedPulls(repos)
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-
-  const handleSetIsOpenDialog = (open: boolean) => {
-    setIsDialogOpen(open)
-  }
 
   return (
-    <>
-      <div className="flex-grow">
-        <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-          <Repositories repos={repos} />
-        </ul>
-      </div>
-
-      <PullsReviewDialog
-        flattenCheckedPulls={flattenCheckedPulls}
-        isDialogOpen={isDialogOpen}
-        handleSetIsOpenDialog={handleSetIsOpenDialog}
-      />
-    </>
+    <div className="flex-grow">
+      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+        <Repositories repos={repos} />
+      </ul>
+    </div>
   )
 }

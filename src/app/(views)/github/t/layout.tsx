@@ -59,13 +59,11 @@ export default function Layout({
     switch (value as ETabValue) {
       case ETabValue.CONNECTIONS: {
         router.replace(urlService.github.connections())
-
         break
       }
 
       case ETabValue.PULLS: {
         router.replace(urlService.github.pulls())
-
         break
       }
     }
