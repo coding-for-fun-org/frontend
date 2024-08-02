@@ -9,6 +9,8 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import { urlService } from '@/services/root/url'
 
+import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-provider'
+
 enum ETabValue {
   CONNECTIONS = 'CONNECTIONS',
   PULLS = 'PULLS'
@@ -70,11 +72,13 @@ export default function Layout({
   }
 
   return (
-    <Tabs
-      className="h-full"
-      value={value}
-      onValueChange={handleValueChange}
-      values={tabValues}
-    />
+    <SelectedPullsProvider>
+      <Tabs
+        className="h-full"
+        value={value}
+        onValueChange={handleValueChange}
+        values={tabValues}
+      />
+    </SelectedPullsProvider>
   )
 }
