@@ -91,15 +91,17 @@ export const Tabs = ({
 }: TTabsProps) => {
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-      <TabsList data-testid="tabs-list">
-        {values.map(({ label, value }) => (
-          <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
-            {label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {value === 'PULLS' &&
-        values.map(({ value, actions }) => <div key={value}>{actions}</div>)}
+      <div className="flex justify-between">
+        <TabsList data-testid="tabs-list">
+          {values.map(({ label, value }) => (
+            <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {value === 'PULLS' &&
+          values.map(({ value, actions }) => <div key={value}>{actions}</div>)}
+      </div>
       {values.map(({ value, children }) => (
         <TabsContent data-testid="tabs-content" key={value} value={value}>
           {children}

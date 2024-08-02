@@ -9,11 +9,12 @@ import { useUpdateRepoOrPull } from '@/contexts/github/root/selected-pulls-provi
 export default function Page() {
   const { translate } = useDictionary()
   const { openAllRepo } = useUpdateRepoOrPull()
+
   const handleExpandAllClick = () => {
     openAllRepo()
   }
   return (
-    <div>
+    <div className="flex gap-4 h-fit">
       <Button
         type="button"
         label={translate('GITHUB.EXPAND_ALL_BUTTON')}
