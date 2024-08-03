@@ -89,6 +89,9 @@ export const Tabs = ({
   onValueChange,
   ...props
 }: TTabsProps) => {
+  const currentActions = values.find(
+    (tabValue) => tabValue.value === value
+  )?.actions
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
       <div className="flex justify-between">
@@ -99,8 +102,7 @@ export const Tabs = ({
             </TabsTrigger>
           ))}
         </TabsList>
-        {value === 'PULLS' &&
-          values.map(({ value, actions }) => <div key={value}>{actions}</div>)}
+        {currentActions && <div>{currentActions}</div>}
       </div>
       {values.map(({ value, children }) => (
         <TabsContent data-testid="tabs-content" key={value} value={value}>
