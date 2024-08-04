@@ -45,12 +45,12 @@ export default function Layout({
     {
       label: translate('GITHUB.TAB_CONNECTIONS_LABEL'),
       value: ETabValue.CONNECTIONS,
-      children: children
+      children
     },
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
       value: ETabValue.PULLS,
-      children: children,
+      children,
       actions: pullButtons
     }
   ]
