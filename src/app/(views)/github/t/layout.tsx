@@ -9,6 +9,8 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import { urlService } from '@/services/root/url'
 
+import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-provider'
+
 enum ETabValue {
   CONNECTIONS = 'CONNECTIONS',
   PULLS = 'PULLS'
@@ -28,7 +30,13 @@ const getValue = (pathname: string): ETabValue => {
   throw new Error('Invalid pathname')
 }
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout({
+  children,
+  pullButtons
+}: {
+  children: ReactNode
+  pullButtons: React.ReactNode
+}) {
   const { translate } = useDictionary()
   const pathname = usePathname()
   const router = useRouter()
@@ -42,7 +50,8 @@ export default function Layout({ children }: { children: ReactNode }) {
     {
       label: translate('GITHUB.TAB_BULK_PULL_REVIEWS_LABEL'),
       value: ETabValue.PULLS,
-      children
+      children,
+      actions: pullButtons
     }
   ]
 
@@ -50,24 +59,24 @@ export default function Layout({ children }: { children: ReactNode }) {
     switch (value as ETabValue) {
       case ETabValue.CONNECTIONS: {
         router.replace(urlService.github.connections())
-
         break
       }
 
       case ETabValue.PULLS: {
         router.replace(urlService.github.pulls())
-
         break
       }
     }
   }
 
   return (
-    <Tabs
-      className="h-full"
-      value={value}
-      onValueChange={handleValueChange}
-      values={tabValues}
-    />
+    <SelectedPullsProvider>
+      <Tabs
+        className="h-full"
+        value={value}
+        onValueChange={handleValueChange}
+        values={tabValues}
+      />
+    </SelectedPullsProvider>
   )
 }
