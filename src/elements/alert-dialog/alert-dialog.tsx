@@ -141,7 +141,7 @@ AlertDialogCancel.displayName = Cancel.displayName
 type TCustomProps = {
   title: ReactNode
   open: boolean
-  onOpenChange(open: boolean): void
+  onOpenChange(this: void, open: boolean): void
   children: ReactNode
   errorProps?: {
     title?: ReactNode

@@ -201,7 +201,7 @@ type TDropdownCheckboxValue = {
   label: string
   value: string
   checked: boolean
-  onCheckedChange(checked: boolean): void
+  onCheckedChange(this: void, checked: boolean): void
   disabled?: boolean
 }
 
@@ -229,7 +229,7 @@ type TDropdownRadioGroup = {
 type TDropdownRadioData = {
   groups: TDropdownRadioGroup[]
   value: string
-  onValueChange(value: string): void
+  onValueChange(this: void, value: string): void
   closeOnSelect?: boolean
 }
 
