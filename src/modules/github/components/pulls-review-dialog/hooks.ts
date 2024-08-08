@@ -94,6 +94,7 @@ export const useSubmitForm = () => {
           return accu
         }, [])
 
+        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
         return Promise.reject(errors)
       })
     }
