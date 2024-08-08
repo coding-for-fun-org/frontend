@@ -94,7 +94,7 @@ export const Tabs = ({
   )?.actions
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-      <div className="flex justify-between sticky top-14 z-30 bg-background">
+      <div className="flex justify-between sticky top-0 z-10 bg-background">
         <TabsList data-testid="tabs-list">
           {values.map(({ label, value }) => (
             <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
