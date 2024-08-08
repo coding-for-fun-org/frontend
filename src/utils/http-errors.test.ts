@@ -5,7 +5,7 @@ import {
 
 describe('http-errors', () => {
   describe('createHttpError', () => {
-    it('should default status code to 400 when not provided and error is undefined', () => {
+    it('should default status code to 400 when status is not provided and error is undefined', () => {
       const error = createHttpError()
 
       expect(error).toBeInstanceOf(Error)
@@ -39,7 +39,7 @@ describe('http-errors', () => {
   })
 
   describe('handleHttpErrorResponse', () => {
-    it(`should return an error with the correct status code, but we can't check response`, () => {
+    it("should return an error with the correct status code, but we can't check response", () => {
       const error = {
         status: 404,
         response: {
@@ -56,7 +56,7 @@ describe('http-errors', () => {
       expect(result.status).toEqual(error.status)
     })
 
-    it(`should return an error with the status code 400`, () => {
+    it('should return an error with the status code 400', () => {
       const error = {
         response: {
           data: {
