@@ -35,8 +35,9 @@ export default function Page() {
         <Button
           type="button"
           label={translate('GITHUB.EXPAND_ALL_BUTTON')}
+          disabled={repos === undefined}
           onClick={() => {
-            repos && handleExpandAllClick()
+            handleExpandAllClick()
           }}
         />
         <Button
