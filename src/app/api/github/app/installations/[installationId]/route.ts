@@ -1,4 +1,3 @@
-import type { RequestError } from '@octokit/types'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { getOctokitWithInstallationId } from '@/server/root/github'
@@ -8,7 +7,7 @@ import {
   handleHttpErrorResponse
 } from '@/utils/root/http-errors'
 
-import type { TErrorResponse } from '@/types/root/server'
+import type { TErrorResponse, TOctokitRequestError } from '@/types/root/server'
 
 import type {
   InstallationDeleteResponse,
@@ -37,9 +36,8 @@ export async function GET(
         installation_id: Number(installationId)
       })
       .then((response) => response.data)
-      .catch((error: RequestError) => {
-        console.error('error', error)
-        throw createHttpError(error?.status)
+      .catch((error: TOctokitRequestError) => {
+        throw createHttpError(undefined, error)
       })
 
     return NextResponse.json(installation, { status: 200 })
@@ -70,9 +68,8 @@ export async function DELETE(
       .request('DELETE /app/installations/{installation_id}', {
         installation_id: Number(installationId)
       })
-      .catch((error: RequestError) => {
-        console.error('error', error)
-        throw createHttpError(error?.status)
+      .catch((error: TOctokitRequestError) => {
+        throw createHttpError(undefined, error)
       })
 
     return new NextResponse(undefined, { status: 204 })
