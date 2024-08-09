@@ -49,7 +49,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
           <ClientProvider>
             <DictionaryProvider dictionary={dictionary}>
               <Header language={language} />
-              <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
+              <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] overflow-y-auto">
                 {children}
               </main>
             </DictionaryProvider>

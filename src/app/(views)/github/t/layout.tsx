@@ -72,7 +72,7 @@ export default function Layout({
   return (
     <SelectedPullsProvider>
       <Tabs
-        className="h-full overflow-y-auto"
+        className="h-full"
         value={value}
         onValueChange={handleValueChange}
         values={tabValues}

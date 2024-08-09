@@ -93,23 +93,25 @@ export const Tabs = ({
     (tabValue) => tabValue.value === value
   )?.actions
   return (
-    <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-      <div className="flex justify-between sticky top-0 z-10 bg-background">
-        <TabsList data-testid="tabs-list">
-          {values.map(({ label, value }) => (
-            <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
-              {label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {currentActions && <div>{currentActions}</div>}
-      </div>
-      {values.map(({ value, children }) => (
-        <TabsContent data-testid="tabs-content" key={value} value={value}>
-          {children}
-        </TabsContent>
-      ))}
-    </TabsRoot>
+    <div className="relative bg-background">
+      <TabsRoot value={value} onValueChange={onValueChange} {...props}>
+        <div className="pt-4 flex justify-between sticky top-0 z-10 bg-background">
+          <TabsList data-testid="tabs-list">
+            {values.map(({ label, value }) => (
+              <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {currentActions && <div>{currentActions}</div>}
+        </div>
+        {values.map(({ value, children }) => (
+          <TabsContent data-testid="tabs-content" key={value} value={value}>
+            {children}
+          </TabsContent>
+        ))}
+      </TabsRoot>
+    </div>
   )
 }
 Tabs.displayName = 'Tabs'
