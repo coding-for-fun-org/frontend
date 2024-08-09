@@ -68,7 +68,8 @@ export default {
         inherit: 'inherit'
       },
       height: {
-        inherit: 'inherit'
+        inherit: 'inherit',
+        header: '3.5rem'
       }
     }
   },

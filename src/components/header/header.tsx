@@ -15,8 +15,8 @@ type THeaderProps = {
 
 export const Header: FC<THeaderProps> = ({ language }) => {
   return (
-    <header className="sticky top-0 left-0 z-20 w-full border-b select-none shadow transition-colors bg-background">
-      <div className="container h-14 flex items-center">
+    <header className="container w-screen border-b select-none shadow transition-colors bg-background box-border h-header">
+      <div className="flex items-center h-full">
         <div className="flex flex-1 items-center space-x-2">
           <HeaderTitleButton />
         </div>

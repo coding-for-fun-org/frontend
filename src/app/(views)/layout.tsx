@@ -40,7 +40,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang={language}>
       <body
-        className={`flex flex-col min-h-screen ${notoSans.className}`}
+        className={`h-screen overflow-hidden ${notoSans.className}`}
         // suppressHydrationWarning={true} is used to prevent a warning from ThemeProvider
         // this is not an ideal solution, but it works for now
         suppressHydrationWarning
@@ -49,7 +49,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
           <ClientProvider>
             <DictionaryProvider dictionary={dictionary}>
               <Header language={language} />
-              <main className="relative container bg-background h-[calc(100vh-theme(space.14)-1px)] py-4">
+              <main className="relative container bg-background h-[calc(100vh-theme(height.header))] overflow-auto">
                 {children}
               </main>
             </DictionaryProvider>

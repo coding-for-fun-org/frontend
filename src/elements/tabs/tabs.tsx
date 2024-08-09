@@ -55,7 +55,7 @@ const TabsContent = forwardRef<
   <Content
     ref={ref}
     className={clsx(
-      'mt-2 h-[calc(100%-theme(space.10)-theme(space.2))] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       className
     )}
     {...props}
@@ -73,7 +73,8 @@ type TTabValue = {
 type TCustomProps = {
   values: TTabValue[]
   value: string
-  onValueChange(value: string): void
+  onValueChange(this: void, value: string): void
+  headerClassName?: string
 }
 
 type TTabsProps = Omit<
@@ -87,6 +88,7 @@ export const Tabs = ({
   values,
   value,
   onValueChange,
+  headerClassName,
   ...props
 }: TTabsProps) => {
   const currentActions = values.find(
@@ -94,7 +96,12 @@ export const Tabs = ({
   )?.actions
   return (
     <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-      <div className="flex justify-between">
+      <div
+        className={clsx(
+          'flex justify-between items-center bg-inherit',
+          headerClassName
+        )}
+      >
         <TabsList data-testid="tabs-list">
           {values.map(({ label, value }) => (
             <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
