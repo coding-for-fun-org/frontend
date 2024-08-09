@@ -73,7 +73,7 @@ type TTabValue = {
 type TCustomProps = {
   values: TTabValue[]
   value: string
-  onValueChange(value: string): void
+  onValueChange(this: void, value: string): void
 }
 
 type TTabsProps = Omit<

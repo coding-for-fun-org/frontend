@@ -51,7 +51,7 @@ type TRadioValue = {
 type TCustomProps = {
   values: TRadioValue[]
   value: string
-  onValueChange(value: string): void
+  onValueChange(this: void, value: string): void
 }
 
 type TRadioGroupProps = Omit<

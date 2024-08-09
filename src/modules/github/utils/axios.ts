@@ -33,7 +33,8 @@ axiosGithub.interceptors.request.use(
 
     return config
   },
-  (error) => Promise.reject(error)
+  (error) =>
+    Promise.reject(!(error instanceof Error) ? new Error(String(error)) : error)
 )
 
 const refreshAndRetryQueue: IRetryQueueItem[] = []
@@ -78,7 +79,13 @@ axiosGithub.interceptors.response.use(
             return new Promise((resolve, reject) => {
               axiosGithub(originalRequest)
                 .then((response) => resolve(response))
-                .catch((_error) => reject(_error))
+                .catch((_error) =>
+                  reject(
+                    !(_error instanceof Error)
+                      ? new Error(String(_error))
+                      : _error
+                  )
+                )
 
               refreshAndRetryQueue.forEach(({ config, resolve, reject }) => {
                 axiosGithub

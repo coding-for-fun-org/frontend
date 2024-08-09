@@ -12,7 +12,7 @@ import { EIsoLanguageCode } from '@/types/root/index'
 
 type TToggleLanguageIconButtonProps = {
   language: EIsoLanguageCode
-  setLanguage(lang: EIsoLanguageCode): Promise<void>
+  setLanguage(this: void, lang: EIsoLanguageCode): Promise<void>
 }
 
 export const ToggleLanguageIconButton = ({
