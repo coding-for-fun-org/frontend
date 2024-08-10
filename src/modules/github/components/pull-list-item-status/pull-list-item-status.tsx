@@ -29,13 +29,18 @@ export const PullListItemStatus = ({
   )
 
   if (isLoading) {
-    return <Skeleton variant="rect" className="!h-full" />
+    return (
+      <Skeleton data-testid="skeleton" variant="rect" className="!h-full" />
+    )
   }
 
   if (error) {
     return (
       <Tooltip tooltip={error.message} side="left">
-        <AlertTriangle className="w-full h-full text-error" />
+        <AlertTriangle
+          data-testid="error-icon"
+          className="w-full h-full text-error"
+        />
       </Tooltip>
     )
   }
@@ -43,7 +48,10 @@ export const PullListItemStatus = ({
   if (checkStatus === ECheckStatus.SUCCESS) {
     return (
       <Tooltip tooltip={checkStatusText} side="left">
-        <CheckIcon className="w-full h-full text-success" />
+        <CheckIcon
+          data-testid="success-icon"
+          className="w-full h-full text-success"
+        />
       </Tooltip>
     )
   }
@@ -51,14 +59,18 @@ export const PullListItemStatus = ({
   if (checkStatus === ECheckStatus.RUNNING) {
     return (
       <Tooltip tooltip={checkStatusText} side="left">
-        <Dot className="w-full h-full text-info" strokeWidth={5} />
+        <Dot
+          data-testid="running-icon"
+          className="w-full h-full text-info"
+          strokeWidth={5}
+        />
       </Tooltip>
     )
   }
 
   return (
     <Tooltip tooltip={checkStatusText} side="left">
-      <X className="w-full h-full text-error" />
+      <X data-testid="failed-icon" className="w-full h-full text-error" />
     </Tooltip>
   )
 }
