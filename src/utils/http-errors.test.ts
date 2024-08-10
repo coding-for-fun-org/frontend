@@ -49,10 +49,9 @@ describe('http-errors', () => {
           }
         }
       }
-
       const parsedError = createHttpError(error.status, error)
-
       const result = handleHttpErrorResponse(parsedError)
+
       expect(result.status).toEqual(error.status)
     })
 
@@ -67,9 +66,25 @@ describe('http-errors', () => {
       }
 
       const parsedError = createHttpError(undefined, error)
-
       const result = handleHttpErrorResponse(parsedError)
+
       expect(result.status).toEqual(400)
+    })
+
+    it('should return error message', async () => {
+      const error = {
+        status: 505,
+        message: 'it is message'
+      }
+
+      const parsedError = createHttpError(error.status, error.message)
+      const result = handleHttpErrorResponse(parsedError)
+      const resultResponse = (await result.json()) as {
+        error: { title: string }
+      }
+
+      expect(result.status).toEqual(error.status)
+      expect(resultResponse.error.title).toEqual(error.message)
     })
   })
 })
