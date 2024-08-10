@@ -55,7 +55,7 @@ const TabsContent = forwardRef<
   <Content
     ref={ref}
     className={clsx(
-      'mt-2 h-[calc(100%-theme(space.10)-theme(space.2))] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       className
     )}
     {...props}
@@ -74,6 +74,7 @@ type TCustomProps = {
   values: TTabValue[]
   value: string
   onValueChange(this: void, value: string): void
+  headerClassName?: string
 }
 
 type TTabsProps = Omit<
@@ -87,31 +88,35 @@ export const Tabs = ({
   values,
   value,
   onValueChange,
+  headerClassName,
   ...props
 }: TTabsProps) => {
   const currentActions = values.find(
     (tabValue) => tabValue.value === value
   )?.actions
   return (
-    <div className="relative bg-background">
-      <TabsRoot value={value} onValueChange={onValueChange} {...props}>
-        <div className="pt-4 flex justify-between sticky top-0 z-10 bg-background">
-          <TabsList data-testid="tabs-list">
-            {values.map(({ label, value }) => (
-              <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
-                {label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {currentActions && <div>{currentActions}</div>}
-        </div>
-        {values.map(({ value, children }) => (
-          <TabsContent data-testid="tabs-content" key={value} value={value}>
-            {children}
-          </TabsContent>
-        ))}
-      </TabsRoot>
-    </div>
+    <TabsRoot value={value} onValueChange={onValueChange} {...props}>
+      <div
+        className={clsx(
+          'flex justify-between items-center bg-inherit',
+          headerClassName
+        )}
+      >
+        <TabsList data-testid="tabs-list">
+          {values.map(({ label, value }) => (
+            <TabsTrigger data-testid="tabs-trigger" key={value} value={value}>
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {currentActions && <div>{currentActions}</div>}
+      </div>
+      {values.map(({ value, children }) => (
+        <TabsContent data-testid="tabs-content" key={value} value={value}>
+          {children}
+        </TabsContent>
+      ))}
+    </TabsRoot>
   )
 }
 Tabs.displayName = 'Tabs'
