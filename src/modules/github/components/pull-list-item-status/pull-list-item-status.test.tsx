@@ -1,6 +1,4 @@
-import { TooltipProvider } from '@radix-ui/react-tooltip'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/utils/root/test/testing-library'
 
 import { ECheckStatus } from '@/components/github/root/pull-list-item-status/types'
 
@@ -60,14 +58,12 @@ describe('PullListItemStatus', () => {
     })
 
     render(
-      <TooltipProvider>
-        <PullListItemStatus
-          installationId={1234}
-          owner="example"
-          repo="repo"
-          pull={examplePull}
-        />
-      </TooltipProvider>
+      <PullListItemStatus
+        installationId={1234}
+        owner="example"
+        repo="repo"
+        pull={examplePull}
+      />
     )
 
     expect(screen.getByTestId('error-icon')).toBeInTheDocument()
@@ -82,14 +78,12 @@ describe('PullListItemStatus', () => {
     })
 
     render(
-      <TooltipProvider>
-        <PullListItemStatus
-          installationId={1234}
-          owner="example"
-          repo="repo"
-          pull={examplePull}
-        />
-      </TooltipProvider>
+      <PullListItemStatus
+        installationId={1234}
+        owner="example"
+        repo="repo"
+        pull={examplePull}
+      />
     )
 
     expect(screen.getByTestId('success-icon')).toBeInTheDocument()
@@ -104,14 +98,12 @@ describe('PullListItemStatus', () => {
     })
 
     render(
-      <TooltipProvider>
-        <PullListItemStatus
-          installationId={1234}
-          owner="example"
-          repo="repo"
-          pull={examplePull}
-        />
-      </TooltipProvider>
+      <PullListItemStatus
+        installationId={1234}
+        owner="example"
+        repo="repo"
+        pull={examplePull}
+      />
     )
 
     expect(screen.getByTestId('running-icon')).toBeInTheDocument()
@@ -126,14 +118,12 @@ describe('PullListItemStatus', () => {
     })
 
     render(
-      <TooltipProvider>
-        <PullListItemStatus
-          installationId={1234}
-          owner="example"
-          repo="repo"
-          pull={examplePull}
-        />
-      </TooltipProvider>
+      <PullListItemStatus
+        installationId={1234}
+        owner="example"
+        repo="repo"
+        pull={examplePull}
+      />
     )
 
     expect(screen.getByTestId('failed-icon')).toBeInTheDocument()
