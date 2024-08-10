@@ -45,10 +45,8 @@ export const BulkPullReviews = () => {
   const { repos } = useRepos()
 
   return (
-    <div className="flex-grow">
-      <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        <Repositories repos={repos} />
-      </ul>
-    </div>
+    <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
+      <Repositories repos={repos} />
+    </ul>
   )
 }

@@ -35,7 +35,7 @@ export default function Layout({
   pullButtons
 }: {
   children: ReactNode
-  pullButtons: React.ReactNode
+  pullButtons: ReactNode
 }) {
   const { translate } = useDictionary()
   const pathname = usePathname()
@@ -72,7 +72,8 @@ export default function Layout({
   return (
     <SelectedPullsProvider>
       <Tabs
-        className="h-full"
+        className="bg-background pb-4"
+        headerClassName="top-0 h-16 sticky z-20"
         value={value}
         onValueChange={handleValueChange}
         values={tabValues}
