@@ -28,7 +28,7 @@ export default function Page() {
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const { openAllRepo } = useUpdateRepoOrPull()
+  const { openAllRepo, selectAllDependabot } = useUpdateRepoOrPull()
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
@@ -38,19 +38,39 @@ export default function Page() {
     openAllRepo()
   }
 
+  const handleSelectAllDependabotClick = () => {
+    if (repos) {
+      repos.map((repo) => {
+        console.log(`c.log ## repo ##`, repo)
+        if (repo.pulls) {
+          repo.pulls.map((pull) => {
+            if (pull.user.login === 'jisung-lee7') {
+              console.log(`c.log ## pull ##`, pull)
+              // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
+              selectAllDependabot(repo.owner, repo.name, pull.number)
+            }
+          })
+        }
+      })
+    }
+  }
+
   const values = [
     {
       label: translate('GITHUB.EXPAND_ALL_BUTTON'),
-      value: ESettingsCode.EXPAND_ALL_BUTTON
+      value: ESettingsCode.EXPAND_ALL_BUTTON,
+      disabled: repos === undefined
     },
     {
       label: translate('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS'),
-      value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS
+      value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
+      disabled: repos === undefined
     },
 
     {
       label: translate('GITHUB.START_REVIEW_BUTTON'),
-      value: ESettingsCode.START_REVIEW_BUTTON
+      value: ESettingsCode.START_REVIEW_BUTTON,
+      disabled: flattenCheckedPulls.length <= 0
     }
   ]
 
@@ -63,6 +83,7 @@ export default function Page() {
 
       case ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS: {
         console.log('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS')
+        handleSelectAllDependabotClick()
         break
       }
 
