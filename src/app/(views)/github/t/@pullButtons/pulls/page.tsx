@@ -23,6 +23,8 @@ export enum ESettingsCode {
   START_REVIEW_BUTTON = 'START_REVIEW_BUTTON'
 }
 
+const DEPENDABOT_USER_NAME = 'jisung-lee7'
+
 export default function Page() {
   const { repos } = useRepos()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
@@ -40,13 +42,13 @@ export default function Page() {
 
   const handleSelectAllDependabotClick = () => {
     if (repos) {
-      repos.map((repo) => {
+      repos.forEach((repo) => {
         console.log(`c.log ## repo ##`, repo)
         if (repo.pulls) {
-          repo.pulls.map((pull) => {
-            if (pull.user.login === 'jisung-lee7') {
+          repo.pulls.forEach((pull) => {
+            // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
+            if (pull.user.login === DEPENDABOT_USER_NAME) {
               console.log(`c.log ## pull ##`, pull)
-              // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
               selectAllDependabot(repo.owner, repo.name, pull.number)
             }
           })
@@ -70,7 +72,7 @@ export default function Page() {
     {
       label: translate('GITHUB.START_REVIEW_BUTTON'),
       value: ESettingsCode.START_REVIEW_BUTTON,
-      disabled: flattenCheckedPulls.length <= 0
+      disabled: flattenCheckedPulls.length === 0
     }
   ]
 
@@ -109,7 +111,7 @@ export default function Page() {
         <Button
           type="button"
           label={translate('GITHUB.START_REVIEW_BUTTON')}
-          disabled={flattenCheckedPulls.length <= 0}
+          disabled={flattenCheckedPulls.length === 0}
           onClick={() => {
             handleSetIsOpenDialog(true)
           }}
@@ -127,7 +129,7 @@ export default function Page() {
             variant="ghost"
             size="icon"
             icon={
-              <Tooltip tooltip={'NOT DECIDED'}>
+              <Tooltip tooltip={translate('GITHUB.SETTINGS_DROPDOWN')}>
                 <SettingsIcon className="w-full h-full" />
               </Tooltip>
             }
