@@ -99,24 +99,6 @@ export default function Page() {
   return (
     <>
       <div className="flex gap-4 h-fit">
-        <Button
-          type="button"
-          label={translate('GITHUB.EXPAND_ALL_BUTTON')}
-          disabled={repos === undefined}
-          onClick={() => {
-            handleExpandAllClick()
-          }}
-        />
-
-        <Button
-          type="button"
-          label={translate('GITHUB.START_REVIEW_BUTTON')}
-          disabled={flattenCheckedPulls.length === 0}
-          onClick={() => {
-            handleSetIsOpenDialog(true)
-          }}
-        />
-
         <Dropdown
           type="radio"
           data={{
