@@ -41,20 +41,21 @@ export default function Page() {
   }
 
   const handleSelectAllDependabotClick = () => {
-    if (repos) {
-      repos.forEach((repo) => {
-        console.log(`c.log ## repo ##`, repo)
-        if (repo.pulls) {
-          repo.pulls.forEach((pull) => {
-            // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
-            if (pull.user.login === DEPENDABOT_USER_NAME) {
-              console.log(`c.log ## pull ##`, pull)
-              selectAllDependabot(repo.owner, repo.name, pull.number)
-            }
-          })
-        }
-      })
+    if (!repos) {
+      return
     }
+    repos.forEach((repo) => {
+      console.log(`c.log ## repo ##`, repo)
+      if (repo.pulls) {
+        repo.pulls.forEach((pull) => {
+          // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
+          if (pull.user.login === DEPENDABOT_USER_NAME) {
+            console.log(`c.log ## pull ##`, pull)
+            selectAllDependabot(repo.owner, repo.name, pull.number)
+          }
+        })
+      }
+    })
   }
 
   const values = [
