@@ -1,7 +1,7 @@
 'use client'
 
 import { SettingsIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
 import { Dropdown } from '@/elements/root/dropdown/dropdown'
@@ -30,6 +30,7 @@ export default function Page() {
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [hasDependabotPulls, setHasDependabotPulls] = useState<boolean>(false)
   const { openAllRepo, selectAllDependabot } = useUpdateRepoOrPull()
 
   const handleSetIsOpenDialog = (open: boolean) => {
@@ -67,7 +68,7 @@ export default function Page() {
     {
       label: translate('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS'),
       value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
-      disabled: repos === undefined
+      disabled: hasDependabotPulls === false
     },
 
     {
@@ -96,6 +97,24 @@ export default function Page() {
       }
     }
   }
+
+  useEffect(() => {
+    if (!repos) {
+      return
+    }
+
+    repos.forEach((repo) => {
+      if (repo.pulls) {
+        repo.pulls.forEach((pull) => {
+          if (pull.user.login === DEPENDABOT_USER_NAME) {
+            setHasDependabotPulls(true)
+            return
+          }
+          setHasDependabotPulls(false)
+        })
+      }
+    })
+  }, [repos])
 
   return (
     <>
