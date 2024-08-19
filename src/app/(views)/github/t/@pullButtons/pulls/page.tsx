@@ -104,7 +104,7 @@ export default function Page() {
       if (!repo.pulls) {
         return
       }
-      repo.pulls.some((pull) => pull.user.login === DEPENDABOT_USER_NAME)
+      return repo.pulls.some((pull) => pull.user.login === DEPENDABOT_USER_NAME)
     })
 
     setHasDependabotPulls(hasDependabot)
