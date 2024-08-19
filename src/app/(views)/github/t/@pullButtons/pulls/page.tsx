@@ -23,7 +23,7 @@ export enum ESettingsCode {
   START_REVIEW_BUTTON = 'START_REVIEW_BUTTON'
 }
 
-const DEPENDABOT_USER_NAME = 'jisung-lee7'
+const DEPENDABOT_USER_NAME = 'dependabot[bot]'
 
 export default function Page() {
   const { repos } = useRepos()
@@ -45,13 +45,11 @@ export default function Page() {
     if (!repos) {
       return
     }
+
     repos.forEach((repo) => {
-      console.log(`c.log ## repo ##`, repo)
       if (repo.pulls) {
         repo.pulls.forEach((pull) => {
-          // I will decide which properties to use, such as user.login, name, and title, by looking at the actual Dependabot data.
           if (pull.user.login === DEPENDABOT_USER_NAME) {
-            console.log(`c.log ## pull ##`, pull)
             selectAllDependabot(repo.owner, repo.name, pull.number)
           }
         })
@@ -86,7 +84,6 @@ export default function Page() {
       }
 
       case ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS: {
-        console.log('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS')
         handleSelectAllDependabotClick()
         break
       }
@@ -103,17 +100,14 @@ export default function Page() {
       return
     }
 
-    repos.forEach((repo) => {
-      if (repo.pulls) {
-        repo.pulls.forEach((pull) => {
-          if (pull.user.login === DEPENDABOT_USER_NAME) {
-            setHasDependabotPulls(true)
-            return
-          }
-          setHasDependabotPulls(false)
-        })
+    const hasDependabot = repos.some((repo) => {
+      if (!repo.pulls) {
+        return
       }
+      repo.pulls.some((pull) => pull.user.login === DEPENDABOT_USER_NAME)
     })
+
+    setHasDependabotPulls(hasDependabot)
   }, [repos])
 
   return (
