@@ -352,9 +352,13 @@ export const selectedPullsReducer = (
         ...state,
         repos: state.repos.map((repo) => {
           if (isTargetRepo(repo)) {
+            if (!repo.pulls) {
+              return repo
+            }
+
             const isTargetPull = (pull: TPull) =>
               pull.number === payload.pullNumber
-            const hasTargetPull = repo.pulls!.some((pull) => isTargetPull(pull))
+            const hasTargetPull = repo.pulls.some((pull) => isTargetPull(pull))
 
             if (!hasTargetPull) {
               return repo
@@ -362,7 +366,7 @@ export const selectedPullsReducer = (
 
             return {
               ...repo,
-              pulls: repo.pulls!.map((pull) => {
+              pulls: repo.pulls.map((pull) => {
                 if (isTargetPull(pull)) {
                   return {
                     ...pull,
