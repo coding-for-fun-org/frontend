@@ -14,11 +14,11 @@ import type {
   RepoPullsResponse
 } from '@/types/github/root/server'
 
-export type TState = {
+type TState = {
   repos: TRepo[] | undefined
 }
 
-export type TSelectedPullActionType =
+type TSelectedPullActionType =
   | {
       type: 'set-repos'
       payload: {

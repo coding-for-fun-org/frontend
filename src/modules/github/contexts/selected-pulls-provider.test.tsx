@@ -1,12 +1,8 @@
-import {
-  type TSelectedPullActionType,
-  type TState,
-  selectedPullsReducer
-} from './selected-pulls-provider'
+import { selectedPullsReducer } from './selected-pulls-provider'
 
 describe('selectedPullsReducer', () => {
   it('should checked pull request to true when select-all-dependabot is dispatched', () => {
-    const initialState: TState = {
+    const initialState = {
       repos: [
         {
           installationId: 1,
@@ -30,7 +26,7 @@ describe('selectedPullsReducer', () => {
       ]
     }
 
-    const action: TSelectedPullActionType = {
+    const action = {
       type: 'select-all-dependabot',
       payload: {
         owner: 'owner1',
@@ -45,7 +41,7 @@ describe('selectedPullsReducer', () => {
   })
 
   it('should not modify state if the target repo has no pull requests', () => {
-    const initialState: TState = {
+    const initialState = {
       repos: [
         {
           installationId: 1,
@@ -58,7 +54,7 @@ describe('selectedPullsReducer', () => {
       ]
     }
 
-    const action: TSelectedPullActionType = {
+    const action = {
       type: 'select-all-dependabot',
       payload: {
         owner: 'owner1',
