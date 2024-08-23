@@ -6,6 +6,7 @@ import { type ReactNode } from 'react'
 import { Tabs } from '@/elements/root/tabs/tabs'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { FilterProvider } from '@/contexts/root/filter-provider/filter-provider'
 
 import { urlService } from '@/services/root/url'
 
@@ -71,13 +72,15 @@ export default function Layout({
 
   return (
     <SelectedPullsProvider>
-      <Tabs
-        className="bg-background pb-4"
-        headerClassName="top-0 h-16 sticky z-20"
-        value={value}
-        onValueChange={handleValueChange}
-        values={tabValues}
-      />
+      <FilterProvider>
+        <Tabs
+          className="bg-background pb-4"
+          headerClassName="top-0 h-16 sticky z-20"
+          value={value}
+          onValueChange={handleValueChange}
+          values={tabValues}
+        />
+      </FilterProvider>
     </SelectedPullsProvider>
   )
 }

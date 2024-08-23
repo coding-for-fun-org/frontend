@@ -8,6 +8,7 @@ import { Dropdown } from '@/elements/root/dropdown/dropdown'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
+import { useFilterChange } from '@/contexts/root/filter-provider/filter-provider'
 
 import { ELocalStorageKey } from '@/types/root/index'
 
@@ -35,10 +36,7 @@ export default function Page() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const { openAllRepo, selectAllDependabot } = useUpdateRepoOrPull()
   const { installations } = useInstallations()
-  const [filterValue, setFilterValue] = useState(
-    localStorage.getItem(ELocalStorageKey.INSTALLATION_ID)
-  )
-  console.log(`c.log ## installations ##`, installations)
+  const { filterValue, setFilterValue } = useFilterChange()
 
   const filterValues = (installations ?? []).map((installation) => {
     return {
@@ -46,8 +44,6 @@ export default function Page() {
       value: `${installation.id}`
     }
   })
-
-  console.log(`c.log ## filterValues ##`, filterValues)
 
   const settingValues = [
     {
@@ -74,7 +70,6 @@ export default function Page() {
       disabled: flattenCheckedPulls.length === 0
     }
   ]
-  console.log(`c.log ## settingValues ##`, settingValues)
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
