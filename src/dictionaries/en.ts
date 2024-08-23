@@ -32,6 +32,8 @@ export const dictionary = {
     START_REVIEW_BUTTON: 'Start Review',
     EXPAND_ALL_BUTTON: 'Expand All',
     PULL_REVIEW_FORM_REQUEST_CHANGES_BUTTON: 'Request Changes',
+    SELECT_ALL_DEPENDABOT_PULL_REQUESTS: 'Select all dependabot pull requests',
+    SETTINGS_DROPDOWN: 'Settings',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
     TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:

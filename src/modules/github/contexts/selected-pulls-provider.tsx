@@ -64,8 +64,16 @@ type TSelectedPullActionType =
       type: 'open-all-repo'
       payload?: never
     }
+  | {
+      type: 'select-all-dependabot'
+      payload: {
+        owner: string
+        repo: string
+        pullNumber: number
+      }
+    }
 
-const selectedPullsReducer = (
+export const selectedPullsReducer = (
   state: TState,
   action: TSelectedPullActionType
 ) => {
@@ -327,6 +335,55 @@ const selectedPullsReducer = (
       }
     }
 
+    case 'select-all-dependabot': {
+      if (!state.repos) {
+        throw new Error('There is no repos. This should not happen.')
+      }
+
+      const isTargetRepo = (repo: TRepo) =>
+        repo.owner === payload.owner && repo.name === payload.repo && repo.pulls
+      const hasTargetRepo = state.repos.some((repo) => isTargetRepo(repo))
+
+      if (!hasTargetRepo) {
+        return state
+      }
+
+      return {
+        ...state,
+        repos: state.repos.map((repo) => {
+          if (isTargetRepo(repo)) {
+            if (!repo.pulls) {
+              return repo
+            }
+
+            const isTargetPull = (pull: TPull) =>
+              pull.number === payload.pullNumber
+            const hasTargetPull = repo.pulls.some((pull) => isTargetPull(pull))
+
+            if (!hasTargetPull) {
+              return repo
+            }
+
+            return {
+              ...repo,
+              pulls: repo.pulls.map((pull) => {
+                if (isTargetPull(pull)) {
+                  return {
+                    ...pull,
+                    checked: true
+                  }
+                }
+
+                return pull
+              })
+            }
+          }
+
+          return repo
+        })
+      }
+    }
+
     default:
       throw new Error('Invalid action type')
   }
@@ -451,6 +508,12 @@ export const useUpdateRepoOrPull = () => {
     },
     openAllRepo: () => {
       dispatch({ type: 'open-all-repo' })
+    },
+    selectAllDependabot: (owner: string, repo: string, pullNumber: number) => {
+      dispatch({
+        type: 'select-all-dependabot',
+        payload: { owner, repo, pullNumber }
+      })
     }
   }
 }

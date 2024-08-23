@@ -1,8 +1,11 @@
 'use client'
 
+import { SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
+import { Dropdown } from '@/elements/root/dropdown/dropdown'
+import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -14,12 +17,20 @@ import {
   useUpdateRepoOrPull
 } from '@/contexts/github/root/selected-pulls-provider'
 
+export enum ESettingsCode {
+  EXPAND_ALL_BUTTON = 'EXPAND_ALL_BUTTON',
+  SELECT_ALL_DEPENDABOT_PULL_REQUESTS = 'SELECT_ALL_DEPENDABOT_PULL_REQUESTS',
+  START_REVIEW_BUTTON = 'START_REVIEW_BUTTON'
+}
+
+const DEPENDABOT_USER_NAME = 'dependabot[bot]'
+
 export default function Page() {
   const { repos } = useRepos()
   const flattenCheckedPulls = getFlattenCheckedPulls(repos)
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const { openAllRepo } = useUpdateRepoOrPull()
+  const { openAllRepo, selectAllDependabot } = useUpdateRepoOrPull()
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
@@ -29,25 +40,87 @@ export default function Page() {
     openAllRepo()
   }
 
+  const handleSelectAllDependabotClick = () => {
+    if (!repos) {
+      return
+    }
+
+    repos.forEach((repo) => {
+      if (repo.pulls) {
+        repo.pulls.forEach((pull) => {
+          if (pull.user.login === DEPENDABOT_USER_NAME) {
+            selectAllDependabot(repo.owner, repo.name, pull.number)
+          }
+        })
+      }
+    })
+  }
+
+  const values = [
+    {
+      label: translate('GITHUB.EXPAND_ALL_BUTTON'),
+      value: ESettingsCode.EXPAND_ALL_BUTTON,
+      disabled: repos === undefined
+    },
+    {
+      label: translate('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS'),
+      value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
+      disabled:
+        repos === undefined ||
+        !(repos ?? []).some((repo) =>
+          (repo.pulls ?? []).some(
+            (pull) => pull.user.login === DEPENDABOT_USER_NAME
+          )
+        )
+    },
+
+    {
+      label: translate('GITHUB.START_REVIEW_BUTTON'),
+      value: ESettingsCode.START_REVIEW_BUTTON,
+      disabled: flattenCheckedPulls.length === 0
+    }
+  ]
+
+  const handleValueChange = (value: string) => {
+    switch (value as ESettingsCode) {
+      case ESettingsCode.EXPAND_ALL_BUTTON: {
+        handleExpandAllClick()
+        break
+      }
+
+      case ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS: {
+        handleSelectAllDependabotClick()
+        break
+      }
+
+      case ESettingsCode.START_REVIEW_BUTTON: {
+        handleSetIsOpenDialog(true)
+        break
+      }
+    }
+  }
+
   return (
     <>
       <div className="flex gap-4 h-fit">
-        <Button
-          type="button"
-          label={translate('GITHUB.EXPAND_ALL_BUTTON')}
-          disabled={repos === undefined}
-          onClick={() => {
-            handleExpandAllClick()
+        <Dropdown
+          type="radio"
+          data={{
+            groups: [{ label: '', items: values }],
+            value: '',
+            onValueChange: handleValueChange
           }}
-        />
-        <Button
-          type="button"
-          label={translate('GITHUB.START_REVIEW_BUTTON')}
-          disabled={flattenCheckedPulls.length <= 0}
-          onClick={() => {
-            handleSetIsOpenDialog(true)
-          }}
-        />
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            icon={
+              <Tooltip tooltip={translate('GITHUB.SETTINGS_DROPDOWN')}>
+                <SettingsIcon className="w-full h-full" />
+              </Tooltip>
+            }
+          />
+        </Dropdown>
       </div>
 
       <PullsReviewDialog
