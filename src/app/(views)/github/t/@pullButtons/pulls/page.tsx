@@ -67,11 +67,10 @@ export default function Page() {
       value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
       disabled:
         repos === undefined ||
-        (repos ?? []).every(
-          (repo) =>
-            !(repo.pulls ?? []).some(
-              (pull) => pull.user.login === DEPENDABOT_USER_NAME
-            )
+        !(repos ?? []).some((repo) =>
+          (repo.pulls ?? []).some(
+            (pull) => pull.user.login === DEPENDABOT_USER_NAME
+          )
         )
     },
 
