@@ -8,7 +8,6 @@ import { Dropdown } from '@/elements/root/dropdown/dropdown'
 import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
-import { useFilterChange } from '@/contexts/root/filter-provider/filter-provider'
 
 import { ELocalStorageKey } from '@/types/root/index'
 
@@ -16,6 +15,7 @@ import { useInstallations } from '@/components/github/root/connections/hooks'
 import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 import { getFlattenCheckedPulls } from '@/components/github/root/pulls-review-dialog/utils'
 
+import { useFilterChange } from '@/contexts/github/root/filter-provider/filter-provider'
 import {
   useRepos,
   useUpdateRepoOrPull

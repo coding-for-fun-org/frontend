@@ -6,11 +6,11 @@ import { type ReactNode } from 'react'
 import { Tabs } from '@/elements/root/tabs/tabs'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
-import { FilterProvider } from '@/contexts/root/filter-provider/filter-provider'
 
 import { urlService } from '@/services/root/url'
 
 import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-provider'
+import { FilterProviderWidhInstallations } from '@/contexts/github/root/filter-provider/filter-provider-widh-installations'
 
 enum ETabValue {
   CONNECTIONS = 'CONNECTIONS',
@@ -72,15 +72,15 @@ export default function Layout({
 
   return (
     <SelectedPullsProvider>
-      <FilterProvider>
-        <Tabs
-          className="bg-background pb-4"
-          headerClassName="top-0 h-16 sticky z-20"
-          value={value}
-          onValueChange={handleValueChange}
-          values={tabValues}
-        />
-      </FilterProvider>
+      <FilterProviderWidhInstallations>
+      <Tabs
+        className="bg-background pb-4"
+        headerClassName="top-0 h-16 sticky z-20"
+        value={value}
+        onValueChange={handleValueChange}
+        values={tabValues}
+      />
+      </FilterProviderWidhInstallations>
     </SelectedPullsProvider>
   )
 }
