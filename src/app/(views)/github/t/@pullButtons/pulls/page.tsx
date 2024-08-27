@@ -140,7 +140,9 @@ export default function Page() {
             size="icon"
             icon={
               <Tooltip tooltip={translate('GITHUB.FILTER_DROPDOWN')}>
-                <FilterIcon className="w-full h-full" />
+                <FilterIcon
+                  className={`w-full h-full ${filterValue === 'All' ? '' : 'text-blue-500'}`}
+                />
               </Tooltip>
             }
           />
