@@ -40,7 +40,7 @@ export const FilterProvider: FC<FilterProviderProps> = ({
     )
 
     if (targetInstallation === undefined) {
-      return String(installations[0]!.id)
+      return 'All'
     }
 
     return String(targetInstallation.id)

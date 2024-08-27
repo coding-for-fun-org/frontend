@@ -45,14 +45,14 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
 export const BulkPullReviews = () => {
   const { repos } = useRepos()
   const { filterValue } = useFilterChange()
+  const filteredRepos =
+    filterValue === 'All'
+      ? repos
+      : repos?.filter((repo) => `${repo.installationId}` === filterValue)
 
   return (
     <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
-      <Repositories
-        repos={repos?.filter(
-          (repo) => `${repo.installationId}` === filterValue
-        )}
-      />
+      <Repositories repos={filteredRepos} />
     </ul>
   )
 }

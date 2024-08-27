@@ -38,12 +38,15 @@ export default function Page() {
   const { installations } = useInstallations()
   const { filterValue, setFilterValue } = useFilterChange()
 
-  const filterValues = (installations ?? []).map((installation) => {
-    return {
-      label: installation.owner,
-      value: `${installation.id}`
-    }
-  })
+  const filterValues = [
+    { label: 'All', value: 'All' },
+    ...(installations ?? []).map((installation) => {
+      return {
+        label: installation.owner,
+        value: `${installation.id}`
+      }
+    })
+  ]
 
   const settingValues = [
     {
