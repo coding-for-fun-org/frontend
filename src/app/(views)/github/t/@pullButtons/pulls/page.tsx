@@ -34,7 +34,6 @@ export default function Page() {
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
-    document.body.style.pointerEvents = 'auto'
   }
 
   const handleExpandAllClick = () => {
@@ -95,7 +94,9 @@ export default function Page() {
       }
 
       case ESettingsCode.START_REVIEW_BUTTON: {
-        handleSetIsOpenDialog(true)
+        setTimeout(() => {
+          handleSetIsOpenDialog(true)
+        }, 0)
         break
       }
     }
