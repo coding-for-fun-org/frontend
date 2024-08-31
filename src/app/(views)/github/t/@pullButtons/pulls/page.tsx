@@ -34,6 +34,7 @@ export default function Page() {
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
+    document.body.style.pointerEvents = 'auto'
   }
 
   const handleExpandAllClick = () => {
