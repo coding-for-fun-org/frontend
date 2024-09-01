@@ -35,6 +35,7 @@ export const dictionary = {
     SELECT_ALL_DEPENDABOT_PULL_REQUESTS: 'Select all dependabot pull requests',
     FILTER_DROPDOWN: 'Filters',
     SETTINGS_DROPDOWN: 'Settings',
+    ALL_DROPDOWN: 'All',
     PULL_REVIEW_FORM_COMMENT_PLACEHOLDER: 'Leave a comment',
     TOAST_ADD_CONNECTION_SUCCESS_DESCRIPTION: 'Add connection successfully.',
     TOAST_DELETE_CONNECTION_SUCCESS_DESCRIPTION:

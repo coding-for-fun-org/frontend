@@ -24,6 +24,8 @@ interface FilterProviderProps {
   installations: TGithubInstallation[]
 }
 
+const ALL_INSTALLATION = 'All'
+
 export const FilterProvider: FC<FilterProviderProps> = ({
   children,
   installations
@@ -40,7 +42,7 @@ export const FilterProvider: FC<FilterProviderProps> = ({
     )
 
     if (targetInstallation === undefined) {
-      return 'All'
+      return ALL_INSTALLATION
     }
 
     return String(targetInstallation.id)

@@ -39,7 +39,7 @@ export default function Page() {
   const { filterValue, setFilterValue } = useFilterChange()
 
   const filterValues = [
-    { label: 'All', value: 'All' },
+    { label: translate('GITHUB.ALL_DROPDOWN'), value: 'All' },
     ...(installations ?? []).map((installation) => {
       return {
         label: installation.owner,
