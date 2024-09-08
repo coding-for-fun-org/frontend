@@ -5,7 +5,10 @@ import { Skeleton } from '@/elements/root/skeleton/skeleton'
 import { useFetchRepositories } from '@/components/github/root/bulk-pull-reviews/hooks'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 
-import { useFilterChange } from '@/contexts/github/root/filter-provider/filter-provider'
+import {
+  ALL_INSTALLATION,
+  useFilterChange
+} from '@/contexts/github/root/filter-provider/filter-provider'
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import type { TRepo } from '@/types/github/root/index'
@@ -46,7 +49,7 @@ export const BulkPullReviews = () => {
   const { repos } = useRepos()
   const { filterValue } = useFilterChange()
   const filteredRepos =
-    filterValue === 'All'
+    filterValue === ALL_INSTALLATION
       ? repos
       : repos?.filter((repo) => `${repo.installationId}` === filterValue)
 

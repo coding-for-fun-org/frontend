@@ -15,7 +15,10 @@ import { useInstallations } from '@/components/github/root/connections/hooks'
 import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 import { getFlattenCheckedPulls } from '@/components/github/root/pulls-review-dialog/utils'
 
-import { useFilterChange } from '@/contexts/github/root/filter-provider/filter-provider'
+import {
+  ALL_INSTALLATION,
+  useFilterChange
+} from '@/contexts/github/root/filter-provider/filter-provider'
 import {
   useRepos,
   useUpdateRepoOrPull
@@ -39,7 +42,7 @@ export default function Page() {
   const { filterValue, setFilterValue } = useFilterChange()
 
   const filterValues = [
-    { label: translate('GITHUB.ALL_DROPDOWN'), value: 'All' },
+    { label: translate('GITHUB.ALL_DROPDOWN'), value: ALL_INSTALLATION },
     ...(installations ?? []).map((installation) => {
       return {
         label: installation.owner,
@@ -141,7 +144,7 @@ export default function Page() {
             icon={
               <Tooltip tooltip={translate('GITHUB.FILTER_DROPDOWN')}>
                 <FilterIcon
-                  className={`w-full h-full ${filterValue === 'All' ? '' : 'text-blue-500'}`}
+                  className={`w-full h-full ${filterValue === ALL_INSTALLATION ? '' : 'text-blue-500'}`}
                 />
               </Tooltip>
             }

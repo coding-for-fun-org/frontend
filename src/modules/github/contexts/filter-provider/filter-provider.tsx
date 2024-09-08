@@ -24,7 +24,7 @@ interface FilterProviderProps {
   installations: TGithubInstallation[]
 }
 
-const ALL_INSTALLATION = 'All'
+export const ALL_INSTALLATION = 'All'
 
 export const FilterProvider: FC<FilterProviderProps> = ({
   children,
