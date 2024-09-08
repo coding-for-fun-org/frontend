@@ -94,7 +94,9 @@ export default function Page() {
       }
 
       case ESettingsCode.START_REVIEW_BUTTON: {
-        handleSetIsOpenDialog(true)
+        setTimeout(() => {
+          handleSetIsOpenDialog(true)
+        }, 0)
         break
       }
     }
