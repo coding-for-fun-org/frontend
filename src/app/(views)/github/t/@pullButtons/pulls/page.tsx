@@ -1,6 +1,6 @@
 'use client'
 
-import { SettingsIcon } from 'lucide-react'
+import { FilterIcon, SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/elements/root/button/button'
@@ -9,9 +9,16 @@ import { Tooltip } from '@/elements/root/tooltip/tooltip'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
+import { ELocalStorageKey } from '@/types/root/index'
+
+import { useInstallations } from '@/components/github/root/connections/hooks'
 import { PullsReviewDialog } from '@/components/github/root/pulls-review-dialog/pulls-review-dialog'
 import { getFlattenCheckedPulls } from '@/components/github/root/pulls-review-dialog/utils'
 
+import {
+  ALL_INSTALLATION,
+  useFilterChange
+} from '@/contexts/github/root/filter-provider/filter-provider'
 import {
   useRepos,
   useUpdateRepoOrPull
@@ -31,6 +38,44 @@ export default function Page() {
   const { translate } = useDictionary()
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const { openAllRepo, selectAllDependabot } = useUpdateRepoOrPull()
+  const { installations } = useInstallations()
+  const { filterValue, setFilterValue } = useFilterChange()
+
+  const filterValues = [
+    { label: translate('GITHUB.ALL_DROPDOWN'), value: ALL_INSTALLATION },
+    ...(installations ?? []).map((installation) => {
+      return {
+        label: installation.owner,
+        value: `${installation.id}`
+      }
+    })
+  ]
+
+  const settingValues = [
+    {
+      label: translate('GITHUB.EXPAND_ALL_BUTTON'),
+      value: ESettingsCode.EXPAND_ALL_BUTTON,
+      disabled: repos === undefined
+    },
+    {
+      label: translate('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS'),
+      value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
+      disabled:
+        repos === undefined ||
+        (repos ?? []).every(
+          (repo) =>
+            !(repo.pulls ?? []).some(
+              (pull) => pull.user.login === DEPENDABOT_USER_NAME
+            )
+        )
+    },
+
+    {
+      label: translate('GITHUB.START_REVIEW_BUTTON'),
+      value: ESettingsCode.START_REVIEW_BUTTON,
+      disabled: flattenCheckedPulls.length === 0
+    }
+  ]
 
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
@@ -56,32 +101,12 @@ export default function Page() {
     })
   }
 
-  const values = [
-    {
-      label: translate('GITHUB.EXPAND_ALL_BUTTON'),
-      value: ESettingsCode.EXPAND_ALL_BUTTON,
-      disabled: repos === undefined
-    },
-    {
-      label: translate('GITHUB.SELECT_ALL_DEPENDABOT_PULL_REQUESTS'),
-      value: ESettingsCode.SELECT_ALL_DEPENDABOT_PULL_REQUESTS,
-      disabled:
-        repos === undefined ||
-        !(repos ?? []).some((repo) =>
-          (repo.pulls ?? []).some(
-            (pull) => pull.user.login === DEPENDABOT_USER_NAME
-          )
-        )
-    },
+  const handleFilterChange = (value: string) => {
+    localStorage.setItem(ELocalStorageKey.INSTALLATION_ID, value)
+    setFilterValue(value)
+  }
 
-    {
-      label: translate('GITHUB.START_REVIEW_BUTTON'),
-      value: ESettingsCode.START_REVIEW_BUTTON,
-      disabled: flattenCheckedPulls.length === 0
-    }
-  ]
-
-  const handleValueChange = (value: string) => {
+  const handleSettingChange = (value: string) => {
     switch (value as ESettingsCode) {
       case ESettingsCode.EXPAND_ALL_BUTTON: {
         handleExpandAllClick()
@@ -108,9 +133,30 @@ export default function Page() {
         <Dropdown
           type="radio"
           data={{
-            groups: [{ label: '', items: values }],
+            groups: [{ label: '', items: filterValues }],
+            value: filterValue ?? '',
+            onValueChange: handleFilterChange
+          }}
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            icon={
+              <Tooltip tooltip={translate('GITHUB.FILTER_DROPDOWN')}>
+                <FilterIcon
+                  className={`w-full h-full ${filterValue === ALL_INSTALLATION ? '' : 'text-blue-500'}`}
+                />
+              </Tooltip>
+            }
+          />
+        </Dropdown>
+
+        <Dropdown
+          type="radio"
+          data={{
+            groups: [{ label: '', items: settingValues }],
             value: '',
-            onValueChange: handleValueChange
+            onValueChange: handleSettingChange
           }}
         >
           <Button

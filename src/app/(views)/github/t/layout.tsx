@@ -9,6 +9,7 @@ import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-pr
 
 import { urlService } from '@/services/root/url'
 
+import { FilterProviderWidhInstallations } from '@/contexts/github/root/filter-provider/filter-provider-widh-installations'
 import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-provider'
 
 enum ETabValue {
@@ -71,13 +72,15 @@ export default function Layout({
 
   return (
     <SelectedPullsProvider>
-      <Tabs
-        className="bg-background pb-4"
-        headerClassName="top-0 h-16 sticky z-20"
-        value={value}
-        onValueChange={handleValueChange}
-        values={tabValues}
-      />
+      <FilterProviderWidhInstallations>
+        <Tabs
+          className="bg-background pb-4"
+          headerClassName="top-0 h-16 sticky z-20"
+          value={value}
+          onValueChange={handleValueChange}
+          values={tabValues}
+        />
+      </FilterProviderWidhInstallations>
     </SelectedPullsProvider>
   )
 }

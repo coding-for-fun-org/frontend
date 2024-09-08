@@ -22,7 +22,8 @@ export enum ECookieKey {
 
 export enum ELocalStorageKey {
   THEME = `${USER_STORE_PREFIX}-theme`,
-  AUTH_GITHUB_ACCESS_TOKEN = `${USER_STORE_PREFIX}-access-token`
+  AUTH_GITHUB_ACCESS_TOKEN = `${USER_STORE_PREFIX}-access-token`,
+  INSTALLATION_ID = `${USER_STORE_PREFIX}-installationID`
 }
 
 export enum ETheme {
