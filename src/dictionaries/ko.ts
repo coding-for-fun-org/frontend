@@ -48,6 +48,7 @@ export const dictionary = {
       '확인시 이전으로 돌아갈 수 없습니다',
     TAB_BULK_PULL_REVIEWS_LABEL: '대량 Pull Request 리뷰',
     TAB_CONNECTIONS_LABEL: '연결',
+    TAB_READY_MERGE_PULL_REQUEST_LABEL: 'Merge 대기',
     PULL_CHECK_STATUS_TEXT: '{{successCount}} / {{totalCount}} checks OK'
   },
   HEADER: {
