@@ -14,7 +14,8 @@ import { SelectedPullsProvider } from '@/contexts/github/root/selected-pulls-pro
 
 enum ETabValue {
   CONNECTIONS = 'CONNECTIONS',
-  PULLS = 'PULLS'
+  PULLS = 'PULLS',
+  MERGE = 'MERGE'
 }
 
 const getValue = (pathname: string): ETabValue => {
@@ -25,6 +26,10 @@ const getValue = (pathname: string): ETabValue => {
 
     case urlService.github.pulls(): {
       return ETabValue.PULLS
+    }
+
+    case urlService.github.merge(): {
+      return ETabValue.MERGE
     }
   }
 
@@ -53,6 +58,11 @@ export default function Layout({
       value: ETabValue.PULLS,
       children,
       actions: pullButtons
+    },
+    {
+      label: translate('GITHUB.TAB_READY_MERGE_PULL_REQUEST_LABEL'),
+      value: ETabValue.MERGE,
+      children
     }
   ]
 
@@ -65,6 +75,11 @@ export default function Layout({
 
       case ETabValue.PULLS: {
         router.replace(urlService.github.pulls())
+        break
+      }
+
+      case ETabValue.MERGE: {
+        router.replace(urlService.github.merge())
         break
       }
     }

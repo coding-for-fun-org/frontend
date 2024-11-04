@@ -48,6 +48,7 @@ export const dictionary = {
     CONNECTION_DELETE_CONNECTION_DESCRIPTION_2: 'You can not undo this action.',
     TAB_BULK_PULL_REVIEWS_LABEL: 'Bulk Pull Request Reviews',
     TAB_CONNECTIONS_LABEL: 'Connections',
+    TAB_READY_MERGE_PULL_REQUEST_LABEL: 'Ready Merge Pull Request',
     PULL_CHECK_STATUS_TEXT: '{{successCount}} / {{totalCount}} checks OK'
   },
   HEADER: {

@@ -16,6 +16,9 @@ export const urlService = {
     },
     pulls() {
       return '/github/t/pulls'
+    },
+    merge() {
+      return '/github/t/merge'
     }
   }
 }
