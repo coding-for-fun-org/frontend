@@ -12,22 +12,10 @@ interface IStepperProps {
 }
 
 const Stepper = ({ currentStep, steps, handleStepClick }: IStepperProps) => {
-  const cureentStepLastIndex = steps.length - 1
-
   const handleToPrevious = () => {
     if (currentStep > 0) {
       handleStepClick(-1)
     }
-  }
-
-  const handleToNext = () => {
-    if (currentStep < cureentStepLastIndex) {
-      handleStepClick(1)
-    }
-  }
-
-  const handleToSubmit = () => {
-    console.log('run handleToSubmit()')
   }
 
   return (
@@ -41,11 +29,6 @@ const Stepper = ({ currentStep, steps, handleStepClick }: IStepperProps) => {
           <Button onClick={handleToPrevious} disabled={currentStep === 0}>
             Previous
           </Button>
-          {currentStep !== cureentStepLastIndex ? (
-            <Button onClick={handleToNext}>Next</Button>
-          ) : (
-            <Button onClick={handleToSubmit}>Submit</Button>
-          )}
         </div>
       </>
     </div>
