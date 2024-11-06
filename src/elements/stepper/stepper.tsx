@@ -8,7 +8,7 @@ interface IStepperProps {
   steps: Stepper[]
 }
 
-const Stepper = ({ currentStep, steps }: IStepperProps) => {
+export const Stepper = ({ currentStep, steps }: IStepperProps) => {
   return (
     <div>
       <>
@@ -20,5 +20,3 @@ const Stepper = ({ currentStep, steps }: IStepperProps) => {
     </div>
   )
 }
-
-export default Stepper
