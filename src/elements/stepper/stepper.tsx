@@ -1,22 +1,24 @@
+import { type ReactNode } from 'react'
+
 interface Stepper {
   value: number
   label: string
 }
 
 interface IStepperProps {
+  children: ReactNode
   currentStep: number
   steps: Stepper[]
 }
 
-export const Stepper = ({ currentStep, steps }: IStepperProps) => {
+export const Stepper = ({ children, currentStep, steps }: IStepperProps) => {
   return (
     <div>
-      <>
-        <div>
-          <h3>Step {steps[currentStep]!.value}</h3>
-          <div>{steps[currentStep]!.label}</div>
-        </div>
-      </>
+      <div>
+        {children}
+        <div>{steps[currentStep]!.value}</div>
+        <div>{steps[currentStep]!.label}</div>
+      </div>
     </div>
   )
 }
