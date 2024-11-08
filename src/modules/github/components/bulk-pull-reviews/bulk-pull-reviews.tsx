@@ -51,7 +51,7 @@ export const BulkPullReviews = () => {
   const filteredRepos =
     filterValue === ALL_INSTALLATION
       ? repos
-      : repos?.filter((repo) => `${repo.installationId}` === filterValue)
+      : repos?.filter((repo) => String(repo.installationId) === filterValue)
 
   return (
     <ul className="flex flex-1 flex-col gap-2 overflow-y-auto">
