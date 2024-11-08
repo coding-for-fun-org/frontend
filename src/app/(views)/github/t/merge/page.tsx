@@ -2,5 +2,9 @@
 
 // just using a client component not to think too much about it
 export default function Page() {
-  return <div>Merge page</div>
+  return (
+    <div>
+      <h1>Merge page</h1>
+    </div>
+  )
 }
