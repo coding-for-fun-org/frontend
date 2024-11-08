@@ -27,7 +27,7 @@ export default function Page() {
     <div>
       <h1>Merge page</h1>
       <Stepper
-        children={<h2>Step</h2>}
+        title={<h2>Step</h2>}
         currentStep={currentStep}
         steps={mockData}
       />

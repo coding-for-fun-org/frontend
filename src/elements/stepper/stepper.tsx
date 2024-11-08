@@ -6,17 +6,16 @@ interface Stepper {
 }
 
 interface IStepperProps {
-  children: ReactNode
+  title: ReactNode
   currentStep: number
   steps: Stepper[]
 }
 
-export const Stepper = ({ children, currentStep, steps }: IStepperProps) => {
+export const Stepper = ({ title, currentStep, steps }: IStepperProps) => {
   return (
     <div>
       <div>
-        {children}
-        <div>{steps[currentStep]!.value}</div>
+        {title}
         <div>{steps[currentStep]!.label}</div>
       </div>
     </div>
