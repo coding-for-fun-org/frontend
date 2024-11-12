@@ -1,6 +1,7 @@
 'use client'
 
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
+import { Table } from '@/elements/root/table/table'
 
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 
@@ -29,19 +30,45 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
 
   return (
     <>
-      {repos
-        ? repos.map((repo) => (
-            <PullListByRepo
-              key={`${repo.owner}-${repo.name}`}
-              installationId={repo.installationId}
-              owner={repo.owner}
-              repo={repo.name}
-              repoUrl={repo.url}
-              pulls={repo.pulls}
-              isRepoOpen={repo.isOpen}
-            />
-          ))
-        : null}
+      {repos ? (
+        <Table
+          headers={[
+            {
+              key: 'header',
+              items: [
+                {
+                  key: 'header-cell-0',
+                  children: 'RH'
+                }
+              ]
+            }
+          ]}
+          cells={repos.map((repo) => ({
+            key: `row-${repo.owner}-${repo.name}`,
+            items: [
+              {
+                key: `row-${repo.owner}-${repo.name}-cell-0`,
+                className: 'w-3 content-start',
+                children: 'RC'
+              },
+              {
+                key: `row-${repo.owner}-${repo.name}-cell-1`,
+                children: (
+                  <PullListByRepo
+                    key={`${repo.owner}-${repo.name}`}
+                    installationId={repo.installationId}
+                    owner={repo.owner}
+                    repo={repo.name}
+                    repoUrl={repo.url}
+                    pulls={repo.pulls}
+                    isRepoOpen={repo.isOpen}
+                  />
+                )
+              }
+            ]
+          }))}
+        />
+      ) : null}
     </>
   )
 }
