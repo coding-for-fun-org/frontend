@@ -5,6 +5,7 @@ import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
+import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -89,21 +90,45 @@ export const PullListByRepo = ({
               </li>
             ))}
 
-          {!isLoading &&
-            !!pulls &&
-            pulls.map((pull) => (
-              <li key={pull.number}>
-                <PullListItem
-                  installationId={installationId}
-                  owner={owner}
-                  repo={repo}
-                  pull={pull}
-                  handlePullCheckChange={() => {
-                    togglePullCheckStatus(owner, repo, pull.number)
-                  }}
-                />
-              </li>
-            ))}
+          {!isLoading && !!pulls && (
+            <Table
+              headers={[
+                {
+                  key: 'header',
+                  items: [
+                    {
+                      key: 'header-cell-0',
+                      children: 'PH'
+                    }
+                  ]
+                }
+              ]}
+              cells={pulls.map((pull) => ({
+                key: `${pull.number}`,
+                items: [
+                  {
+                    key: `${pull.number}-cell-0`,
+                    className: 'w-3',
+                    children: 'PC'
+                  },
+                  {
+                    key: `${pull.number}-cell-1`,
+                    children: (
+                      <PullListItem
+                        installationId={installationId}
+                        owner={owner}
+                        repo={repo}
+                        pull={pull}
+                        handlePullCheckChange={() => {
+                          togglePullCheckStatus(owner, repo, pull.number)
+                        }}
+                      />
+                    )
+                  }
+                ]
+              }))}
+            />
+          )}
         </ul>
       )}
 
