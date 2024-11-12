@@ -92,17 +92,7 @@ export const PullListByRepo = ({
 
           {!isLoading && !!pulls && (
             <Table
-              headers={[
-                {
-                  key: 'header',
-                  items: [
-                    {
-                      key: 'header-cell-0',
-                      children: 'PH'
-                    }
-                  ]
-                }
-              ]}
+              headers={[]}
               cells={pulls.map((pull) => ({
                 key: `${pull.number}`,
                 items: [
