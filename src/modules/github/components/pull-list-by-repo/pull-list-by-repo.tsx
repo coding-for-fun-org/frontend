@@ -99,7 +99,14 @@ export const PullListByRepo = ({
                   {
                     key: `${pull.number}-cell-0`,
                     className: 'w-3',
-                    children: 'PC'
+                    children: (
+                      <Checkbox
+                        checked={pull.checked}
+                        onCheckedChange={() => {
+                          togglePullCheckStatus(owner, repo, pull.number)
+                        }}
+                      />
+                    )
                   },
                   {
                     key: `${pull.number}-cell-1`,
@@ -109,9 +116,9 @@ export const PullListByRepo = ({
                         owner={owner}
                         repo={repo}
                         pull={pull}
-                        handlePullCheckChange={() => {
-                          togglePullCheckStatus(owner, repo, pull.number)
-                        }}
+                        // handlePullCheckChange={() => {
+                        //   togglePullCheckStatus(owner, repo, pull.number)
+                        // }}
                       />
                     )
                   }
