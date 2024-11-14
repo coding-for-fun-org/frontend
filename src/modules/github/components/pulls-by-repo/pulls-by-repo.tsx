@@ -32,6 +32,22 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   }
 
   // TODO: handle error case
+  const hasRepoChild =
+    !isLoading && repos && repos.length > 0 && repos.some((repo) => repo.pulls)
+
+  const isAllRepoChecked =
+    !isLoading &&
+    !!repos &&
+    repos.length > 0 &&
+    repos.filter((repo) => repo.isOpen).length > 0 &&
+    repos
+      .filter((repo) => repo.isOpen)
+      .every(
+        (repo) =>
+          repo.pulls &&
+          repo.pulls.length > 0 &&
+          repo.pulls?.every((pull) => pull.checked)
+      )
 
   return (
     <>
@@ -43,7 +59,13 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
               items: [
                 {
                   key: 'header-cell-0',
-                  children: 'RH'
+                  children: (
+                    <Checkbox
+                      checked={isAllRepoChecked}
+                      onCheckedChange={() => console.log('hello')}
+                      disabled={!hasRepoChild}
+                    />
+                  )
                 }
               ]
             }
