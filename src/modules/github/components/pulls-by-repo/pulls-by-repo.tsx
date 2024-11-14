@@ -21,7 +21,8 @@ import { useFetchRepositories } from './hooks'
 
 const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   const { isLoading } = useFetchRepositories()
-  const { toggleRepoCheckStatus } = useUpdateRepoOrPull()
+  const { toggleRepoCheckStatus, toggleAllRepoCheckStatus } =
+    useUpdateRepoOrPull()
 
   if (isLoading) {
     return Array.from({ length: 25 }).map((_, index) => (
@@ -62,7 +63,13 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
                   children: (
                     <Checkbox
                       checked={isAllRepoChecked}
-                      onCheckedChange={() => console.log('hello')}
+                      onCheckedChange={() => {
+                        toggleAllRepoCheckStatus(
+                          repos.filter(
+                            (repo) => repo.pulls && repo.pulls.length > 0
+                          )
+                        )
+                      }}
                       disabled={!hasRepoChild}
                     />
                   )
