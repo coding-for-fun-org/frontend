@@ -73,6 +73,10 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
                       disabled={!hasRepoChild}
                     />
                   )
+                },
+                {
+                  key: 'header-cell-1',
+                  children: 'Repository'
                 }
               ]
             }
