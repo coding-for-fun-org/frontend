@@ -70,7 +70,7 @@ export const PullListByRepo = ({
       </div>
 
       {isRepoOpen && (
-        <ul className="flex flex-col gap-2 mt-2 ml-4">
+        <ul className="flex flex-col gap-2 mt-2 ml-1">
           {isLoading &&
             Array.from({ length: 5 }).map((_, index) => (
               <li key={index} className="w-1/2">
@@ -86,7 +86,7 @@ export const PullListByRepo = ({
                 items: [
                   {
                     key: `${pull.number}-cell-0`,
-                    className: 'w-3',
+                    className: 'p-0 w-3',
                     children: (
                       <Checkbox
                         checked={pull.checked}
