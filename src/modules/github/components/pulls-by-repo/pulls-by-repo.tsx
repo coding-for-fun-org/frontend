@@ -76,7 +76,7 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
                 },
                 {
                   key: 'header-cell-1',
-                  children: 'Repository'
+                  children: 'Repository / Pull request'
                 }
               ]
             }
