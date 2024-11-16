@@ -18,6 +18,7 @@ import {
 import type { TRepo } from '@/types/github/root/index'
 
 import { useFetchRepositories } from './hooks'
+import { checkIfAllReposChecked } from './utils'
 
 const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   const { isLoading } = useFetchRepositories()
@@ -36,19 +37,7 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   const hasRepoChild =
     !isLoading && repos && repos.length > 0 && repos.some((repo) => repo.pulls)
 
-  const isAllRepoChecked =
-    !isLoading &&
-    !!repos &&
-    repos.length > 0 &&
-    repos.filter((repo) => repo.isOpen).length > 0 &&
-    repos
-      .filter((repo) => repo.isOpen)
-      .every(
-        (repo) =>
-          repo.pulls &&
-          repo.pulls.length > 0 &&
-          repo.pulls?.every((pull) => pull.checked)
-      )
+  const isAllRepoChecked = checkIfAllReposChecked(isLoading, repos)
 
   if (!repos) {
     return null
