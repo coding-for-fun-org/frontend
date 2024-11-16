@@ -1,8 +1,8 @@
 'use client'
 
-import { BulkPullReviews } from '@/components/github/root/bulk-pull-reviews/bulk-pull-reviews'
+import { PullsByRepo } from '@/components/github/root/pulls-by-repo/pulls-by-repo'
 
 // just using a client component not to think too much about it
 export default function Page() {
-  return <BulkPullReviews />
+  return <PullsByRepo />
 }
