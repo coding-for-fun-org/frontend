@@ -35,16 +35,9 @@ export const PullListByRepo = ({
   isRepoOpen
 }: PullListByRepoProps) => {
   const { translate } = useDictionary()
-  const {
-    /* toggleRepoCheckStatus, */ togglePullCheckStatus,
-    toggleRepoOpenStatus
-  } = useUpdateRepoOrPull()
+  const { togglePullCheckStatus, toggleRepoOpenStatus } = useUpdateRepoOrPull()
   // TODO: handle error case
-  const { /* isPending, */ isLoading } = useFetchPulls(owner, repo, isRepoOpen)
-  // const hasChild = !!pulls && pulls.length > 0
-  // const isRepoChecked = !!pulls
-  //   ? pulls.length > 0 && pulls.every((pull) => pull.checked)
-  //   : false
+  const { isLoading } = useFetchPulls(owner, repo, isRepoOpen)
 
   const handleRepoClick = () => {
     toggleRepoOpenStatus(owner, repo)
@@ -53,13 +46,6 @@ export const PullListByRepo = ({
   return (
     <li className="list-none">
       <div className="flex gap-2 items-center">
-        {/* <Checkbox */}
-        {/*   checked={isRepoChecked} */}
-        {/*   onCheckedChange={() => { */}
-        {/*     toggleRepoCheckStatus(owner, repo) */}
-        {/*   }} */}
-        {/*   disabled={isPending || isLoading || !hasChild} */}
-        {/* /> */}
         <Link
           href={repoUrl}
           target="_blank"
@@ -118,9 +104,6 @@ export const PullListByRepo = ({
                         owner={owner}
                         repo={repo}
                         pull={pull}
-                        // handlePullCheckChange={() => {
-                        //   togglePullCheckStatus(owner, repo, pull.number)
-                        // }}
                       />
                     )
                   }
