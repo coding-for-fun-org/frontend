@@ -2,7 +2,6 @@
 
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
 
-import { useFetchRepositories } from '@/components/github/root/bulk-pull-reviews/hooks'
 import { PullListByRepo } from '@/components/github/root/pull-list-by-repo/pull-list-by-repo'
 
 import {
@@ -12,6 +11,8 @@ import {
 import { useRepos } from '@/contexts/github/root/selected-pulls-provider'
 
 import type { TRepo } from '@/types/github/root/index'
+
+import { useFetchRepositories } from './hooks'
 
 const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   const { isLoading } = useFetchRepositories()
@@ -45,7 +46,7 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
   )
 }
 
-export const BulkPullReviews = () => {
+export const PullsByRepo = () => {
   const { repos } = useRepos()
   const { filterValue } = useFilterChange()
   const filteredRepos =
