@@ -50,78 +50,79 @@ const Repositories = ({ repos }: { repos: TRepo[] | undefined }) => {
           repo.pulls?.every((pull) => pull.checked)
       )
 
+  if (!repos) {
+    return null
+  }
+
   return (
     <>
-      {repos ? (
-        <Table
-          headers={[
-            {
-              key: 'header',
-              items: [
-                {
-                  key: 'header-cell-0',
-                  children: (
-                    <Checkbox
-                      checked={isAllRepoChecked}
-                      onCheckedChange={() => {
-                        toggleAllRepoCheckStatus(
-                          repos.filter(
-                            (repo) => repo.pulls && repo.pulls.length > 0
-                          )
+      <Table
+        headers={[
+          {
+            key: 'header',
+            items: [
+              {
+                key: 'header-cell-0',
+                children: (
+                  <Checkbox
+                    checked={isAllRepoChecked}
+                    onCheckedChange={() => {
+                      toggleAllRepoCheckStatus(
+                        repos.filter(
+                          (repo) => repo.pulls && repo.pulls.length > 0
                         )
-                      }}
-                      disabled={!hasRepoChild}
-                    />
-                  )
-                },
-                {
-                  key: 'header-cell-1',
-                  children: 'Repository / Pull request'
-                }
-              ]
-            }
-          ]}
-          cells={repos.map((repo) => {
-            const isRepoChecked = !!repo.pulls
-              ? repo.pulls.length > 0 &&
-                repo.pulls.every((pull) => pull.checked)
-              : false
-            const hasChild = !!repo.pulls && repo.pulls.length > 0
-            return {
-              key: `row-${repo.owner}-${repo.name}`,
-              items: [
-                {
-                  key: `row-${repo.owner}-${repo.name}-cell-0`,
-                  className: 'w-3 content-start',
-                  children: (
-                    <Checkbox
-                      checked={isRepoChecked}
-                      onCheckedChange={() =>
-                        toggleRepoCheckStatus(repo.owner, repo.name)
-                      }
-                      disabled={!hasChild}
-                    />
-                  )
-                },
-                {
-                  key: `row-${repo.owner}-${repo.name}-cell-1`,
-                  children: (
-                    <PullListByRepo
-                      key={`${repo.owner}-${repo.name}`}
-                      installationId={repo.installationId}
-                      owner={repo.owner}
-                      repo={repo.name}
-                      repoUrl={repo.url}
-                      pulls={repo.pulls}
-                      isRepoOpen={repo.isOpen}
-                    />
-                  )
-                }
-              ]
-            }
-          })}
-        />
-      ) : null}
+                      )
+                    }}
+                    disabled={!hasRepoChild}
+                  />
+                )
+              },
+              {
+                key: 'header-cell-1',
+                children: 'Repository / Pull request'
+              }
+            ]
+          }
+        ]}
+        cells={repos.map((repo) => {
+          const isRepoChecked = !!repo.pulls
+            ? repo.pulls.length > 0 && repo.pulls.every((pull) => pull.checked)
+            : false
+          const hasChild = !!repo.pulls && repo.pulls.length > 0
+          return {
+            key: `row-${repo.owner}-${repo.name}`,
+            items: [
+              {
+                key: `row-${repo.owner}-${repo.name}-cell-0`,
+                className: 'w-3 content-start',
+                children: (
+                  <Checkbox
+                    checked={isRepoChecked}
+                    onCheckedChange={() =>
+                      toggleRepoCheckStatus(repo.owner, repo.name)
+                    }
+                    disabled={!hasChild}
+                  />
+                )
+              },
+              {
+                key: `row-${repo.owner}-${repo.name}-cell-1`,
+                children: (
+                  <PullListByRepo
+                    key={`${repo.owner}-${repo.name}`}
+                    installationId={repo.installationId}
+                    owner={repo.owner}
+                    repo={repo.name}
+                    repoUrl={repo.url}
+                    pulls={repo.pulls}
+                    isRepoOpen={repo.isOpen}
+                  />
+                )
+              }
+            ]
+          }
+        })}
+      />
     </>
   )
 }
