@@ -23,11 +23,11 @@ const steps = [
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(0)
   const handlePrevClick = () => {
-    setCurrentStep((prev) => prev - 1)
+    setCurrentStep((prev) => Math.max(prev - 1, 0))
   }
 
   const handleNextClick = () => {
-    setCurrentStep((prev) => prev + 1)
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
   }
 
   return (
