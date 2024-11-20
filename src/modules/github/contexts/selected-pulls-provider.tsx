@@ -54,6 +54,12 @@ type TSelectedPullActionType =
       }
     }
   | {
+      type: 'toggle-all-repo-check-status'
+      payload: {
+        repos: TRepo[]
+      }
+    }
+  | {
       type: 'toggle-repo-open-status'
       payload: {
         owner: string
@@ -289,6 +295,39 @@ export const selectedPullsReducer = (
       }
     }
 
+    case 'toggle-all-repo-check-status': {
+      if (!state.repos) {
+        throw new Error('There is no repos. This should not happen.')
+      }
+
+      const filteredRepo = state.repos.filter((repo) =>
+        payload.repos.some(
+          (payload) =>
+            payload.owner === repo.owner && payload.name === repo.name
+        )
+      )
+
+      const isAllPullsChecked = filteredRepo.every((repo) =>
+        repo.pulls!.every((pull) => pull.checked)
+      )
+
+      return {
+        ...state,
+        repos: state.repos.map((repo) => {
+          if (filteredRepo.includes(repo) && repo.pulls) {
+            return {
+              ...repo,
+              pulls: repo.pulls.map((pull) => ({
+                ...pull,
+                checked: !isAllPullsChecked
+              }))
+            }
+          }
+          return repo
+        })
+      }
+    }
+
     case 'toggle-repo-open-status': {
       if (!state.repos) {
         throw new Error('There is no repos. This should not happen.')
@@ -502,6 +541,12 @@ export const useUpdateRepoOrPull = () => {
     },
     toggleRepoCheckStatus: (owner: string, repo: string) => {
       dispatch({ type: 'toggle-repo-check-status', payload: { owner, repo } })
+    },
+    toggleAllRepoCheckStatus: (repos: TRepo[]) => {
+      dispatch({
+        type: 'toggle-all-repo-check-status',
+        payload: { repos }
+      })
     },
     toggleRepoOpenStatus: (owner: string, repo: string) => {
       dispatch({ type: 'toggle-repo-open-status', payload: { owner, repo } })

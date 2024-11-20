@@ -5,6 +5,7 @@ import { Alert } from '@/elements/root/alert/alert'
 import { Button } from '@/elements/root/button/button'
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
 import { Skeleton } from '@/elements/root/skeleton/skeleton'
+import { Table } from '@/elements/root/table/table'
 
 import { useDictionary } from '@/contexts/root/dictionary-provider/dictionary-provider'
 
@@ -34,14 +35,9 @@ export const PullListByRepo = ({
   isRepoOpen
 }: PullListByRepoProps) => {
   const { translate } = useDictionary()
-  const { toggleRepoCheckStatus, togglePullCheckStatus, toggleRepoOpenStatus } =
-    useUpdateRepoOrPull()
+  const { togglePullCheckStatus, toggleRepoOpenStatus } = useUpdateRepoOrPull()
   // TODO: handle error case
-  const { isPending, isLoading } = useFetchPulls(owner, repo, isRepoOpen)
-  const hasChild = !!pulls && pulls.length > 0
-  const isRepoChecked = !!pulls
-    ? pulls.length > 0 && pulls.every((pull) => pull.checked)
-    : false
+  const { isLoading } = useFetchPulls(owner, repo, isRepoOpen)
 
   const handleRepoClick = () => {
     toggleRepoOpenStatus(owner, repo)
@@ -50,13 +46,6 @@ export const PullListByRepo = ({
   return (
     <li className="list-none">
       <div className="flex gap-2 items-center">
-        <Checkbox
-          checked={isRepoChecked}
-          onCheckedChange={() => {
-            toggleRepoCheckStatus(owner, repo)
-          }}
-          disabled={isPending || isLoading || !hasChild}
-        />
         <Link
           href={repoUrl}
           target="_blank"
@@ -81,7 +70,7 @@ export const PullListByRepo = ({
       </div>
 
       {isRepoOpen && (
-        <ul className="flex flex-col gap-2 mt-2 ml-4">
+        <ul className="flex flex-col gap-2 mt-2 ml-1">
           {isLoading &&
             Array.from({ length: 5 }).map((_, index) => (
               <li key={index} className="w-1/2">
@@ -89,21 +78,39 @@ export const PullListByRepo = ({
               </li>
             ))}
 
-          {!isLoading &&
-            !!pulls &&
-            pulls.map((pull) => (
-              <li key={pull.number}>
-                <PullListItem
-                  installationId={installationId}
-                  owner={owner}
-                  repo={repo}
-                  pull={pull}
-                  handlePullCheckChange={() => {
-                    togglePullCheckStatus(owner, repo, pull.number)
-                  }}
-                />
-              </li>
-            ))}
+          {!isLoading && !!pulls && (
+            <Table
+              headers={[]}
+              cells={pulls.map((pull) => ({
+                key: `${pull.number}`,
+                items: [
+                  {
+                    key: `${pull.number}-cell-0`,
+                    className: 'p-0 w-3',
+                    children: (
+                      <Checkbox
+                        checked={pull.checked}
+                        onCheckedChange={() => {
+                          togglePullCheckStatus(owner, repo, pull.number)
+                        }}
+                      />
+                    )
+                  },
+                  {
+                    key: `${pull.number}-cell-1`,
+                    children: (
+                      <PullListItem
+                        installationId={installationId}
+                        owner={owner}
+                        repo={repo}
+                        pull={pull}
+                      />
+                    )
+                  }
+                ]
+              }))}
+            />
+          )}
         </ul>
       )}
 
