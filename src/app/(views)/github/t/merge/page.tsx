@@ -8,6 +8,8 @@ import { Stepper } from '@/elements/root/stepper/stepper'
 import { PullsByRepo } from '@/components/github/root/pulls-by-repo/pulls-by-repo'
 import { PullsSortTable } from '@/components/github/root/pulls-sort-table/pulls-sort-table'
 
+import { useFilterChange } from '@/contexts/github/root/filter-provider/filter-provider'
+
 const steps = [
   {
     value: 1,
@@ -21,6 +23,10 @@ const steps = [
 
 // just using a client component not to think too much about it
 export default function Page() {
+  const { installationFilteredRepos } = useFilterChange()
+  const pullCheckedFilteredRepos = installationFilteredRepos?.filter((repo) =>
+    repo.pulls?.some((pull) => pull.checked)
+  )
   const [currentStep, setCurrentStep] = useState(0)
   const handlePrevClick = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0))
@@ -37,8 +43,8 @@ export default function Page() {
         <Button onClick={handleNextClick}>Next</Button>
       </div>
       <Stepper currentStep={currentStep} steps={steps} />
-      {currentStep === 0 && <PullsByRepo />}
-      {currentStep === 1 && <PullsSortTable />}
+      {currentStep === 0 && <PullsByRepo repos={installationFilteredRepos} />}
+      {currentStep === 1 && <PullsSortTable repos={pullCheckedFilteredRepos} />}
     </div>
   )
 }
