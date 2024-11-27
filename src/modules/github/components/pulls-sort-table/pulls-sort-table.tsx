@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Button } from 'src/elements/button/button'
+import { PullInputInfoDialog } from 'src/modules/github/components/pull-input-info-dialog/pull-input-info-dialog'
 import type { TRepo } from 'src/modules/github/types'
 
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
@@ -9,12 +11,18 @@ interface IPullsSortTable {
 }
 
 export const PullsSortTable = ({ repos }: IPullsSortTable) => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const handleSetIsOpenDialog = (open: boolean) => {
+    setIsDialogOpen(open)
+  }
+
   const handleCheckedChange = () => {
     console.log(handleCheckedChange)
   }
 
   const handleCellClick = () => {
     console.log(handleCellClick)
+    handleSetIsOpenDialog(true)
   }
 
   if (!repos) {
@@ -73,6 +81,12 @@ export const PullsSortTable = ({ repos }: IPullsSortTable) => {
           }
         ]}
         cells={cells}
+      />
+
+      <PullInputInfoDialog
+        title={'TEST TITLE'}
+        isDialogOpen={isDialogOpen}
+        handleSetIsOpenDialog={handleSetIsOpenDialog}
       />
     </div>
   )
