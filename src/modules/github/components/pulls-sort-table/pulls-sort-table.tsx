@@ -1,3 +1,4 @@
+import { Button } from 'src/elements/button/button'
 import type { TRepo } from 'src/modules/github/types'
 
 import { Checkbox } from '@/elements/root/checkbox/checkbox'
@@ -10,6 +11,10 @@ interface IPullsSortTable {
 export const PullsSortTable = ({ repos }: IPullsSortTable) => {
   const handleCheckedChange = () => {
     console.log(handleCheckedChange)
+  }
+
+  const handleCellClick = () => {
+    console.log(handleCellClick)
   }
 
   if (!repos) {
@@ -32,6 +37,10 @@ export const PullsSortTable = ({ repos }: IPullsSortTable) => {
         {
           key: `cell-${pull.number}`,
           children: pull.title
+        },
+        {
+          key: `cell-0-checkbox`,
+          children: <Button onClick={handleCellClick}>Add</Button>
         }
       ]
     }))
@@ -55,6 +64,10 @@ export const PullsSortTable = ({ repos }: IPullsSortTable) => {
               {
                 key: 'header-cell-2',
                 children: 'Pull request'
+              },
+
+              {
+                key: 'header-cell-3'
               }
             ]
           }
