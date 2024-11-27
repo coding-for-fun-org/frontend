@@ -24,9 +24,12 @@ const steps = [
 // just using a client component not to think too much about it
 export default function Page() {
   const { installationFilteredRepos } = useFilterChange()
-  const pullCheckedFilteredRepos = installationFilteredRepos?.filter((repo) =>
-    repo.pulls?.some((pull) => pull.checked)
-  )
+  const pullCheckedFilteredRepos = installationFilteredRepos
+    ?.map((repo) => ({
+      ...repo,
+      pulls: repo.pulls?.filter((pull) => pull.checked)
+    }))
+    .filter((repo) => repo.pulls && repo.pulls.length > 0)
   const [currentStep, setCurrentStep] = useState(0)
   const handlePrevClick = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0))
