@@ -11,6 +11,12 @@ interface IPullsSortTable {
 }
 
 export const PullsSortTable = ({ repos }: IPullsSortTable) => {
+  const pullCheckedFilteredRepos = repos
+    ?.map((repo) => ({
+      ...repo,
+      pulls: repo.pulls?.filter((pull) => pull.checked)
+    }))
+    .filter((repo) => repo.pulls && repo.pulls.length > 0)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const handleSetIsOpenDialog = (open: boolean) => {
     setIsDialogOpen(open)
@@ -25,10 +31,10 @@ export const PullsSortTable = ({ repos }: IPullsSortTable) => {
     handleSetIsOpenDialog(true)
   }
 
-  if (!repos) {
+  if (!pullCheckedFilteredRepos) {
     return null
   }
-  const cells = repos.flatMap((repo) =>
+  const cells = pullCheckedFilteredRepos.flatMap((repo) =>
     repo.pulls!.map((pull) => ({
       key: `row-${repo.name}-${pull.number}`,
       items: [

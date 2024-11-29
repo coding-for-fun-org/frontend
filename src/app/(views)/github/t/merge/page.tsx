@@ -24,12 +24,6 @@ const steps = [
 // just using a client component not to think too much about it
 export default function Page() {
   const { installationFilteredRepos } = useFilterChange()
-  const pullCheckedFilteredRepos = installationFilteredRepos
-    ?.map((repo) => ({
-      ...repo,
-      pulls: repo.pulls?.filter((pull) => pull.checked)
-    }))
-    .filter((repo) => repo.pulls && repo.pulls.length > 0)
   const [currentStep, setCurrentStep] = useState(0)
   const handlePrevClick = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0))
@@ -47,7 +41,9 @@ export default function Page() {
       </div>
       <Stepper currentStep={currentStep} steps={steps} />
       {currentStep === 0 && <PullsByRepo repos={installationFilteredRepos} />}
-      {currentStep === 1 && <PullsSortTable repos={pullCheckedFilteredRepos} />}
+      {currentStep === 1 && (
+        <PullsSortTable repos={installationFilteredRepos} />
+      )}
     </div>
   )
 }
