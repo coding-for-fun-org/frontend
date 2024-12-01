@@ -54,7 +54,9 @@ export const PullsSortTable = ({ repos }: IPullsSortTable) => {
         },
         {
           key: `cell-0-checkbox`,
-          children: <Button onClick={handleCellClick}>Add</Button>
+          children: (
+            <Button onClick={handleCellClick}>Add commit message</Button>
+          )
         }
       ]
     }))
