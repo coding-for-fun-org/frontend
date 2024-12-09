@@ -171,6 +171,7 @@ export const Dialog = ({
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>
       <DialogContent widthType={widthType} {...props}>
+        <DialogDescription />
         {!!formProps && (
           <form {...formProps}>
             <ContentBody

@@ -3,6 +3,7 @@
 import {
   Cancel,
   Content,
+  Description,
   Overlay,
   Portal,
   Root,
@@ -102,7 +103,7 @@ const AlertDialogTitle = forwardRef<
 ))
 AlertDialogTitle.displayName = Title.displayName
 
-/*  const AlertDialogDescription = forwardRef<
+const AlertDialogDescription = forwardRef<
   ElementRef<typeof Description>,
   ComponentPropsWithoutRef<typeof Description>
 >(({ className, ...props }, ref) => (
@@ -114,7 +115,7 @@ AlertDialogTitle.displayName = Title.displayName
 ))
 AlertDialogDescription.displayName = Description.displayName
 
-const AlertDialogAction = forwardRef<
+/*  const AlertDialogAction = forwardRef<
   ElementRef<typeof Action>,
   ComponentPropsWithoutRef<typeof Action>
 >(({ className, ...props }, ref) => (
@@ -188,6 +189,7 @@ export const AlertDialog = ({
   return (
     <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent {...props}>
+        <AlertDialogDescription />
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
 
