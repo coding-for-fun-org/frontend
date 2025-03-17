@@ -37,9 +37,7 @@ type TExtractKeys<
   ? TExtractKeys<Rest, [...Keys, Key]>
   : Keys[number]
 
-type TUnionToObject<T extends string> = {
-  [Key in T]: unknown
-}
+type TUnionToObject<T extends string> = Record<T, unknown>
 
 export type TTranslateParams<Key extends TTranslateKeys> =
   TExtractKeys<_TValueOfKey<TDictionary, Key>> extends never
