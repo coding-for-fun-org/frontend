@@ -49,7 +49,7 @@ module.exports = {
     '@/utils/github/root/(.*)': '<rootDir>/src/modules/github/utils/$1'
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-fixed-jsdom',
   testEnvironmentOptions: {
     customExportConditions: ['']
   },
@@ -62,6 +62,6 @@ module.exports = {
     '/node_modules/',
     '^.+\\.module\\.(css|sass|scss)$'
   ],
-  setupFiles: ['./jest.polyfills.js', '<rootDir>/src/__mocks__/translate.ts'],
+  setupFiles: ['<rootDir>/src/__mocks__/translate.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 }
